@@ -125,7 +125,7 @@ tr.alt{background:#FAFAFA}
 var topMetrics = [
   {label:"In NPM Package",value:35,sub:"Monorepo components",color:"#0C79A8"},
   {label:"Fully Shippable",value:9,sub:"Impl + docs + tokens",color:"#459D13"},
-  {label:"Design Specs Ready",value:22,sub:"Extracted, awaiting impl",color:"#ED7800"},
+  {label:"Design Specs Ready",value:22,sub:"Specs documented, ready to code",color:"#ED7800"},
   {label:"MCP Ready",value:57,sub:"AI code generation",color:"#0C79A8"},
   {label:"Pilot Teams",value:3,sub:"Active adoption",color:"#185A7D"}
 ];
@@ -201,16 +201,16 @@ var remainingGaps = [
 var popoverData = {
   "In NPM Package": "35 components in @constructconnect/ui-components monorepo via Cloudsmith NPM registry.<br><br><strong>12 Atoms:</strong> Badge, Checkbox, Icon, Indicator Counter/Dot, Input, Label, Logo, Radio Button, TextArea, Toggle, Tooltip<br><strong>19 Molecules:</strong> Button, Button Icon, Checkbox Field, Dropdown Button, Dropdown Item, Input Field, Pill, Quick Search, Radio Button Field, Search Field, Tab, Text Area Field, Toggle Field + 6 more<br><strong>4 Organisms:</strong> Accordion, Accordion Header, Menu Header, Radio Button Group<br><strong>200+ Tokens</strong> — colors, typography, spacing, animations",
   "Fully Shippable": "\"Fully shippable\" = coded implementation + Storybook docs + JSON tokens.<br><br><strong>9 complete:</strong> Checkbox, Indicator (Dot/Counter), Input, Label, Radio Button, Button, Input Field, Pill, Toggle Field<br><br><strong>8 partial:</strong> Icon, TextArea, Toggle, CheckboxField, RadioButtonField, TextAreaField, Tab, RadioButtonGroup<br><strong>Remaining 18</strong> need token conversion or Storybook docs.",
-  "Design Specs Ready": "22 components extracted from Figma with tokens but not yet in NPM package.<br><br>These are READY for developers to implement:<br>• Complete CSS token files<br>• Comprehensive documentation<br>• Behavioral specifications<br>• WCAG compliance specs<br><br><strong>Once implemented, these will bring NPM package to 57 total components.</strong>",
+  "Design Specs Ready": "22 components have complete specifications documented by the design system team.<br><br><strong>What 'Documented' Means:</strong><br>Design system team analyzes Figma designs and creates detailed developer specifications including colors, spacing, sizing, states, motion, and accessibility requirements. This is manual work done by our team.<br><br><strong>These are READY for developers to code:</strong><br>• Complete CSS token files (colors, spacing, sizes)<br>• Comprehensive documentation<br>• Behavioral specifications (how it should work)<br>• WCAG compliance specs<br><br><strong>Once coded and published, these will bring NPM package to 57 total components.</strong>",
   "MCP Ready": "57 total components have complete behavioral specifications that define requirements, guide implementation, validate completeness, and serve as reference.<br><br><strong>✅ All 5 Specification Standards Met:</strong><br>1. Component organization ✅<br>2. All states defined ✅<br>3. Token mappings specified ✅<br>4. Motion timing & easing defined ✅<br>5. WCAG requirements listed ✅<br><br><strong>📋 What They Are:</strong> Created BEFORE coding to define requirements → Used DURING coding as implementation guide → Applied for QA validation → Serve as ongoing reference for consuming teams.<br><br><strong>🧑‍💻 Built by Human Experts:</strong> Components are manually built by developers following these specifications. NOT automated code generation.<br><br><strong>27 components</strong> with enhanced specs (Feb 24, 2026)",
   "Pilot Teams": "3 teams consuming via npm:<br><br><strong>Admin Portal</strong> — Primary partner<br><strong>Crimson</strong> — Collaborative dev<br><strong>Web Takeoff</strong> — Strategic integration<br><br><strong>Metrics:</strong> 40% dev time reduction · 100% design consistency · 100% WCAG AA<br><br><strong>Q1 2026:</strong> Expand to 4+ teams. Payment Portal next."
 };
 
 var gapReadiness = [
-  {label:"Table",level:70,note:"Designed, needs extraction"},
+  {label:"Table",level:70,note:"Designed, needs specs documented"},
   {label:"Toast Message",level:60,note:""},
   {label:"DatePicker",level:55,note:""},
-  {label:"Popover",level:50,note:"Designed, needs extraction"},
+  {label:"Popover",level:50,note:"Designed, needs specs documented"},
   {label:"Progress Bar",level:10,note:"Not in Figma yet"},
   {label:"Card",level:10,note:"Not designed yet"},
   {label:"Link",level:20,note:"May use typography tokens"},
@@ -382,9 +382,9 @@ function renderOverview(container) {
 
   // Growth card
   var growthCard = card('Library Growth', 'Since December 2025');
-  growthCard.innerHTML += '<div style="display:flex;gap:16px;margin-bottom:16px"><div class="growth-box" style="background:#F2FAFE"><div class="growth-label">Dec 2025</div><div class="growth-num" style="color:#185A7D">~30</div><div class="growth-label">components</div></div><div style="display:flex;align-items:center;font-size:24px;color:#459D13">→</div><div class="growth-box" style="background:#E8F5E9"><div class="growth-label">Feb 2026</div><div class="growth-num" style="color:#459D13">57</div><div class="growth-label">extracted</div></div></div>';
-  growthCard.innerHTML += '<div class="highlight-bar" style="background:#FFF3CD;color:#8B6914"><strong>+27 new components</strong> extracted since December — 90% library growth</div>';
-  var atomBars = '<div style="margin-top:16px"><div style="font-size:12px;font-weight:600;margin-bottom:8px;color:#4A4F55">By Atomic Level (Extracted)</div>';
+  growthCard.innerHTML += '<div style="display:flex;gap:16px;margin-bottom:16px"><div class="growth-box" style="background:#F2FAFE"><div class="growth-label">Dec 2025</div><div class="growth-num" style="color:#185A7D">~30</div><div class="growth-label">components</div></div><div style="display:flex;align-items:center;font-size:24px;color:#459D13">→</div><div class="growth-box" style="background:#E8F5E9"><div class="growth-label">Feb 2026</div><div class="growth-num" style="color:#459D13">57</div><div class="growth-label">specs done</div></div></div>';
+  growthCard.innerHTML += '<div class="highlight-bar" style="background:#FFF3CD;color:#8B6914"><strong>+27 new components</strong> documented since December — 90% library growth</div>';
+  var atomBars = '<div style="margin-top:16px"><div style="font-size:12px;font-weight:600;margin-bottom:8px;color:#4A4F55">By Atomic Level (Specs Documented)</div>';
   atomicComparison.forEach(function(a) {
     atomBars += '<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>'+a.level+'</span><span style="font-weight:600">'+a.extracted+'</span></div><div class="bar-track"><div class="bar-fill" style="width:'+(a.extracted/30*100)+'%;background:#0C79A8"></div></div></div>';
   });
@@ -423,7 +423,7 @@ function renderOverview(container) {
 // ═══════════════════════════════════════════════════════
 function renderPipeline(container) {
   // Bar chart
-  var chartCard = card('Design → Dev Pipeline', 'Extraction inventory vs. monorepo implementation');
+  var chartCard = card('Design → Dev Pipeline', 'Specs documented by design team vs. coded by developers');
   var maxVal = Math.max.apply(null, atomicComparison.map(function(d){return Math.max(d.extracted,d.monorepo,d.handoff)}));
   var chartHtml = '<div class="chart-container">';
   atomicComparison.forEach(function(d) {
@@ -436,8 +436,8 @@ function renderPipeline(container) {
   });
   chartHtml += '</div><div class="chart-labels">';
   atomicComparison.forEach(function(d) { chartHtml += '<div>'+d.level+'</div>'; });
-  chartHtml += '</div><div class="chart-legend"><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#0C79A8"></span>Extracted (Design)</div><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#459D13"></span>In Monorepo (Dev)</div><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#ED7800"></span>Ready for Dev</div></div>';
-  chartHtml += '<div style="margin-top:16px;padding:12px 16px;background:#FFF8E1;border-radius:6px;display:flex;gap:24px;justify-content:center"><div class="stat-inline"><div class="val" style="color:#0C79A8">57</div><div class="lbl">Total Extracted</div></div><div class="stat-inline"><div class="val" style="color:#459D13">30</div><div class="lbl">In Monorepo</div></div><div class="stat-inline"><div class="val" style="color:#ED7800">27</div><div class="lbl">Ready for Dev</div></div><div class="stat-inline"><div class="val" style="color:#185A7D">11</div><div class="lbl">Fully Complete</div></div></div>';
+  chartHtml += '</div><div class="chart-legend"><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#0C79A8"></span>Specs Documented</div><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#459D13"></span>Coded in Monorepo</div><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#ED7800"></span>Ready to Code</div></div>';
+  chartHtml += '<div style="margin-top:16px;padding:12px 16px;background:#FFF8E1;border-radius:6px;display:flex;gap:24px;justify-content:center"><div class="stat-inline"><div class="val" style="color:#0C79A8">57</div><div class="lbl">Specs Documented</div></div><div class="stat-inline"><div class="val" style="color:#459D13">30</div><div class="lbl">In Monorepo</div></div><div class="stat-inline"><div class="val" style="color:#ED7800">27</div><div class="lbl">Ready to Code</div></div><div class="stat-inline"><div class="val" style="color:#185A7D">11</div><div class="lbl">Fully Complete</div></div></div>';
   var chartDiv = el('div'); chartDiv.innerHTML = chartHtml;
   chartCard.appendChild(chartDiv);
   container.appendChild(chartCard);
@@ -470,14 +470,14 @@ function renderGaps(container) {
   var row = el('div', {className:'grid-2'});
 
   // Closed
-  var closedCard = card('Closed Gaps ('+closedGaps.length+' Resolved)', 'Fully extracted with CSS token files');
+  var closedCard = card('Closed Gaps ('+closedGaps.length+' Resolved)', 'Specifications documented with CSS token files');
   closedGaps.forEach(function(g) {
     closedCard.innerHTML += '<div class="gap-row"><div class="gap-name">'+g.name+'</div><div class="gap-by">'+g.closedBy+'</div></div>';
   });
   row.appendChild(closedCard);
 
   // Readiness
-  var readCard = card('Gap Readiness Assessment', 'How close are remaining gaps to extraction?');
+  var readCard = card('Gap Readiness Assessment', 'How close are remaining gaps to having specs documented?');
   gapReadiness.forEach(function(r) {
     var color = r.level>=50?'#459D13':r.level>=25?'#ED7800':'#B70900';
     readCard.innerHTML += '<div class="readiness-row"><div class="readiness-label"><span>'+r.label+'</span><span>'+r.note+'</span></div><div class="readiness-track"><div class="readiness-fill" style="width:'+r.level+'%;background:'+color+'"></div></div></div>';
@@ -615,9 +615,9 @@ function renderMCPDocs(container) {
 
   // Future documentation card
   var futureCard = card('Moving Forward', 'All future component documentation will include behavioral specifications');
-  futureCard.innerHTML += '<div style="padding:16px;background:#F2FAFE;border:1px solid #CCECF9;border-radius:8px;margin-bottom:12px"><div style="font-size:14px;font-weight:700;color:#0C79A8;margin-bottom:8px">✓ Template Updated</div><div style="font-size:12px;color:#4A4F55;line-height:1.7">The component documentation template has been updated to include behavioral specifications as a mandatory section. All new component extractions will automatically include these specifications.</div></div>';
-  futureCard.innerHTML += '<div style="padding:16px;background:#FFF3CD;border:1px solid #FFE0B2;border-radius:8px;margin-bottom:12px"><div style="font-size:14px;font-weight:700;color:#8B6914;margin-bottom:8px">📋 Workflow Instructions Updated</div><div style="font-size:12px;color:#4A4F55;line-height:1.7">The <code>figma-workflow-instructions.md</code> file has been updated with mandatory behavioral specifications requirements. Failure to include these specs = extraction failure.</div></div>';
-  futureCard.innerHTML += '<div style="padding:16px;background:#E8F5E9;border:1px solid #C8E6C9;border-radius:8px"><div style="font-size:14px;font-weight:700;color:#459D13;margin-bottom:8px">🎯 Standards Documented</div><div style="font-size:12px;color:#4A4F55;line-height:1.7">The <code>Component-Token-Extraction-Standards.md</code> includes the complete behavioral specifications template with examples for atoms, molecules, and organisms.</div></div>';
+  futureCard.innerHTML += '<div style="padding:16px;background:#F2FAFE;border:1px solid #CCECF9;border-radius:8px;margin-bottom:12px"><div style="font-size:14px;font-weight:700;color:#0C79A8;margin-bottom:8px">✓ Template Updated</div><div style="font-size:12px;color:#4A4F55;line-height:1.7">The component documentation template has been updated to include behavioral specifications as a mandatory section. All new component documentation will automatically include these specifications.</div></div>';
+  futureCard.innerHTML += '<div style="padding:16px;background:#FFF3CD;border:1px solid #FFE0B2;border-radius:8px;margin-bottom:12px"><div style="font-size:14px;font-weight:700;color:#8B6914;margin-bottom:8px">📋 Workflow Instructions Updated</div><div style="font-size:12px;color:#4A4F55;line-height:1.7">The <code>figma-workflow-instructions.md</code> file has been updated with mandatory behavioral specifications requirements. Failure to include these specs = incomplete documentation.</div></div>';
+  futureCard.innerHTML += '<div style="padding:16px;background:#E8F5E9;border:1px solid #C8E6C9;border-radius:8px"><div style="font-size:14px;font-weight:700;color:#459D13;margin-bottom:8px">🎯 Standards Documented</div><div style="font-size:12px;color:#4A4F55;line-height:1.7">The <code>Component-Token-Documentation-Standards.md</code> includes the complete behavioral specifications template with examples for atoms, molecules, and organisms.</div></div>';
   container.appendChild(futureCard);
 
   // Benefits card
