@@ -109,9 +109,9 @@ tr.alt{background:#FAFAFA}
   <div class="header-top">
     <div>
       <h1>Blueprint Design System</h1>
-      <p class="sub">Status Dashboard — February 25, 2026</p>
+      <p class="sub">Status Dashboard — March 3, 2026</p>
     </div>
-    <div class="badge">v2.0 + MCP Ready</div>
+    <div class="badge">v5.0 — Updated from Excel</div>
   </div>
   <div class="tabs" id="tabs"></div>
 </div>
@@ -123,36 +123,34 @@ tr.alt{background:#FAFAFA}
 // ═══════════════════════════════════════════════════════
 
 var topMetrics = [
-  {label:"In NPM Package",value:35,sub:"Monorepo components",color:"#0C79A8"},
-  {label:"Fully Shippable",value:9,sub:"Impl + docs + tokens",color:"#459D13"},
-  {label:"Design Specs Ready",value:22,sub:"Specs documented, ready to code",color:"#ED7800"},
-  {label:"MCP Ready",value:57,sub:"AI code generation",color:"#0C79A8"},
-  {label:"Pilot Teams",value:2,sub:"Active adoption",color:"#185A7D"}
+  {label:"Total Components",value:110,sub:"All atomic levels",color:"#0C79A8"},
+  {label:"Complete",value:17,sub:"Impl + docs + tokens",color:"#459D13"},
+  {label:"In NPM Package",value:34,sub:"Published via Cloudsmith",color:"#0C79A8"},
+  {label:"Ready to Build",value:22,sub:"All deps complete",color:"#00838F"},
+  {label:"Blocked",value:33,sub:"Waiting on deps",color:"#B70900"},
+  {label:"Planned (Roadmap)",value:57,sub:"On roadmap",color:"#6B3FA0"},
+  {label:"Docs Only",value:15,sub:"Awaiting implementation",color:"#0C79A8"},
+  {label:"Pilot Teams",value:5,sub:"NPM + HubSpot",color:"#185A7D"}
 ];
 
 var deliveryStatus = [
-  {name:"Complete",value:9,color:"#459D13"},
-  {name:"Partial",value:8,color:"#ED7800"},
-  {name:"Docs Only",value:17,color:"#0C79A8"},
-  {name:"Missing Docs",value:0,color:"#88888E"}
+  {name:"Complete",value:17,color:"#459D13"},
+  {name:"Partial",value:1,color:"#ED7800"},
+  {name:"Docs Only",value:15,color:"#0C79A8"},
+  {name:"Planned",value:57,color:"#6B3FA0"}
 ];
 
 var completeComponents = [
-  {name:"Checkbox",type:"Atom"},{name:"Indicator (Dot/Counter)",type:"Atom"},
-  {name:"Input",type:"Atom"},{name:"Label",type:"Atom"},{name:"RadioButton",type:"Atom"},
-  {name:"Button",type:"Molecule"},{name:"InputField",type:"Molecule"},
-  {name:"Pill",type:"Molecule"},{name:"ToggleField",type:"Molecule"}
+  {name:"Badge",type:"Atom"},{name:"Checkbox",type:"Atom"},{name:"Icon",type:"Atom"},
+  {name:"Indicator (Dot/Counter)",type:"Atom"},{name:"Input",type:"Atom"},{name:"Label",type:"Atom"},
+  {name:"Logo",type:"Atom"},{name:"RadioButton",type:"Atom"},{name:"TextArea",type:"Atom"},
+  {name:"Toggle",type:"Atom"},{name:"Button",type:"Molecule"},{name:"CheckboxField",type:"Molecule"},
+  {name:"InputField",type:"Molecule"},{name:"Pill",type:"Molecule"},{name:"RadioButtonField",type:"Molecule"},
+  {name:"ToggleField",type:"Molecule"},{name:"RadioButtonGroup",type:"Organism"}
 ];
 
 var partialComponents = [
-  {name:"Icon",type:"Atom",issue:"Missing tokens — may be wrapper only"},
-  {name:"TextArea",type:"Atom",issue:"Token naming mismatch (molecule vs atom)"},
-  {name:"Toggle",type:"Atom",issue:"Token file shared with ToggleField"},
-  {name:"CheckboxField",type:"Molecule",issue:"Missing tokens"},
-  {name:"RadioButtonField",type:"Molecule",issue:"Missing tokens"},
-  {name:"TextAreaField",type:"Molecule",issue:"Doc naming fixed, verify completion"},
-  {name:"Tab",type:"Molecule",issue:"Missing implementation + tokens"},
-  {name:"RadioButtonGroup",type:"Organism",issue:"Missing tokens, doc renamed"}
+  {name:"TextAreaField",type:"Molecule",issue:"Partially complete — implementation in progress"}
 ];
 
 var atomicComparison = [
@@ -187,12 +185,12 @@ var closedGaps = [
 ];
 
 var remainingGaps = [
-  {name:"Progress Bar",priority:"Critical",category:"Feedback",inFigma:false,hasTokens:false},
-  {name:"Card",priority:"Critical",category:"Container",inFigma:false,hasTokens:false},
+  {name:"Progress Bar",priority:"Critical",category:"Loading / Feedback",inFigma:false,hasTokens:false},
+  {name:"Card",priority:"Critical",category:"Content Containers",inFigma:false,hasTokens:false},
   {name:"Table",priority:"High",category:"Data Display",inFigma:true,hasTokens:false},
-  {name:"Toast Message",priority:"Medium-High",category:"Notification",inFigma:true,hasTokens:true},
-  {name:"Popover",priority:"Medium",category:"Overlay",inFigma:true,hasTokens:false},
-  {name:"DatePicker",priority:"Medium",category:"Form Control",inFigma:true,hasTokens:true},
+  {name:"Toast Message",priority:"Medium-High",category:"Notifications",inFigma:true,hasTokens:true},
+  {name:"Popover",priority:"Medium",category:"Overlays",inFigma:true,hasTokens:false},
+  {name:"DatePicker",priority:"Medium",category:"Form Controls",inFigma:true,hasTokens:true},
   {name:"Link",priority:"Low",category:"Typography",inFigma:false,hasTokens:false},
   {name:"Divider",priority:"Low",category:"Layout",inFigma:false,hasTokens:false,note:"Existing border tokens can cover interim."},
   {name:"Pagination",priority:"Part of Table",category:"Data Display",inFigma:true,hasTokens:false}
@@ -341,7 +339,7 @@ function card(title, sub, content) {
 // ═══════════════════════════════════════════════════════
 function renderOverview(container) {
   // Top metrics
-  var metricsGrid = el('div', {className:'grid-5', style:{marginBottom:'24px'}});
+  var metricsGrid = el('div', {className:'grid-4', style:{marginBottom:'24px'}});
   topMetrics.forEach(function(m, i) {
     var mc = el('div', {className:'metric-card', style:{'--accent':m.color}});
     mc.innerHTML = '<div class="metric-val">'+m.value+'</div><div class="metric-label">'+m.label+'</div><div class="metric-sub">'+m.sub+'</div>';
