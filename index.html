@@ -109,9 +109,9 @@ tr.alt{background:#FAFAFA}
   <div class="header-top">
     <div>
       <h1>Blueprint Design System</h1>
-      <p class="sub">Status Dashboard — February 25, 2026</p>
+      <p class="sub">Status Dashboard — March 3, 2026</p>
     </div>
-    <div class="badge">v2.0 + MCP Ready</div>
+    <div class="badge">v5.1 — Excel + Token Status</div>
   </div>
   <div class="tabs" id="tabs"></div>
 </div>
@@ -123,18 +123,22 @@ tr.alt{background:#FAFAFA}
 // ═══════════════════════════════════════════════════════
 
 var topMetrics = [
-  {label:"In NPM Package",value:35,sub:"Monorepo components",color:"#0C79A8"},
-  {label:"Fully Shippable",value:9,sub:"Impl + docs + tokens",color:"#459D13"},
-  {label:"Design Specs Ready",value:22,sub:"Specs documented, ready to code",color:"#ED7800"},
-  {label:"MCP Ready",value:57,sub:"AI code generation",color:"#0C79A8"},
-  {label:"Pilot Teams",value:2,sub:"Active adoption",color:"#185A7D"}
+  {label:"Total Components",value:118,sub:"All atomic levels",color:"#0C79A8"},
+  {label:"Complete",value:17,sub:"Impl + docs + tokens",color:"#459D13"},
+  {label:"Has Tokens",value:58,sub:"Exported from Figma",color:"#00838F"},
+  {label:"In NPM Package",value:34,sub:"Published via Cloudsmith",color:"#0C79A8"},
+  {label:"Ready to Build",value:22,sub:"All deps complete",color:"#00838F"},
+  {label:"Blocked",value:33,sub:"Waiting on deps",color:"#B70900"},
+  {label:"Planned (Roadmap)",value:57,sub:"On roadmap",color:"#6B3FA0"},
+  {label:"Docs Only",value:15,sub:"Awaiting implementation",color:"#0C79A8"},
+  {label:"Pilot Teams",value:5,sub:"NPM + HubSpot",color:"#185A7D"}
 ];
 
 var deliveryStatus = [
-  {name:"Complete",value:9,color:"#459D13"},
-  {name:"Partial",value:8,color:"#ED7800"},
-  {name:"Docs Only",value:17,color:"#0C79A8"},
-  {name:"Missing Docs",value:0,color:"#88888E"}
+  {name:"Complete",value:17,color:"#459D13"},
+  {name:"Partial",value:1,color:"#ED7800"},
+  {name:"Docs Only",value:15,color:"#0C79A8"},
+  {name:"Planned",value:57,color:"#6B3FA0"}
 ];
 
 var completeComponents = [
@@ -199,6 +203,7 @@ var remainingGaps = [
 ];
 
 var popoverData = {
+  "Has Tokens": "58 components have exported CSS token files from Figma.<br><br><strong>What 'Has Tokens' Means:</strong><br>Design tokens have been extracted from Figma and exported as CSS files containing colors, spacing, typography, motion, and other design specifications.<br><br><strong>Token Files Include:</strong><br>• Color values (fills, strokes, text)<br>• Spacing/sizing values<br>• Typography specifications<br>• Motion timing & easing<br>• State variations (default, hover, focus, active, disabled)<br><br><strong>Navigation/Menu Components:</strong> All 10 navigation components have tokens including MainMenu, Submenu, MenuContainer, MenuHeader, MenuToggleButton, and more.<br><br><strong>60 components</strong> are planned but don't have tokens yet (DatePicker, Table components, Skeleton components, etc.)",
   "In NPM Package": "35 components in @constructconnect/ui-components monorepo via Cloudsmith NPM registry.<br><br><strong>12 Atoms:</strong> Badge, Checkbox, Icon, Indicator Counter/Dot, Input, Label, Logo, Radio Button, TextArea, Toggle, Tooltip<br><strong>19 Molecules:</strong> Button, Button Icon, Checkbox Field, Dropdown Button, Dropdown Item, Input Field, Pill, Quick Search, Radio Button Field, Search Field, Tab, Text Area Field, Toggle Field + 6 more<br><strong>4 Organisms:</strong> Accordion, Accordion Header, Menu Header, Radio Button Group<br><strong>200+ Tokens</strong> — colors, typography, spacing, animations",
   "Fully Shippable": "\"Fully shippable\" = coded implementation + Storybook docs + JSON tokens.<br><br><strong>9 complete:</strong> Checkbox, Indicator (Dot/Counter), Input, Label, Radio Button, Button, Input Field, Pill, Toggle Field<br><br><strong>8 partial:</strong> Icon, TextArea, Toggle, CheckboxField, RadioButtonField, TextAreaField, Tab, RadioButtonGroup<br><strong>Remaining 18</strong> need token conversion or Storybook docs.",
   "Design Specs Ready": "22 components have complete specifications documented by the design system team.<br><br><strong>What 'Documented' Means:</strong><br>Design system team analyzes Figma designs and creates detailed developer specifications including colors, spacing, sizing, states, motion, and accessibility requirements. This is manual work done by our team.<br><br><strong>These are READY for developers to code:</strong><br>• Complete CSS token files (colors, spacing, sizes)<br>• Comprehensive documentation<br>• Behavioral specifications (how it should work)<br>• WCAG compliance specs<br><br><strong>Once coded and published, these will bring NPM package to 57 total components.</strong>",
@@ -341,7 +346,7 @@ function card(title, sub, content) {
 // ═══════════════════════════════════════════════════════
 function renderOverview(container) {
   // Top metrics
-  var metricsGrid = el('div', {className:'grid-5', style:{marginBottom:'24px'}});
+  var metricsGrid = el('div', {className:'grid-3', style:{marginBottom:'24px'}});
   topMetrics.forEach(function(m, i) {
     var mc = el('div', {className:'metric-card', style:{'--accent':m.color}});
     mc.innerHTML = '<div class="metric-val">'+m.value+'</div><div class="metric-label">'+m.label+'</div><div class="metric-sub">'+m.sub+'</div>';
