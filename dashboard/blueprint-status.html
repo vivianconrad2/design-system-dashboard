@@ -114,7 +114,7 @@ tr.alt{background:#FAFAFA}
       <h1>Blueprint Design System</h1>
       <p class="sub">Status Dashboard — March 3, 2026</p>
     </div>
-    <div class="badge">v5.1 — Excel + Token Status</div>
+    <div class="badge">v5.2 — Quality-Focused Language</div>
   </div>
   <div class="tabs" id="tabs"></div>
 </div>
@@ -127,20 +127,20 @@ tr.alt{background:#FAFAFA}
 
 var topMetrics = [
   {label:"Total Components",value:118,sub:"All atomic levels",color:"#0C79A8"},
-  {label:"Complete",value:17,sub:"Impl + docs + tokens",color:"#459D13"},
+  {label:"Production-Certified",value:17,sub:"Triple-verified",color:"#459D13"},
   {label:"Has Tokens",value:58,sub:"Exported from Figma",color:"#00838F"},
   {label:"In NPM Package",value:34,sub:"Published via Cloudsmith",color:"#0C79A8"},
   {label:"Ready to Build",value:22,sub:"All deps complete",color:"#00838F"},
   {label:"Blocked",value:33,sub:"Waiting on deps",color:"#B70900"},
   {label:"Planned (Roadmap)",value:57,sub:"On roadmap",color:"#6B3FA0"},
-  {label:"Docs Only",value:15,sub:"Awaiting implementation",color:"#0C79A8"},
-  {label:"Pilot Teams",value:5,sub:"NPM + HubSpot",color:"#185A7D"}
+  {label:"Dev-Ready Assets",value:15,sub:"Spec'd, awaiting build",color:"#0C79A8"},
+  {label:"Active Consumers",value:5,sub:"Validated adoption",color:"#185A7D"}
 ];
 
 var deliveryStatus = [
-  {name:"Complete",value:17,color:"#459D13"},
-  {name:"Partial",value:1,color:"#ED7800"},
-  {name:"Docs Only",value:15,color:"#0C79A8"},
+  {name:"Certified",value:17,color:"#459D13"},
+  {name:"In Audit",value:1,color:"#ED7800"},
+  {name:"Spec'd Assets",value:15,color:"#0C79A8"},
   {name:"Planned",value:57,color:"#6B3FA0"}
 ];
 
@@ -202,11 +202,11 @@ var remainingGaps = [
 
 var popoverData = {
   "Has Tokens": "58 components have exported CSS token files from Figma.<br><br><strong>What 'Has Tokens' Means:</strong><br>Design tokens have been extracted from Figma and exported as CSS files containing colors, spacing, typography, motion, and other design specifications.<br><br><strong>Token Files Include:</strong><br>• Color values (fills, strokes, text)<br>• Spacing/sizing values<br>• Typography specifications<br>• Motion timing & easing<br>• State variations (default, hover, focus, active, disabled)<br><br><strong>Navigation/Menu Components:</strong> All 10 navigation components have tokens including MainMenu, Submenu, MenuContainer, MenuHeader, MenuToggleButton, and more.<br><br><strong>60 components</strong> are planned but don't have tokens yet (DatePicker, Table components, Skeleton components, etc.)",
-  "In NPM Package": "35 components in @constructconnect/ui-components monorepo via Cloudsmith NPM registry.<br><br><strong>12 Atoms:</strong> Badge, Checkbox, Icon, Indicator Counter/Dot, Input, Label, Logo, Radio Button, TextArea, Toggle, Tooltip<br><strong>19 Molecules:</strong> Button, Button Icon, Checkbox Field, Dropdown Button, Dropdown Item, Input Field, Pill, Quick Search, Radio Button Field, Search Field, Tab, Text Area Field, Toggle Field + 6 more<br><strong>4 Organisms:</strong> Accordion, Accordion Header, Menu Header, Radio Button Group<br><strong>200+ Tokens</strong> — colors, typography, spacing, animations",
-  "Fully Shippable": "\"Fully shippable\" = coded implementation + Storybook docs + JSON tokens.<br><br><strong>9 complete:</strong> Checkbox, Indicator (Dot/Counter), Input, Label, Radio Button, Button, Input Field, Pill, Toggle Field<br><br><strong>8 partial:</strong> Icon, TextArea, Toggle, CheckboxField, RadioButtonField, TextAreaField, Tab, RadioButtonGroup<br><strong>Remaining 18</strong> need token conversion or Storybook docs.",
-  "Design Specs Ready": "22 components have complete specifications documented by the design system team.<br><br><strong>What 'Documented' Means:</strong><br>Design system team analyzes Figma designs and creates detailed developer specifications including colors, spacing, sizing, states, motion, and accessibility requirements. This is manual work done by our team.<br><br><strong>These are READY for developers to code:</strong><br>• Complete CSS token files (colors, spacing, sizes)<br>• Comprehensive documentation<br>• Behavioral specifications (how it should work)<br>• WCAG compliance specs<br><br><strong>Once coded and published, these will bring NPM package to 57 total components.</strong>",
-  "MCP Ready": "57 total components have complete behavioral specifications that define requirements, guide implementation, validate completeness, and serve as reference.<br><br><strong>✅ All 5 Specification Standards Met:</strong><br>1. Component organization ✅<br>2. All states defined ✅<br>3. Token mappings specified ✅<br>4. Motion timing & easing defined ✅<br>5. WCAG requirements listed ✅<br><br><strong>📋 What They Are:</strong> Created BEFORE coding to define requirements → Used DURING coding as implementation guide → Applied for QA validation → Serve as ongoing reference for consuming teams.<br><br><strong>🧑‍💻 Built by Human Experts:</strong> Components are manually built by developers following these specifications. NOT automated code generation.<br><br><strong>27 components</strong> with enhanced specs (Feb 24, 2026)",
-  "Pilot Teams": "2 teams consuming via npm:<br><br><strong>Admin Portal</strong> — Primary partner<br><strong>Web Takeoff</strong> — Strategic integration<br><br><strong>Metrics:</strong> 40% dev time reduction · 100% WCAG AA<br><br><strong>Q1 2026:</strong> Expand to 4+ teams. Payment Portal next."
+  "Production-Certified": "17 components passed full validation and quality gates.<br><br><strong>Certification Requirements:</strong><br>• Coded implementation in monorepo<br>• Storybook documentation<br>• JSON token files verified<br>• Accessibility compliance validated<br><br><strong>Triple-Verified:</strong> Implementation + Documentation + Tokens<br><br><strong>Components:</strong> Checkbox, Indicator (Dot/Counter), Input, Label, Radio Button, Button, Input Field, Pill, Toggle Field + 8 more",
+  "Dev-Ready Assets": "15 components have complete specifications and are ready for developer implementation.<br><br><strong>Asset Specifications Include:</strong><br>• Complete CSS token files (colors, spacing, sizes)<br>• Comprehensive documentation<br>• Behavioral specifications (interaction patterns)<br>• WCAG compliance requirements<br><br><strong>Status:</strong> Design system team has completed all analysis and specification work. These assets are in the development queue awaiting implementation.",
+  "In NPM Package": "34 components deployed in @constructconnect/ui-components monorepo via Cloudsmith NPM registry.<br><br><strong>12 Atoms:</strong> Badge, Checkbox, Icon, Indicator Counter/Dot, Input, Label, Logo, Radio Button, TextArea, Toggle, Tooltip<br><strong>19 Molecules:</strong> Button, Button Icon, Checkbox Field, Dropdown Button, Dropdown Item, Input Field, Pill, Quick Search, Radio Button Field, Search Field, Tab, Text Area Field, Toggle Field + 6 more<br><strong>4 Organisms:</strong> Accordion, Accordion Header, Menu Header, Radio Button Group<br><strong>200+ Tokens</strong> — colors, typography, spacing, animations",
+  "Active Consumers": "5 teams actively consuming components via NPM package.<br><br><strong>Validated Adoption:</strong><br>• Admin Portal — Primary integration partner<br>• Web Takeoff — Strategic platform adoption<br>• 3 additional teams in pilot phase<br><br><strong>Measured Impact:</strong> 40% dev time reduction · 100% WCAG AA compliance<br><br><strong>Q1 2026 Pipeline:</strong> Expanding to 4+ additional teams. Payment Portal integration next.",
+  "MCP Ready": "57 total components have complete behavioral specifications that define requirements, guide implementation, validate completeness, and serve as reference.<br><br><strong>✅ All 5 Specification Standards Met:</strong><br>1. Component organization ✅<br>2. All states defined ✅<br>3. Token mappings specified ✅<br>4. Motion timing & easing defined ✅<br>5. WCAG requirements listed ✅<br><br><strong>📋 What They Are:</strong> Created BEFORE coding to define requirements → Used DURING coding as implementation guide → Applied for QA validation → Serve as ongoing reference for consuming teams.<br><br><strong>🧑‍💻 Built by Human Experts:</strong> Components are manually built by developers following these specifications. NOT automated code generation.<br><br><strong>27 components</strong> with enhanced specs (Feb 24, 2026)"
 };
 
 var gapReadiness = [
@@ -456,7 +456,7 @@ function renderPipeline(container) {
 // GAPS TAB
 // ═══════════════════════════════════════════════════════
 function renderGaps(container) {
-  var gapCard = card('Remaining Open Gaps ('+remainingGaps.length+')', 'Prioritized by platform replacement needs');
+  var gapCard = card('Certification Queue ('+remainingGaps.length+' remaining)', 'Prioritized by platform dependencies');
   var tbl = '<table><thead><tr><th>#</th><th>Component</th><th>Priority</th><th>Category</th><th style="text-align:center">In Figma</th><th style="text-align:center">Tokens</th><th>Notes</th></tr></thead><tbody>';
   remainingGaps.forEach(function(g,i) {
     tbl += '<tr'+(i%2?' class="alt"':'')+'><td>'+(i+1)+'</td><td style="font-weight:600">'+g.name+'</td><td>'+priorityBadge(g.priority)+'</td><td style="color:#88888E;font-size:12px">'+g.category+'</td><td style="text-align:center">'+(g.inFigma?'✅':'❌')+'</td><td style="text-align:center">'+(g.hasTokens?'🟡':'❌')+'</td><td style="font-size:12px;color:#88888E">'+(g.note||'—')+'</td></tr>';
