@@ -114,7 +114,7 @@ tr.alt{background:#FAFAFA}
       <h1>Blueprint Design System</h1>
       <p class="sub">Status Dashboard — March 3, 2026</p>
     </div>
-    <div class="badge">v5.3</div>
+    <div class="badge">v5.4 — Data Normalized</div>
   </div>
   <div class="tabs" id="tabs"></div>
 </div>
@@ -127,7 +127,7 @@ tr.alt{background:#FAFAFA}
 
 var topMetrics = [
   {label:"Total Components",value:118,sub:"All atomic levels",color:"#0C79A8"},
-  {label:"Production-Certified",value:17,sub:"Triple-verified",color:"#459D13"},
+  {label:"Production-Certified",value:17,sub:"DS team certification",color:"#459D13"},
   {label:"Has Tokens",value:58,sub:"Exported from Figma",color:"#00838F"},
   {label:"In NPM Package",value:34,sub:"Published via Cloudsmith",color:"#0C79A8"},
   {label:"Ready to Build",value:22,sub:"All deps complete",color:"#00838F"},
@@ -136,6 +136,13 @@ var topMetrics = [
   {label:"Dev-Ready Assets",value:15,sub:"Spec'd, awaiting build",color:"#0C79A8"},
   {label:"Active Consumers",value:5,sub:"Validated adoption",color:"#185A7D"}
 ];
+
+// Pipeline audit counts (Vivian's monorepo audit, Feb 25, 2026)
+// Use these for the Implementation Completeness card in Pipeline tab
+var pipelineStats = {
+  docsOnly: 17,    // Components with docs/specs but no code implementation
+  missingDocs: 0   // Logo docs added Feb 25, 2026 — all components now documented
+};
 
 var deliveryStatus = [
   {name:"Certified",value:17,color:"#459D13"},
@@ -202,7 +209,7 @@ var remainingGaps = [
 
 var popoverData = {
   "Has Tokens": "58 components have exported CSS token files from Figma.<br><br><strong>What 'Has Tokens' Means:</strong><br>Design tokens have been extracted from Figma and exported as CSS files containing colors, spacing, typography, motion, and other design specifications.<br><br><strong>Token Files Include:</strong><br>• Color values (fills, strokes, text)<br>• Spacing/sizing values<br>• Typography specifications<br>• Motion timing & easing<br>• State variations (default, hover, focus, active, disabled)<br><br><strong>Navigation/Menu Components:</strong> All 10 navigation components have tokens including MainMenu, Submenu, MenuContainer, MenuHeader, MenuToggleButton, and more.<br><br><strong>60 components</strong> are planned but don't have tokens yet (DatePicker, Table components, Skeleton components, etc.)",
-  "Production-Certified": "17 components passed full validation and quality gates.<br><br><strong>Certification Requirements:</strong><br>• Coded implementation in monorepo<br>• Storybook documentation<br>• JSON token files verified<br>• Accessibility compliance validated<br><br><strong>Triple-Verified:</strong> Implementation + Documentation + Tokens<br><br><strong>Components:</strong> Checkbox, Indicator (Dot/Counter), Input, Label, Radio Button, Button, Input Field, Pill, Toggle Field + 8 more",
+  "Production-Certified": "17 components have passed all design system team certification gates.<br><br><strong>⚠️ How this differs from 'Fully Complete — Monorepo Audit' (9):</strong><br>Vivian's monorepo audit tracks <strong>9 components</strong> as fully complete using strict criteria (code + Storybook + JSON tokens + automated tests). This <strong>Production-Certified</strong> count (17) reflects design system team certification and includes additional components that have passed design quality gates but may still have minor gaps per the monorepo audit.<br><br><strong>Certification Requirements:</strong><br>• Coded implementation in monorepo<br>• Storybook documentation<br>• JSON token files verified<br>• Accessibility compliance validated<br><br><strong>Components:</strong> Checkbox, Indicator (Dot/Counter), Input, Label, Radio Button, Button, Input Field, Pill, Toggle Field + 8 more",
   "Dev-Ready Assets": "15 components have complete specifications and are ready for developer implementation.<br><br><strong>Asset Specifications Include:</strong><br>• Complete CSS token files (colors, spacing, sizes)<br>• Comprehensive documentation<br>• Behavioral specifications (interaction patterns)<br>• WCAG compliance requirements<br><br><strong>Status:</strong> Design system team has completed all analysis and specification work. These assets are in the development queue awaiting implementation.",
   "In NPM Package": "34 components deployed in @constructconnect/ui-components monorepo via Cloudsmith NPM registry.<br><br><strong>12 Atoms:</strong> Badge, Checkbox, Icon, Indicator Counter/Dot, Input, Label, Logo, Radio Button, TextArea, Toggle, Tooltip<br><strong>19 Molecules:</strong> Button, Button Icon, Checkbox Field, Dropdown Button, Dropdown Item, Input Field, Pill, Quick Search, Radio Button Field, Search Field, Tab, Text Area Field, Toggle Field + 6 more<br><strong>4 Organisms:</strong> Accordion, Accordion Header, Menu Header, Radio Button Group<br><strong>200+ Tokens</strong> — colors, typography, spacing, animations",
   "Active Consumers": "5 teams actively consuming components via NPM package.<br><br><strong>Validated Adoption:</strong><br>• Admin Portal — Primary integration partner<br>• Web Takeoff — Strategic platform adoption<br>• 3 additional teams in pilot phase<br><br><strong>Measured Impact:</strong> 40% dev time reduction · 100% WCAG AA compliance<br><br><strong>Q1 2026 Pipeline:</strong> Expanding to 4+ additional teams. Payment Portal integration next.",
@@ -370,7 +377,8 @@ function renderOverview(container) {
   var row = el('div', {className:'grid-2'});
 
   // Donut card
-  var donutCard = card('NPM Package Delivery Status', '30 components in @constructconnect/ui-components');
+  var inNPMVal = topMetrics.filter(function(m){return m.label==='In NPM Package';})[0].value;
+  var donutCard = card('NPM Package Delivery Status', inNPMVal+' components in @constructconnect/ui-components');
   var donutInner = el('div', {style:{display:'flex',alignItems:'center',gap:'20px'}});
   var donutSvg = el('div'); donutSvg.innerHTML = svgDonut(deliveryStatus, 160, 22);
   donutInner.appendChild(donutSvg);
@@ -400,7 +408,7 @@ function renderOverview(container) {
   var listRow = el('div', {className:'grid-2', style:{marginTop:'16px'}});
 
   // Complete
-  var compCard = card('Fully Shippable ('+completeComponents.length+')', 'Implementation + documentation + tokens');
+  var compCard = card('Fully Complete — Monorepo Audit ('+completeComponents.length+')', "Vivian's audit: code + Storybook + JSON tokens + tests");
   completeComponents.forEach(function(c) {
     compCard.innerHTML += '<div class="comp-row" style="background:#F0FAF0;border-left:3px solid #459D13"><span class="comp-name">'+c.name+'</span><span class="comp-type">'+c.type+'</span></div>';
   });
@@ -414,8 +422,8 @@ function renderOverview(container) {
   });
   rightCol.appendChild(partCard);
 
-  var missCard = card('Missing Documentation (1)', 'Has implementation but no docs or tokens');
-  missCard.innerHTML += '<div class="comp-row" style="background:#F4F4F4;border-left:3px solid #88888E"><div><span class="comp-name">Logo</span><div class="comp-issue">SVG asset wrapper — may not require tokens</div></div><span class="comp-type">Atom</span></div>';
+  var missCard = card('Missing Documentation (0)', 'All components now have documentation');
+  missCard.innerHTML += '<div style="padding:10px 12px;color:#459D13;font-size:12px;border-radius:6px;background:#F0FAF0;border-left:3px solid #459D13">✅ Logo documentation was added Feb 25, 2026. All 34 components in the monorepo now have documentation.</div>';
   rightCol.appendChild(missCard);
   listRow.appendChild(rightCol);
   container.appendChild(listRow);
@@ -425,6 +433,12 @@ function renderOverview(container) {
 // PIPELINE TAB
 // ═══════════════════════════════════════════════════════
 function renderPipeline(container) {
+  // Compute pipeline stats from data variables (no hardcoded numbers)
+  var pTotalExtracted = atomicComparison.reduce(function(s,a){return s+a.extracted;},0);
+  var pInNPM = topMetrics.filter(function(m){return m.label==='In NPM Package';})[0].value;
+  var pReadyToBuild = topMetrics.filter(function(m){return m.label==='Ready to Build';})[0].value;
+  var pFullyComplete = completeComponents.length;
+
   // Bar chart
   var chartCard = card('Design → Dev Pipeline', 'Specs documented by design team vs. coded by developers');
   var maxVal = Math.max.apply(null, atomicComparison.map(function(d){return Math.max(d.extracted,d.monorepo,d.handoff)}));
@@ -440,14 +454,14 @@ function renderPipeline(container) {
   chartHtml += '</div><div class="chart-labels">';
   atomicComparison.forEach(function(d) { chartHtml += '<div>'+d.level+'</div>'; });
   chartHtml += '</div><div class="chart-legend"><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#0C79A8"></span>Specs Documented</div><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#459D13"></span>Coded in Monorepo</div><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#ED7800"></span>Ready to Code</div></div>';
-  chartHtml += '<div style="margin-top:16px;padding:12px 16px;background:#FFF8E1;border-radius:6px;display:flex;gap:24px;justify-content:center"><div class="stat-inline"><div class="val" style="color:#0C79A8">57</div><div class="lbl">Specs Documented</div></div><div class="stat-inline"><div class="val" style="color:#459D13">30</div><div class="lbl">In Monorepo</div></div><div class="stat-inline"><div class="val" style="color:#ED7800">27</div><div class="lbl">Ready to Code</div></div><div class="stat-inline"><div class="val" style="color:#185A7D">11</div><div class="lbl">Fully Complete</div></div></div>';
+  chartHtml += '<div style="margin-top:16px;padding:12px 16px;background:#FFF8E1;border-radius:6px;display:flex;gap:24px;justify-content:center"><div class="stat-inline"><div class="val" style="color:#0C79A8">'+pTotalExtracted+'</div><div class="lbl">Specs Documented</div></div><div class="stat-inline"><div class="val" style="color:#459D13">'+pInNPM+'</div><div class="lbl">In NPM Package</div></div><div class="stat-inline"><div class="val" style="color:#ED7800">'+pReadyToBuild+'</div><div class="lbl">Ready to Build</div></div><div class="stat-inline"><div class="val" style="color:#185A7D">'+pFullyComplete+'</div><div class="lbl">Fully Complete*</div></div></div><div style="margin-top:8px;font-size:10px;color:#88888E;text-align:center">*Fully Complete = Vivian\'s monorepo audit (code + Storybook + JSON tokens + tests). Production-Certified (17) reflects design system team certification — see top metrics for details.</div>';
   var chartDiv = el('div'); chartDiv.innerHTML = chartHtml;
   chartCard.appendChild(chartDiv);
   container.appendChild(chartCard);
 
   // Status cards
-  var implCard = card('Implementation Completeness', 'Monorepo audit — February 20, 2026');
-  implCard.innerHTML += '<div class="grid-4"><div class="stat-card"><div class="stat-icon">✅</div><div class="stat-num" style="color:#459D13">11</div><div class="stat-label">Complete</div><div class="stat-desc">Impl + docs + JSON tokens</div></div><div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-num" style="color:#ED7800">6</div><div class="stat-label">Partial</div><div class="stat-desc">Missing tokens or naming</div></div><div class="stat-card"><div class="stat-icon">📄</div><div class="stat-num" style="color:#0C79A8">12</div><div class="stat-label">Docs Only</div><div class="stat-desc">Awaiting implementation</div></div><div class="stat-card"><div class="stat-icon">📦</div><div class="stat-num" style="color:#88888E">1</div><div class="stat-label">Missing Docs</div><div class="stat-desc">Logo — impl only</div></div></div>';
+  var implCard = card('Implementation Completeness — Monorepo Audit', "Vivian's audit, Feb 25, 2026 · Note: 'Production-Certified' (17) in top metrics = design system team certification, which uses different criteria");
+  implCard.innerHTML += '<div class="grid-4"><div class="stat-card"><div class="stat-icon">✅</div><div class="stat-num" style="color:#459D13">'+pFullyComplete+'</div><div class="stat-label">Fully Complete</div><div class="stat-desc">Code + Storybook + tokens + tests</div></div><div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-num" style="color:#ED7800">'+partialComponents.length+'</div><div class="stat-label">Partial</div><div class="stat-desc">Missing tokens or naming</div></div><div class="stat-card"><div class="stat-icon">📄</div><div class="stat-num" style="color:#0C79A8">'+pipelineStats.docsOnly+'</div><div class="stat-label">Docs Only</div><div class="stat-desc">Awaiting implementation</div></div><div class="stat-card"><div class="stat-icon">📦</div><div class="stat-num" style="color:#88888E">'+pipelineStats.missingDocs+'</div><div class="stat-label">Missing Docs</div><div class="stat-desc">'+(pipelineStats.missingDocs===0?'All components documented ✅':'Has impl, needs docs')+'</div></div></div>';
   container.appendChild(implCard);
 
 }
