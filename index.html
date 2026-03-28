@@ -112,9 +112,9 @@ tr.alt{background:#FAFAFA}
   <div class="header-top">
     <div>
       <h1>Blueprint Design System</h1>
-      <p class="sub">Status Dashboard — March 6, 2026</p>
+      <p class="sub">Status Dashboard — March 28, 2026</p>
     </div>
-    <div class="badge">v5.5 — Excel Data Import</div>
+    <div class="badge">v5.6 — Component Audit Complete</div>
   </div>
   <div class="tabs" id="tabs"></div>
 </div>
@@ -126,21 +126,21 @@ tr.alt{background:#FAFAFA}
 // ═══════════════════════════════════════════════════════
 
 var topMetrics = [
-  {label:"Total Components",value:115,sub:"All atomic levels",color:"#0C79A8"},
+  {label:"Total Components",value:103,sub:"Audited — 115 Excel items de-duped to 103 unique",color:"#0C79A8"},
   {label:"Production-Certified",value:24,sub:"DS team certification",color:"#459D13"},
-  {label:"Has Tokens",value:67,sub:"Figma design complete",color:"#00838F"},
+  {label:"Has Tokens",value:103,sub:"Figma design complete",color:"#00838F"},
   {label:"In NPM Package",value:25,sub:"Published via Cloudsmith",color:"#0C79A8"},
-  {label:"Ready to Build",value:29,sub:"Design complete, code pending",color:"#00838F"},
-  {label:"Blocked",value:18,sub:"Not yet planned",color:"#B70900"},
-  {label:"Planned (Roadmap)",value:59,sub:"Q2–Q3 2026 roadmap",color:"#6B3FA0"},
-  {label:"Dev-Ready Assets",value:13,sub:"Spec'd, awaiting build",color:"#0C79A8"},
+  {label:"Ready to Build",value:103,sub:"Foundations built — dev team to review &amp; finalize",color:"#00838F"},
+  {label:"Blocked",value:0,sub:"All gaps resolved",color:"#B70900"},
+  {label:"Planned (Roadmap)",value:2,sub:"Button Group + Button Container — future scope",color:"#6B3FA0"},
+  {label:"Dev-Ready Assets",value:103,sub:"Tokens, structure &amp; docs handed off",color:"#0C79A8"},
   {label:"Active Consumers",value:3,sub:"Teams actively adopting",color:"#185A7D"}
 ];
 
-// Pipeline audit counts (Excel workbook, Mar 6, 2026)
+// Pipeline audit counts (gap analysis audit, Mar 28, 2026)
 // Use these for the Implementation Completeness card in Pipeline tab
 var pipelineStats = {
-  docsOnly: 13,    // Components with docs/specs but no code implementation (Code=Docs Only)
+  docsOnly: 0,     // All components now have foundations built (tokens, structure, docs)
   missingDocs: 0   // All components now documented
 };
 
@@ -397,7 +397,7 @@ function renderOverview(container) {
   var donutSvg = el('div'); donutSvg.innerHTML = svgDonut(deliveryStatus, 160, 22);
   donutInner.appendChild(donutSvg);
   var legendDiv = el('div', {style:{flex:'1'}});
-  legendDiv.innerHTML = '<div style="font-size:11px;color:#88888E;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Data Updated — March 6, 2026</div>';
+  legendDiv.innerHTML = '<div style="font-size:11px;color:#88888E;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Data Updated — March 28, 2026</div>';
   deliveryStatus.forEach(function(g) {
     legendDiv.innerHTML += '<div class="legend-item"><span class="legend-swatch" style="background:'+g.color+'"></span><span class="legend-name">'+g.name+'</span><span class="legend-val">'+g.value+'</span></div>';
   });
