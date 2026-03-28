@@ -114,7 +114,7 @@ tr.alt{background:#FAFAFA}
       <h1>Blueprint Design System</h1>
       <p class="sub">Status Dashboard — March 28, 2026</p>
     </div>
-    <div class="badge">v5.7 — Full Data Refresh</div>
+    <div class="badge">v5.8 — Templates Added</div>
   </div>
   <div class="tabs" id="tabs"></div>
 </div>
@@ -126,14 +126,14 @@ tr.alt{background:#FAFAFA}
 // ═══════════════════════════════════════════════════════
 
 var topMetrics = [
-  {label:"Total Components",value:103,sub:"Audited — 115 Excel items de-duped to 103 unique",color:"#0C79A8"},
+  {label:"Total Components",value:107,sub:"103 core + 4 templates — Excel de-duped from 115",color:"#0C79A8"},
   {label:"Production-Certified",value:24,sub:"DS team certification",color:"#459D13"},
-  {label:"Has Tokens",value:103,sub:"Figma design complete",color:"#00838F"},
+  {label:"Has Tokens",value:107,sub:"Figma design complete",color:"#00838F"},
   {label:"In NPM Package",value:25,sub:"Published via Cloudsmith",color:"#0C79A8"},
-  {label:"Ready to Build",value:103,sub:"Foundations built — dev team to review &amp; finalize",color:"#00838F"},
+  {label:"Ready to Build",value:107,sub:"Foundations built — dev team to review &amp; finalize",color:"#00838F"},
   {label:"Blocked",value:0,sub:"All gaps resolved",color:"#B70900"},
   {label:"Planned (Roadmap)",value:2,sub:"Button Group + Button Container — future scope",color:"#6B3FA0"},
-  {label:"Dev-Ready Assets",value:103,sub:"Tokens, structure &amp; docs handed off",color:"#0C79A8"},
+  {label:"Dev-Ready Assets",value:107,sub:"Tokens, structure &amp; docs handed off",color:"#0C79A8"},
   {label:"Active Consumers",value:3,sub:"Teams actively adopting",color:"#185A7D"}
 ];
 
@@ -146,7 +146,7 @@ var pipelineStats = {
 
 var deliveryStatus = [
   {name:"Prod-Certified",value:24, color:"#459D13"},
-  {name:"DS Complete",   value:79, color:"#00838F"},
+  {name:"DS Complete",   value:83, color:"#00838F"},
   {name:"Future Planned",value:2,  color:"#6B3FA0"}
 ];
 
@@ -168,9 +168,10 @@ var completeComponents = [
 var partialComponents = [];
 
 var atomicComparison = [
-  {level:"Atoms",    extracted:19, monorepo:12, handoff:7},
-  {level:"Molecules",extracted:58, monorepo:11, handoff:47},
-  {level:"Organisms",extracted:26, monorepo:1,  handoff:25}
+  {level:"Atoms",     extracted:19, monorepo:12, handoff:7},
+  {level:"Molecules", extracted:58, monorepo:11, handoff:47},
+  {level:"Organisms", extracted:26, monorepo:1,  handoff:25},
+  {level:"Templates", extracted:4,  monorepo:0,  handoff:4}
 ];
 
 var systems = [
@@ -285,6 +286,12 @@ var mcpDocsComponents = {
     {name:"Popover",hasDocs:true},{name:"Push Drawer Container",hasDocs:true},{name:"Quick Search",hasDocs:true},
     {name:"Side Container",hasDocs:true},{name:"Split Button",hasDocs:true},{name:"Stepper Container",hasDocs:true},
     {name:"Tab Group",hasDocs:true},{name:"Table",hasDocs:true}
+  ],
+  templates: [
+    {name:"Form Template",hasDocs:true},
+    {name:"Modal",hasDocs:true},
+    {name:"Modal Date Range",hasDocs:true},
+    {name:"Page Layout",hasDocs:true}
   ]
 };
 
@@ -492,7 +499,7 @@ function renderPipeline(container) {
   container.appendChild(chartCard);
 
   // Status cards
-  var implCard = card('Implementation Completeness', "Excel workbook audit, Mar 6, 2026 · Code status breakdown across all 115 components");
+  var implCard = card('Implementation Completeness', "Gap analysis audit, Mar 28, 2026 · Code status breakdown across all 107 components (103 core + 4 templates)");
   implCard.innerHTML += '<div class="grid-4"><div class="stat-card"><div class="stat-icon">✅</div><div class="stat-num" style="color:#459D13">'+pFullyComplete+'</div><div class="stat-label">Fully Complete</div><div class="stat-desc">Code + Storybook + tokens + tests</div></div><div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-num" style="color:#ED7800">'+partialComponents.length+'</div><div class="stat-label">Partial</div><div class="stat-desc">Missing tokens or naming</div></div><div class="stat-card"><div class="stat-icon">📄</div><div class="stat-num" style="color:#0C79A8">'+pipelineStats.docsOnly+'</div><div class="stat-label">Docs Only</div><div class="stat-desc">Awaiting implementation</div></div><div class="stat-card"><div class="stat-icon">📦</div><div class="stat-num" style="color:#88888E">'+pipelineStats.missingDocs+'</div><div class="stat-label">Missing Docs</div><div class="stat-desc">'+(pipelineStats.missingDocs===0?'All components documented ✅':'Has impl, needs docs')+'</div></div></div>';
   container.appendChild(implCard);
 
@@ -620,11 +627,11 @@ function renderMCPDocs(container) {
   container.appendChild(reqCard);
 
   // Components breakdown
-  var totalComps = mcpDocsComponents.atoms.length + mcpDocsComponents.molecules.length + mcpDocsComponents.organisms.length;
+  var totalComps = mcpDocsComponents.atoms.length + mcpDocsComponents.molecules.length + mcpDocsComponents.organisms.length + mcpDocsComponents.templates.length;
   var breakdownCard = card('Components with Behavioral Specifications ('+totalComps+')', 'Complete developer documentation with all states, motion, and WCAG requirements');
 
-  // Grid layout for three columns
-  var grid = el('div', {className:'grid-3'});
+  // Grid layout for four columns
+  var grid = el('div', {className:'grid-4'});
 
   // Atoms column
   var atomsCard = el('div', {style:{background:'#F8F9FA',border:'1px solid #E7E6E5',borderRadius:'8px',padding:'16px'}});
@@ -649,6 +656,14 @@ function renderMCPDocs(container) {
     orgsCard.innerHTML += '<div style="padding:6px 10px;background:#fff;border-radius:4px;margin-bottom:4px;font-size:12px;display:flex;justify-content:space-between;align-items:center"><span>'+c.name+'</span><span style="color:#459D13;font-size:14px">✓</span></div>';
   });
   grid.appendChild(orgsCard);
+
+  // Templates column
+  var tmplsCard = el('div', {style:{background:'#F8F9FA',border:'1px solid #E7E6E5',borderRadius:'8px',padding:'16px'}});
+  tmplsCard.innerHTML = '<div style="font-size:14px;font-weight:700;color:#1C1F22;margin-bottom:8px;display:flex;align-items:center;gap:8px"><span>Templates</span><span style="background:#0C79A8;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px">'+mcpDocsComponents.templates.length+'</span></div>';
+  mcpDocsComponents.templates.forEach(function(c) {
+    tmplsCard.innerHTML += '<div style="padding:6px 10px;background:#fff;border-radius:4px;margin-bottom:4px;font-size:12px;display:flex;justify-content:space-between;align-items:center"><span>'+c.name+'</span><span style="color:#459D13;font-size:14px">✓</span></div>';
+  });
+  grid.appendChild(tmplsCard);
 
   breakdownCard.appendChild(grid);
   container.appendChild(breakdownCard);
