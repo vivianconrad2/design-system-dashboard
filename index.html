@@ -145,15 +145,13 @@ var pipelineStats = {
 };
 
 var deliveryStatus = [
-  {name:"Complete",   value:24, color:"#459D13"},
-  {name:"In Progress",value:1,  color:"#ED7800"},
-  {name:"Docs Only",  value:13, color:"#0C79A8"},
-  {name:"Planned",    value:59, color:"#6B3FA0"},
-  {name:"Unplanned",  value:18, color:"#88888E"}
+  {name:"Prod-Certified",value:24, color:"#459D13"},
+  {name:"DS Complete",   value:79, color:"#00838F"},
+  {name:"Future Planned",value:2,  color:"#6B3FA0"}
 ];
 
 var completeComponents = [
-  // Atoms (12)
+  // Atoms (12) — Production monorepo certified (Vivian's audit)
   {name:"Checkbox",type:"Atom"},{name:"Input",type:"Atom"},{name:"Icon",type:"Atom"},
   {name:"Label",type:"Atom"},{name:"Logo",type:"Atom"},{name:"RadioButton",type:"Atom"},
   {name:"TextArea",type:"Atom"},{name:"Toggle",type:"Atom"},{name:"ProgressRing",type:"Atom"},
@@ -167,106 +165,126 @@ var completeComponents = [
   {name:"RadioButtonGroup",type:"Organism"}
 ];
 
-var partialComponents = [
-  {name:"MultiselectItem",type:"Molecule",issue:"In Progress — actively being implemented"}
-];
+var partialComponents = [];
 
 var atomicComparison = [
-  {level:"Atoms",    extracted:18, monorepo:13, handoff:5},
-  {level:"Molecules",extracted:33, monorepo:21, handoff:12},
-  {level:"Organisms",extracted:16, monorepo:4,  handoff:12}
+  {level:"Atoms",    extracted:19, monorepo:12, handoff:7},
+  {level:"Molecules",extracted:58, monorepo:11, handoff:47},
+  {level:"Organisms",extracted:26, monorepo:1,  handoff:25}
 ];
 
 var systems = [
-  {name:"Boolean Controls",components:6,implemented:6,status:"done"},
-  {name:"Form Inputs",components:5,implemented:5,status:"done"},
-  {name:"Buttons",components:3,implemented:1,status:"partial"},
-  {name:"Navigation",components:5,implemented:0,status:"ready"},
-  {name:"Header",components:6,implemented:0,status:"ready"},
-  {name:"Modal/Drawer",components:3,implemented:0,status:"ready"},
-  {name:"Dropdown/Filter",components:8,implemented:1,status:"partial"},
-  {name:"Menu System",components:4,implemented:0,status:"ready"},
-  {name:"Loading",components:3,implemented:2,status:"partial"},
-  {name:"Accordion",components:2,implemented:0,status:"ready"},
-  {name:"Slider",components:3,implemented:0,status:"ready"}
+  {name:"Boolean Controls",  components:6,  implemented:6, status:"done"},
+  {name:"Form Inputs",       components:7,  implemented:5, status:"partial"},
+  {name:"Buttons",           components:4,  implemented:1, status:"partial"},
+  {name:"Navigation",        components:7,  implemented:0, status:"ready"},
+  {name:"Header",            components:6,  implemented:0, status:"ready"},
+  {name:"Modal/Drawer",      components:4,  implemented:0, status:"ready"},
+  {name:"Dropdown/Filter",   components:12, implemented:1, status:"partial"},
+  {name:"Menu System",       components:4,  implemented:0, status:"ready"},
+  {name:"Loading",           components:4,  implemented:2, status:"partial"},
+  {name:"Accordion",         components:2,  implemented:0, status:"ready"},
+  {name:"Slider",            components:3,  implemented:0, status:"ready"},
+  {name:"Table System",      components:6,  implemented:0, status:"ready"},
+  {name:"Calendar/Date",     components:4,  implemented:0, status:"ready"},
+  {name:"Search",            components:4,  implemented:0, status:"ready"},
+  {name:"File Upload",       components:4,  implemented:0, status:"ready"},
+  {name:"Progress/Steps",    components:5,  implemented:0, status:"ready"},
+  {name:"Notifications",     components:2,  implemented:0, status:"ready"},
+  {name:"Containers/Layout", components:5,  implemented:0, status:"ready"}
 ];
 
 var closedGaps = [
-  {name:"Modal/Dialog",closedBy:"DrawerModal + Modal Header + Modal Footer"},
-  {name:"Drawer",closedBy:"DrawerModal (unified pattern)"},
-  {name:"Slider",closedBy:"Slider system (Input + Label + Circular Indicator)"},
-  {name:"Avatar",closedBy:"User Avatar (atom)"},
-  {name:"Accordion",closedBy:"Accordion Header + Accordion (organism)"},
-  {name:"TopNav",closedBy:"Header (organism)"},
-  {name:"SideNav",closedBy:"Nav Menu/Submenu Containers + Groups"},
-  {name:"Spinner",closedBy:"Loading Mask + Logo Loader"}
+  {name:"Progress Bar",  closedBy:"Progress Bar Fill (atom) + Progress Bar (molecule) + Step Indicator + Stepper Container (organism)"},
+  {name:"Card",          closedBy:"Card (organism) — flexible content container, complete Mar 24, 2026"},
+  {name:"Table",         closedBy:"Full table system: TableCell + TableRow + TableRowContent + TableActionsHeader + TableFooter + Table organism"},
+  {name:"Toast Message", closedBy:"Notification Message (molecule) — broader capability than toast-only"},
+  {name:"Popover",       closedBy:"Popover (organism) — complete Mar 26, 2026"},
+  {name:"DatePicker",    closedBy:"Date Picker Field (organism) — covers both single date and date range"},
+  {name:"Link",          closedBy:"Native &lt;a&gt; tags — no standalone Link atom by design"},
+  {name:"Divider",       closedBy:"Divider (atom) — formal component complete, in Figma"},
+  {name:"Pagination",    closedBy:"Table Footer molecule — pagination control lives inside table"},
+  {name:"Modal/Dialog",  closedBy:"DrawerModal + Modal Header + Modal Footer"},
+  {name:"Drawer",        closedBy:"DrawerModal (unified pattern) + Push Drawer Container"},
+  {name:"Slider",        closedBy:"Slider Thumb (atom) + Slider + Slider Field (molecules)"},
+  {name:"Avatar",        closedBy:"User Avatar (atom)"},
+  {name:"Accordion",     closedBy:"Accordion Header (molecule) + Accordion (organism)"},
+  {name:"TopNav",        closedBy:"Header (organism) + Header Button/Logo molecules"},
+  {name:"SideNav",       closedBy:"Nav Menu Container + Nav Submenu Container + Nav Submenu Group"},
+  {name:"Spinner",       closedBy:"Loading Mask + Logo Loader + Logo Loader Indicator"},
+  {name:"SearchBar",     closedBy:"Quick Search (organism) + Search Bar + Inline Search Field (molecules)"},
+  {name:"FormLayout",    closedBy:"Form Template (template level, reclassified from organism)"},
+  {name:"FileUpload",    closedBy:"File Upload Field + File Upload Button + Avatar + Progress (molecules)"},
+  {name:"Skeleton",      closedBy:"Skeleton CSS utility (.is-loading) + semantic tokens in skeleton.css"}
 ];
 
 var remainingGaps = [
-  {name:"Progress Bar",priority:"Critical",category:"Feedback",inFigma:false,hasTokens:false},
-  {name:"Card",priority:"Critical",category:"Container",inFigma:false,hasTokens:false},
-  {name:"Table",priority:"High",category:"Data Display",inFigma:true,hasTokens:false},
-  {name:"Toast Message",priority:"Medium-High",category:"Notification",inFigma:true,hasTokens:true},
-  {name:"Popover",priority:"Medium",category:"Overlay",inFigma:true,hasTokens:false},
-  {name:"DatePicker",priority:"Medium",category:"Form Control",inFigma:true,hasTokens:true},
-  {name:"Link",priority:"Low",category:"Typography",inFigma:false,hasTokens:false},
-  {name:"Divider",priority:"Low",category:"Layout",inFigma:false,hasTokens:false,note:"Existing border tokens can cover interim."},
-  {name:"Pagination",priority:"Part of Table",category:"Data Display",inFigma:true,hasTokens:false}
+  {name:"Button Group",    priority:"Medium",category:"Controls", inFigma:false,hasTokens:false,note:"Post-roadmap — confirm exact Figma name with design team before scoping"},
+  {name:"Button Container",priority:"Medium",category:"Controls", inFigma:false,hasTokens:false,note:"Post-roadmap — confirm exact Figma name with design team before scoping"},
+  {name:"CalendarGrid",    priority:"Low",   category:"Template", inFigma:false,hasTokens:false,note:"Full-page calendar view (monthly/weekly/daily) — needs template-level design planning"},
+  {name:"Error Pages",     priority:"Low",   category:"Template", inFigma:false,hasTokens:false,note:"404, 500, 403/Unauthorized, Maintenance — all breakpoints required"},
+  {name:"Email Templates", priority:"Low",   category:"Template", inFigma:false,hasTokens:false,note:"Needs discovery sprint — email CSS differs significantly from web"}
 ];
 
 var popoverData = {
-  "Has Tokens": "67 components have complete Figma design specifications (tokens, states, and documentation).<br><br><strong>What 'Has Tokens' Means:</strong><br>Design tokens have been extracted from Figma and exported as CSS files containing colors, spacing, typography, motion, and other design specifications.<br><br><strong>Token Files Include:</strong><br>• Color values (fills, strokes, text)<br>• Spacing/sizing values<br>• Typography specifications<br>• Motion timing & easing<br>• State variations (default, hover, focus, active, disabled)<br><br><strong>Breakdown:</strong> 18 Atoms + 33 Molecules + 16 Organisms with complete design specs.<br><br><strong>48 components</strong> are planned or unplanned (DatePicker, Table components, Skeleton components, etc.)",
-  "Production-Certified": "24 components have complete code implementation (Code Status = Complete per Mar 2026 Excel audit).<br><br><strong>Atoms (12):</strong> Checkbox, Input, Icon, Label, Logo, RadioButton, TextArea, Toggle, ProgressRing, Badge, Indicator Counter, Indicator Dot<br><br><strong>Molecules (11):</strong> Button, CheckboxField, InputField, RadioButtonField, TextAreaField, ToggleField, CircularIndicator, LogoLoader, CircularProgress, DropdownItem, Pill<br><br><strong>Organisms (1):</strong> RadioButtonGroup<br><br><strong>Certification Requirements:</strong><br>• Coded implementation in monorepo<br>• Storybook documentation<br>• JSON token files verified<br>• Accessibility compliance validated",
-  "Dev-Ready Assets": "13 components have documentation and design specs in the monorepo but no code implementation yet (Code Status = Docs Only).<br><br><strong>Asset Specifications Include:</strong><br>• Complete CSS token files (colors, spacing, sizes)<br>• Comprehensive documentation<br>• Behavioral specifications (interaction patterns)<br>• WCAG compliance requirements<br><br><strong>Components:</strong> Tooltip, ButtonIcon, DropdownButton, DropdownInput, AccordionHeader, Tab, Accordion, SplitButton, MenuContainer, MenuHeader, QuickSearchField, SearchField, MenuHeaderOrganism<br><br><strong>Status:</strong> Design system team has completed all specification work. These are in the development queue awaiting code implementation.",
-  "In NPM Package": "25 components with code presence in @constructconnect/ui-components monorepo via Cloudsmith NPM registry (Code Complete + In Progress).<br><br><strong>Complete (24):</strong><br>Atoms: Checkbox, Input, Icon, Label, Logo, RadioButton, TextArea, Toggle, ProgressRing, Badge, Indicator Counter, Indicator Dot<br>Molecules: Button, CheckboxField, InputField, RadioButtonField, TextAreaField, ToggleField, CircularIndicator, LogoLoader, CircularProgress, DropdownItem, Pill<br>Organisms: RadioButtonGroup<br><br><strong>In Progress (1):</strong> MultiselectItem (Molecule — actively being implemented)<br><br><em>Note: 13 additional components have Docs Only presence (no code yet)</em>",
+  "Has Tokens": "103 components have complete Figma design specifications (tokens, states, and documentation) — 100% of the design system.<br><br><strong>What 'Has Tokens' Means:</strong><br>Design tokens have been extracted from Figma and exported as CSS files containing colors, spacing, typography, motion, and other design specifications.<br><br><strong>Token Files Include:</strong><br>• Color values (fills, strokes, text)<br>• Spacing/sizing values<br>• Typography specifications<br>• Motion timing &amp; easing<br>• State variations (default, hover, focus, active, disabled)<br><br><strong>Breakdown:</strong> 19 Atoms + 58 Molecules + 26 Organisms — all levels complete as of March 28, 2026.",
+  "Production-Certified": "24 components have complete code implementation in the production monorepo (Vivian's audit: code + Storybook + JSON tokens + tests).<br><br><strong>Atoms (12):</strong> Checkbox, Input, Icon, Label, Logo, RadioButton, TextArea, Toggle, ProgressRing, Badge, Indicator Counter, Indicator Dot<br><br><strong>Molecules (11):</strong> Button, CheckboxField, InputField, RadioButtonField, TextAreaField, ToggleField, CircularIndicator, LogoLoader, CircularProgress, DropdownItem, Pill<br><br><strong>Organisms (1):</strong> RadioButtonGroup<br><br><strong>Certification Requirements:</strong><br>• Coded implementation in monorepo<br>• Storybook documentation<br>• JSON token files verified<br>• Accessibility compliance validated<br><br><em>79 additional components are DS-complete (foundations built) awaiting dev team monorepo integration.</em>",
+  "Dev-Ready Assets": "103 components have design tokens, starter code structure, and complete documentation — all foundations built and handed off for the dev team to review, finalize, and integrate.<br><br><strong>What's Included Per Component:</strong><br>• CSS design token files (colors, spacing, sizes)<br>• Styled CSS implementation<br>• TypeScript component (headless + styled wrappers)<br>• Unit tests<br>• Comprehensive documentation with behavioral specs<br>• WCAG AA compliance requirements<br><br><strong>Breakdown:</strong> 19 Atoms + 58 Molecules + 26 Organisms + 4 bonus Templates<br><br><strong>Status:</strong> Design system team has completed all foundation work. Dev team to finalize, review, and integrate into production monorepo.",
+  "In NPM Package": "25 components with code presence in @constructconnect/ui-components monorepo via Cloudsmith NPM registry.<br><br><strong>Complete (24):</strong><br>Atoms: Checkbox, Input, Icon, Label, Logo, RadioButton, TextArea, Toggle, ProgressRing, Badge, Indicator Counter, Indicator Dot<br>Molecules: Button, CheckboxField, InputField, RadioButtonField, TextAreaField, ToggleField, CircularIndicator, LogoLoader, CircularProgress, DropdownItem, Pill<br>Organisms: RadioButtonGroup<br><br><strong>In Progress (1):</strong> MultiselectItem (Molecule)<br><br><em>79 additional components have DS foundations built and are ready for monorepo integration.</em>",
   "Active Consumers": "3 teams actively engaged with the NPM package (Active + In Progress + On Pause).<br><br><strong>Active:</strong><br>• Payment Portal — Most active adopter (Button, Input, Badge, Checkbox, Toggle, Label confirmed)<br><br><strong>In Progress:</strong><br>• GCV4 — Active conversations, onboarding in progress<br><br><strong>On Pause:</strong><br>• UCMS (Crimson) — On hold pending platform direction<br><br><strong>Planned Pipeline:</strong><br>• OST — HubSpot integration planned<br>• FAI — HubSpot integration planned<br>• Identity Platform (user management + admin portal) — Upcoming",
-  "MCP Ready": "57 total components have complete behavioral specifications that define requirements, guide implementation, validate completeness, and serve as reference.<br><br><strong>✅ All 5 Specification Standards Met:</strong><br>1. Component organization ✅<br>2. All states defined ✅<br>3. Token mappings specified ✅<br>4. Motion timing & easing defined ✅<br>5. WCAG requirements listed ✅<br><br><strong>📋 What They Are:</strong> Created BEFORE coding to define requirements → Used DURING coding as implementation guide → Applied for QA validation → Serve as ongoing reference for consuming teams.<br><br><strong>🧑‍💻 Built by Human Experts:</strong> Components are manually built by developers following these specifications. NOT automated code generation.<br><br><strong>27 components</strong> with enhanced specs (Feb 24, 2026)"
+  "MCP Ready": "103 components have complete behavioral specifications — 100% of the design system foundation documented and ready.<br><br><strong>✅ All Specification Standards Met:</strong><br>1. Component organization ✅<br>2. All states defined ✅<br>3. Token mappings specified ✅<br>4. Motion timing &amp; easing defined ✅<br>5. WCAG AA requirements listed ✅<br><br><strong>📋 What They Are:</strong> Created BEFORE coding to define requirements → Used DURING coding as implementation guide → Applied for QA validation → Serve as ongoing reference for consuming teams.<br><br><strong>Coverage:</strong> 19 Atoms + 58 Molecules + 26 Organisms + 4 bonus Templates (March 28, 2026)"
 };
 
 var gapReadiness = [
-  {label:"Table",level:70,note:"Designed, needs specs documented"},
-  {label:"Toast Message",level:60,note:""},
-  {label:"DatePicker",level:55,note:""},
-  {label:"Popover",level:50,note:"Designed, needs specs documented"},
-  {label:"Progress Bar",level:10,note:"Not in Figma yet"},
-  {label:"Card",level:10,note:"Not designed yet"},
-  {label:"Link",level:20,note:"May use typography tokens"},
-  {label:"Divider",level:15,note:"Can use border tokens interim"}
+  {label:"Button Group",    level:5, note:"Post-roadmap — needs Figma design confirmation"},
+  {label:"Button Container",level:5, note:"Post-roadmap — needs Figma design confirmation"},
+  {label:"CalendarGrid",    level:5, note:"Template — needs desktop + responsive planning"},
+  {label:"Error Pages",     level:5, note:"Template — 404/500/403/Maintenance, not yet designed"},
+  {label:"Email Templates", level:5, note:"Needs discovery sprint — email CSS differs from web"}
 ];
 
 var mcpDocsComponents = {
   atoms: [
-    {name:"Badge",hasDocs:true},
-    {name:"Checkbox",hasDocs:true},
-    {name:"Icon",hasDocs:true},
-    {name:"Indicator Counter",hasDocs:true},
-    {name:"Indicator Dot",hasDocs:true},
-    {name:"Input",hasDocs:true},
-    {name:"Radio Button",hasDocs:true},
-    {name:"Toggle",hasDocs:true},
-    {name:"Tooltip",hasDocs:true}
+    {name:"Badge",hasDocs:true},{name:"Checkbox",hasDocs:true},{name:"Divider",hasDocs:true},
+    {name:"Field Message",hasDocs:true},{name:"Icon",hasDocs:true},{name:"Indicator Counter",hasDocs:true},
+    {name:"Indicator Dot",hasDocs:true},{name:"Input",hasDocs:true},{name:"Label",hasDocs:true},
+    {name:"Logo",hasDocs:true},{name:"Menu Toggle Icon",hasDocs:true},{name:"Progress Bar Fill",hasDocs:true},
+    {name:"Progress Ring",hasDocs:true},{name:"Radio Button",hasDocs:true},{name:"Skeleton",hasDocs:true},
+    {name:"Slider Thumb",hasDocs:true},{name:"Toggle",hasDocs:true},{name:"Tooltip",hasDocs:true},
+    {name:"User Avatar",hasDocs:true}
   ],
   molecules: [
-    {name:"Button Icon",hasDocs:true},
-    {name:"Button Primary",hasDocs:true},
-    {name:"Checkbox Field",hasDocs:true},
-    {name:"Dropdown Button",hasDocs:true},
-    {name:"Dropdown Input",hasDocs:true},
-    {name:"Input Field",hasDocs:true},
-    {name:"Menu Header",hasDocs:true},
-    {name:"Menu Item",hasDocs:true},
-    {name:"Multiselect Item",hasDocs:true},
-    {name:"Pill",hasDocs:true},
-    {name:"Radio Button Field",hasDocs:true},
-    {name:"Toggle Field",hasDocs:true}
+    {name:"Accordion Header",hasDocs:true},{name:"Breadcrumb Item",hasDocs:true},{name:"Button",hasDocs:true},
+    {name:"Button Icon",hasDocs:true},{name:"Calendar Item Button",hasDocs:true},{name:"Checkbox Field",hasDocs:true},
+    {name:"Circular Indicator",hasDocs:true},{name:"Date Input",hasDocs:true},{name:"Dropdown Button",hasDocs:true},
+    {name:"Dropdown Input",hasDocs:true},{name:"Dropdown Item",hasDocs:true},{name:"Dropdown Menu Container",hasDocs:true},
+    {name:"Dropdown Menu Header",hasDocs:true},{name:"File Upload Avatar",hasDocs:true},{name:"File Upload Button",hasDocs:true},
+    {name:"File Upload Field",hasDocs:true},{name:"File Upload Progress",hasDocs:true},{name:"Filter Button",hasDocs:true},
+    {name:"Header Button",hasDocs:true},{name:"Header Logo Button",hasDocs:true},{name:"Header Logo Title",hasDocs:true},
+    {name:"Inline Search Field",hasDocs:true},{name:"Input Field",hasDocs:true},{name:"List Item",hasDocs:true},
+    {name:"Loading Button State",hasDocs:true},{name:"Loading Mask",hasDocs:true},{name:"Logo Loader",hasDocs:true},
+    {name:"Logo Loader Indicator",hasDocs:true},{name:"Menu Container",hasDocs:true},{name:"Menu Header",hasDocs:true},
+    {name:"Menu Item Container",hasDocs:true},{name:"Menu Toggle Button",hasDocs:true},{name:"Modal Header",hasDocs:true},
+    {name:"Multiselect Dropdown Input",hasDocs:true},{name:"Multiselect Item",hasDocs:true},{name:"Nav Menu Button",hasDocs:true},
+    {name:"Nav Submenu Button",hasDocs:true},{name:"Notification Message",hasDocs:true},{name:"Number Input Field",hasDocs:true},
+    {name:"Page Header",hasDocs:true},{name:"Pill",hasDocs:true},{name:"Progress Bar",hasDocs:true},
+    {name:"Quicksearch Field",hasDocs:true},{name:"Radio Button Field",hasDocs:true},{name:"Search Bar",hasDocs:true},
+    {name:"Search Field",hasDocs:true},{name:"Slider",hasDocs:true},{name:"Slider Field",hasDocs:true},
+    {name:"Step Indicator",hasDocs:true},{name:"Tab",hasDocs:true},{name:"Table Actions Header",hasDocs:true},
+    {name:"Table Cell",hasDocs:true},{name:"Table Footer",hasDocs:true},{name:"Table Row",hasDocs:true},
+    {name:"Table Row Content",hasDocs:true},{name:"Text Area",hasDocs:true},{name:"Toggle Field",hasDocs:true},
+    {name:"Username Button",hasDocs:true}
   ],
   organisms: [
-    {name:"Dropdown",hasDocs:true},
-    {name:"Filter Multiselect Dropdown",hasDocs:true},
-    {name:"Menu Container",hasDocs:true},
-    {name:"Modal",hasDocs:true},
-    {name:"Multiselect Dropdown Input",hasDocs:true},
-    {name:"Search Field",hasDocs:true}
+    {name:"Accordion",hasDocs:true},{name:"Breadcrumb",hasDocs:true},{name:"Calendar Layout",hasDocs:true},
+    {name:"Card",hasDocs:true},{name:"Date Picker Field",hasDocs:true},{name:"Drawer Modal",hasDocs:true},
+    {name:"Dropdown Button",hasDocs:true},{name:"Dropdown Input",hasDocs:true},{name:"Filter Multiselect Dropdown",hasDocs:true},
+    {name:"Header",hasDocs:true},{name:"Menu Container",hasDocs:true},{name:"Menu Header",hasDocs:true},
+    {name:"Modal Footer",hasDocs:true},{name:"Multiselect Dropdown Input Field",hasDocs:true},{name:"Nav Menu Container",hasDocs:true},
+    {name:"Nav Submenu Container",hasDocs:true},{name:"Nav Submenu Group",hasDocs:true},{name:"Page Content Container",hasDocs:true},
+    {name:"Popover",hasDocs:true},{name:"Push Drawer Container",hasDocs:true},{name:"Quick Search",hasDocs:true},
+    {name:"Side Container",hasDocs:true},{name:"Split Button",hasDocs:true},{name:"Stepper Container",hasDocs:true},
+    {name:"Tab Group",hasDocs:true},{name:"Table",hasDocs:true}
   ]
 };
 
