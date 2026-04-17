@@ -16,43 +16,48 @@ This project consolidates all Blueprint Design System data sources into one loca
 ```
 blueprint-dashboard/
 ├── README.md                     # This file
+├── CHANGELOG.md                  # Release history (Keep a Changelog format)
+├── package.json                  # sync:tokens script
+├── index.html                    # Dashboard (root copy)
+├── assets/
+│   └── tokens.css                # Vendored from @unified_design_system/design-tokens
 ├── dashboard/
-│   └── blueprint-status.html    # Interactive status dashboard
+│   └── blueprint-status.html    # Dashboard (mirror copy)
 ├── data/
 │   ├── data-sources.md          # Master data inventory
 │   ├── extraction-inventory.md  # Components extracted from Figma
 │   ├── monorepo-audit.md        # Components in NPM package
 │   └── mcp-readiness.md         # MCP/AI readiness status
-└── docs/
-    ├── update-procedures.md      # How to update the dashboard
-    └── data-dictionary.md        # Definition of all metrics
+├── docs/
+│   ├── update-procedures.md      # How to update the dashboard
+│   └── data-dictionary.md        # Definition of all metrics
+└── scripts/
+    └── sync-tokens.mjs           # Copies tokens.css from node_modules → assets/
 ```
 
 ## Data Sources
 
-### 1. Design-System-Work Folder (Extraction Inventory)
+### 1. Design-System-Work Folder (Figma Extraction Inventory)
 **Location:** `/Users/taylors/Desktop/ConstructConnect-Projects/Design-System-Work/`
 
-- **57 components extracted from Figma**
-- Status: Design specs complete, ready for dev
-- Files: Token CSS files + comprehensive documentation
-- Last Updated: February 21, 2026
+- Components extracted from Figma with tokens and comprehensive documentation
+- Status: Design specs + MCP-ready; the "Extracted" column of the dashboard's atomic comparison
+- Files: Token CSS files + comprehensive documentation per component
 
-### 2. Monorepo NPM Package (Vivian's Audit)
-**Location:** Separate codebase (packages/components/)
+### 2. UDS Monorepo (`unified_design_system` — `main` branch)
+**Location:** Separate codebase at `packages/components/`
 
-- **35 components implemented**
-- Status: In @constructconnect/ui-components NPM package
-- Files: COMPONENT_AUDIT.md, COMPONENT_ACTION_PLAN.md, COMPONENT_REPORTS.md
-- Last Updated: February 25, 2026
+- Tracked via direct audit of `packages/components/src/{atoms,molecules,organisms}`
+- Each component folder is classified as **Implemented** (has `.tsx` + `_stories/` + `_tests/`) or **Docs-only** (`*-documentation.md` but no `.tsx` yet)
+- This distinction drives the dashboard's Production-Certified / In NPM Package counts
 
 ### 3. MCP Readiness Status
 **Location:** `/Users/taylors/Desktop/ConstructConnect-Projects/Design-System-Work/`
 
-- **57 components MCP-ready**
-- Status: All 5 Figma MCP requirements met
+- Every extracted component satisfies the 5 Figma MCP requirements
 - Files: FIGMA-MCP-REQUIREMENTS-STATUS.md, FIGMA-MCP-DESIGN-TO-CODE-WORKFLOW.md
-- Last Updated: February 25, 2026
+
+Current counts live in the JS data variables inside `index.html` / `dashboard/blueprint-status.html` and in the "Key Metrics" table below — those are the single source of truth; do not duplicate numbers elsewhere in this README.
 
 ## Key Metrics (Current)
 
@@ -103,35 +108,17 @@ var popoverData = {...}          // Info popovers
 
 ### Component Status Categories
 
-**Complete (9):**
-- ✅ Implementation in monorepo
-- ✅ Storybook documentation
-- ✅ JSON token files
-- ✅ Test coverage
+The dashboard classifies every component into one of two states relative to UDS `main`:
 
-**Partial (8):**
-- ✅ Implementation exists
-- ⚠️ Missing tokens or naming issues
-- Examples: Icon, TextArea, Toggle, CheckboxField, RadioButtonField, TextAreaField, Tab, RadioButtonGroup
+**Implemented** — has all of:
+- `.tsx` code on `main`
+- `_stories/*.stories.tsx`
+- `_tests/*.test.tsx`
+- Design tokens in `packages/design-tokens`
 
-**Docs Only (17):**
-- ✅ Design documentation
-- ❌ No implementation yet
-- Status: Ready for dev
+**Docs-only** — has a `*-documentation.md` file scaffolding the spec, but no `.tsx` yet. Ready to be built next.
 
-**Missing Docs (0):**
-- All components now have documentation
-
-### The Gap Between Design and Dev
-
-**57 extracted - 35 implemented = 22 components waiting**
-
-These 22 components have:
-- ✅ Complete token files
-- ✅ Comprehensive documentation
-- ✅ Behavioral specifications
-- ✅ WCAG compliance specs
-- ❌ No code implementation yet
+Live counts are in the "Key Metrics" table above — see that section for the authoritative numbers as of the last dashboard refresh.
 
 ## Related Documentation
 
@@ -146,40 +133,38 @@ These 22 components have:
 - [Update Procedures](docs/update-procedures.md)
 - [Data Dictionary](docs/data-dictionary.md)
 
+## Design Tokens
+
+The dashboard consumes colors from the `@unified_design_system/design-tokens` package. The compiled `tokens.css` is vendored at `assets/tokens.css` so the dashboard remains a zero-dep, openable-in-browser artifact. A small `TOKENS` object in the inline script reads the CSS variables via `getComputedStyle` so JS-driven chart/SVG colors stay in sync with the package.
+
+### Refreshing tokens
+
+```bash
+# once, to install the source package (private Cloudsmith registry)
+npm install
+
+# whenever UDS design-tokens publishes a new version
+npm run sync:tokens
+```
+
+### Preserved non-UDS hex values
+
+Where a color has a direct match in the UDS palette (primary, neutral, status-success/warning/error), it is routed through `var(--color-*)`. Where it doesn't, the hex is left as a literal and documented here:
+
+| Category | Hex | Used for |
+|---|---|---|
+| Categorical accents | `#00838F` (teal), `#6B3FA0` (purple) | "Has Tokens" / "Ready to Build" metric borders, "Future Planned" donut segment |
+| Amber callouts | `#FFF3CD`, `#FFE082`, `#FFF8E1`, `#FFFDF5`, `#8B6914` | Growth highlight bar, "human experts" callout, partial-component rows |
+| Mint / green tints | `#E8F5E9`, `#C8E6C9`, `#F0FAF0` | MCP-readiness card, closed-gaps rows, done-state tint backgrounds |
+| Material blue | `#E3F2FD`, `#01579B`, `#90CAF9` | Behavioral-specs explainer callout |
+| Surface greys | `#F8F9FA`, `#FAFAFA` | Page background, alternating table rows, card backdrops |
+| Error-banner fallback | `#b70900`, `#fff` | TOKENS-failure banner (intentionally hex so it works even when the stylesheet fails to load) |
+
+These are the single source of truth for the dashboard's off-palette colors. When the UDS palette grows to cover any of them, migrate them over and prune this table.
+
 ## Version History
 
-### v2.2 - April 17, 2026
-- Synced dashboard with UDS `main` branch inventory
-- Production-Certified / In NPM Package: 24/25 → 63 (all implemented on main with code + stories + tests)
-- Docs-only count: 0 → 35 (components scaffolded as `.md` but not yet built)
-- atomicComparison monorepo column: Atoms 12→26, Molecules 11→32, Organisms 1→5, Templates unchanged (0)
-- deliveryStatus donut rebalanced: Prod-Certified 63 / DS-Complete 44 / Future Planned 2
-- Systems table implementation counts updated across 18 systems; Loading/Accordion/Slider/Boolean Controls now fully done
-- Closed gaps unchanged (already reflected Accordion, Slider, Table)
-- Source: direct audit of `origin/main` tree under `packages/components/src/{atoms,molecules,organisms}`
-
-### v2.1 - February 25, 2026 (Evening Update)
-- ✅ Updated with Vivian's latest audit (Feb 25, 2026)
-- ✅ NPM package: 30 → 35 components (+5)
-- ✅ Fully Shippable: 11 → 9 (CheckboxField & RadioButtonField moved to Partial)
-- ✅ Partial: 6 → 8 components
-- ✅ Docs Only: 12 → 17 components
-- ✅ Missing Docs: 1 → 0 (Logo now documented)
-- ✅ Organisms in monorepo: 1 → 4 (Accordion, AccordionHeader, MenuHeaderOrganism, RadioButtonGroup)
-- ✅ Design Specs Ready: 27 → 22 components
-- ✅ Updated all documentation files
-
-### v2.0 - February 25, 2026 (Morning)
-- ✅ Created blueprint-dashboard project
-- ✅ Consolidated all data sources
-- ✅ Updated dashboard with MCP readiness metric
-- ✅ Clarified extraction vs. implementation inventories
-- ✅ Added comprehensive documentation
-
-### v1.0 - February 23, 2026 (Original)
-- Initial dashboard created
-- 30 components in NPM package
-- Monorepo audit from Vivian
+See [CHANGELOG.md](CHANGELOG.md) for the full release history (v1.0.0 through v2.3.0). Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); add new entries under `[Unreleased]` and promote them to a dated version on release.
 
 ## Usage
 
@@ -203,5 +188,5 @@ open /Users/taylors/Desktop/ConstructConnect-Projects/blueprint-dashboard/dashbo
 ## Contact
 
 **Maintained by:** Taylor S.
-**Last Updated:** April 17, 2026 (v2.2)
+**Last Updated:** April 17, 2026 (v2.3)
 **Next Review:** As needed when Vivian provides updates
