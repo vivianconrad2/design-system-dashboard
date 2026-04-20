@@ -8,6 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **Data source pivoted to PM master tracking sheet.** Dashboard now reflects roadmap status (Complete / In Progress / Planned / Docs Only / Unplanned / N/A) rather than a pure code-on-main audit.
+  - `topMetrics` — 9 cards relabeled: Total Components (137), Complete (63), In Progress (10), Planned (62), In NPM Package (63), Docs Only (1 — Drawer), Unplanned (4), Blocked (0), Active Consumers (3).
+  - `deliveryStatus` donut — 4 segments: Complete / In Progress / Planned / Docs Only.
+  - `completeComponents` — 63 entries (27 atoms + 32 molecules + 4 organisms) with Jira tickets preserved where provided.
+  - `partialComponents` — 10 In Progress molecules with ticket numbers + issue notes.
+  - `atomicComparison.extracted` now = "on active roadmap" (Complete + In Progress + Planned + Docs Only); `.monorepo` = Complete count per level; `.handoff` = remaining work.
+  - `remainingGaps` — rewritten to the 5 truly open items: Drawer organism (docs-only), ComboBox/AutocompleteInput, Right Header Button Group, Inline Dropdown Field, modal-date-range.
+  - `popoverData` — rewritten to match new card labels and source the full Planned/In Progress lists with tickets.
+- Notable PM-vs-main discrepancies surfaced in the Complete popover:
+  - `DropdownMenuContainer` (PS-2617) — Complete per PM but no `.tsx` on main yet.
+  - `FormFieldMolecule` (PS-2873) — Complete per PM but no folder with that exact name on main (closest: `InputField` composition).
+  - `SplitButton` (PS-2658) — Complete per PM but only `split-button-specification.md` on main.
+  - `MenuContainer` organism — on main with `.tsx` but PM list says Planned/no implementation. Verify before consuming.
 - **Library Growth card is now implementation-focused**, with two non-overlapping trajectories:
   - **Foundation build — Dec 2025 → end of March 2026** (top) — 2 → 33 implemented. Baselines count folders with `.tsx + _stories/ + _tests/` on UDS `main`: commit `f9b8070f` (2025-12-22, Button + Input only) → commit `0794924b` (2026-03-31, 15 atoms + 16 molecules + 2 organisms).
   - **April sprint — Apr 1 → Apr 17, 2026** (below, separated by a divider) — 33 → `completeComponents.length` (currently 63).

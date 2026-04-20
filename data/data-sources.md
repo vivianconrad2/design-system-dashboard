@@ -82,7 +82,7 @@ Accordion, Card, MenuContainer, MenuHeaderOrganism, RadioButtonGroup
 **Atoms (1):** ProgressBarFill
 
 **Molecules (24):**
-CalendarItemButton, DropdownInput, FileUploadAvatar, FileUploadButton, FileUploadField, FileUploadProgress, FilterButton, HeaderLogoButton, HeaderLogoTitle, ListItem, MenuContainer (molecule), MenuHeader, MenuToggleButton, MultiselectDropdownInput, NavMenuButton, PageHeader, ProgressBar (molecule), SearchBar, StepIndicator, TableActionsHeader, TableFooter, TableRow, TableRowContent, UsernameButton
+CalendarItemButton, DropdownInput, FileUploadAvatar, FileUploadButton, FileUploadField, FileUploadProgress, FilterButton, HeaderLogoButton, HeaderLogoTitle, ListItem, MenuContainer (molecule), MenuHeader, MenuToggleButton, MultiselectDropdownInput, NavMenuButton, PageHeader, ProgressBar (molecule), SearchBar, StepIndicator, TableActionsHeader, Pagination, TableRow, TableRowContent, UsernameButton
 
 **Organisms (10):**
 BreadcrumbOrganism, DrawerModal, DropdownButton (organism), DropdownInput (organism), FilterMultiselectDropdown, MultiselectDropdownInputField, QuickSearch, SplitButton, TabGroup, Table
