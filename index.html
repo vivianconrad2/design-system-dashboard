@@ -115,7 +115,7 @@ tr.alt{background:#FAFAFA}
       <h1>Blueprint Design System</h1>
       <p class="sub">Status Dashboard — April 21, 2026</p>
     </div>
-    <div class="badge">v5.11 — UDS main sync · +8 Complete</div>
+    <div class="badge">v5.21 — Weekly targets · click row to see components</div>
   </div>
   <div class="tabs" id="tabs"></div>
 </div>
@@ -176,53 +176,57 @@ var TOKENS = (function() {
 // DATA — Edit values here to update dashboard
 // ═══════════════════════════════════════════════════════
 
-// Master list source — authoritative PM tracking (Apr 21, 2026).
+// UDS main branch audit (Apr 21, 2026). Counts reconciled against actual code in
+// packages/components/src/ — not the PM master list. See Complete popover for the
+// three discrepancies found: ProgressBarFill (docs-only on main, PM marks Complete),
+// DropdownMenuContainer (absent on main, PM marks Complete), Card organism (on main
+// as Complete since Mar 24, PM table omitted it).
 // Roadmap = Complete + In Progress + Planned + Docs Only (excludes N/A + Unplanned).
 var topMetrics = [
-  {label:"Total Components",value:129,sub:"Active roadmap — Complete + In Progress + Planned + Docs Only",color:TOKENS.primary500},
-  {label:"Complete",        value:71, sub:"27 atoms + 39 molecules + 5 organisms",color:TOKENS.success},
-  {label:"In Progress",     value:6,  sub:"All molecules — active development",color:TOKENS.warning},
-  {label:"Planned",         value:51, sub:"21 molecules + 24 organisms + 6 templates",color:"#00838F"},
-  {label:"In NPM Package",  value:71, sub:"Published via Cloudsmith (matches Complete)",color:TOKENS.primary500},
-  {label:"Docs Only",       value:1,  sub:"Drawer organism — definition pending",color:"#6B3FA0"},
-  {label:"Unplanned",       value:4,  sub:"Requested but not on current roadmap",color:TOKENS.error},
+  {label:"Total Components",value:127,sub:"Active roadmap — Complete + In Progress + Planned + Docs Only",color:TOKENS.primary500},
+  {label:"Complete",        value:70, sub:"26 atoms + 38 molecules + 6 organisms · atoms tier 100% done",color:TOKENS.success},
+  {label:"In Progress",     value:9,  sub:"8 molecules + 1 organism · 5 have open MRs",color:TOKENS.warning},
+  {label:"In NPM Package",  value:70, sub:"Published via Cloudsmith (matches Complete)",color:TOKENS.primary500},
   {label:"Blocked",         value:0,  sub:"No current blockers",color:TOKENS.primary600},
-  {label:"Active Consumers",value:3,  sub:"Teams actively adopting",color:TOKENS.primary600}
+  {label:"Active Consumers",value:5,  sub:"Payment Portal, UCMS, Automation Support active · GCV4, Identity Platform in progress",color:TOKENS.primary600}
 ];
 
 // Pipeline audit counts (UDS main branch, Apr 21, 2026)
 var pipelineStats = {
-  docsOnly: 1,     // Drawer organism — shares drawer-modal-accessibility.md with DrawerModal
+  docsOnly: 0,     // Drawer merged into DrawerModal variant; no other docs-only items
   missingDocs: 0   // All components now documented
 };
 
 var deliveryStatus = [
-  {name:"Complete",    value:71, color:TOKENS.success},
+  {name:"Complete",    value:70, color:TOKENS.success},
   {name:"In Progress", value:6,  color:TOKENS.warning},
   {name:"Planned",     value:51, color:"#00838F"},
-  {name:"Docs Only",   value:1,  color:"#6B3FA0"}
+  {name:"Docs Only",   value:0,  color:"#6B3FA0"}
 ];
 
-// Complete = design + implementation done per PM master list (Apr 21, 2026).
-// Jira tickets preserved where provided. Count: 27 atoms + 39 molecules + 5 organisms = 71.
+// Complete = folder on UDS main with .tsx + _stories/ + _tests/ (Apr 21, 2026).
+// Names match actual main folders. Count: 26 atoms + 38 molecules + 6 organisms = 70.
+// Corrections from PM master list:
+//   - ProgressBarFill (PS-3762) demoted: docs-only on main, no .tsx
+//   - DropdownMenuContainer (PS-2617) demoted: no folder on main at all
+//   - Card (PS-3669) added: on main since Mar 24, not in PM master
 var completeComponents = [
-  // Atoms (27)
+  // Atoms (26)
   {name:"Badge",             type:"Atom", ticket:"PS-1609"},
-  {name:"Breadcrumb",        type:"Atom"},
+  {name:"Breadcrumb",        type:"Atom", ticket:"PS-4357"},
   {name:"Checkbox",          type:"Atom", ticket:"PS-1414"},
   {name:"Divider",           type:"Atom", ticket:"PS-3717"},
-  {name:"FieldMessage",      type:"Atom"},
+  {name:"FieldMessage",      type:"Atom", ticket:"PS-2872"},
   {name:"HelperText",        type:"Atom", ticket:"PS-2871"},
   {name:"Icon",              type:"Atom", ticket:"PS-923"},
-  {name:"Indicator Counter", type:"Atom", ticket:"PS-1605"},
-  {name:"Indicator Dot",     type:"Atom", ticket:"PS-1605"},
+  {name:"IndicatorCounter",  type:"Atom", ticket:"PS-1605"},
+  {name:"IndicatorDot",      type:"Atom", ticket:"PS-1605"},
   {name:"Input",             type:"Atom", ticket:"PS-922"},
   {name:"Label",             type:"Atom", ticket:"PS-2228"},
   {name:"Logo",              type:"Atom", ticket:"PS-2145"},
-  {name:"MenuToggleIcon",    type:"Atom"},
+  {name:"MenuToggleIcon",    type:"Atom", ticket:"PS-2379"},
   {name:"Overlay",           type:"Atom", ticket:"PS-4260"},
-  {name:"ProgressBar",       type:"Atom"},
-  {name:"ProgressBarFill",   type:"Atom", ticket:"PS-3762"},
+  {name:"ProgressBar",       type:"Atom", ticket:"PS-3762"},
   {name:"ProgressRing",      type:"Atom"},
   {name:"RadioButton",       type:"Atom", ticket:"PS-1413"},
   {name:"SkipLink",          type:"Atom"},
@@ -234,48 +238,48 @@ var completeComponents = [
   {name:"Tooltip",           type:"Atom", ticket:"PS-1607"},
   {name:"UserAvatar",        type:"Atom", ticket:"PS-2953"},
   {name:"VisuallyHidden",    type:"Atom"},
-  // Molecules (39)
-  {name:"AccordionHeader",       type:"Molecule"},
-  {name:"BreadcrumbItem",        type:"Molecule", ticket:"PS-931"},
-  {name:"BreadcrumbTrail",       type:"Molecule"},
-  {name:"Button",                type:"Molecule", ticket:"PS-2324"},
-  {name:"ButtonIcon",            type:"Molecule", ticket:"PS-3989"},
-  {name:"CheckboxField",         type:"Molecule", ticket:"PS-1751"},
-  {name:"CircularIndicator",     type:"Molecule", ticket:"PS-2853"},
-  {name:"CircularProgress",      type:"Molecule"},
-  {name:"DateInput",             type:"Molecule"},
-  {name:"DropdownButton",        type:"Molecule", ticket:"PS-1726"},
-  {name:"DropdownItem",          type:"Molecule", ticket:"PS-2357"},
-  {name:"DropdownMenuContainer", type:"Molecule", ticket:"PS-2617"},
-  {name:"FileUploadButton",      type:"Molecule", ticket:"PS-3713"},
-  {name:"FilterButton",          type:"Molecule", ticket:"PS-3098"},
-  {name:"FormFieldMolecule",     type:"Molecule", ticket:"PS-2873"},
-  {name:"HeaderButton",          type:"Molecule"},
-  {name:"InlineSearchField",     type:"Molecule", ticket:"PS-3730"},
-  {name:"InputField",            type:"Molecule", ticket:"PS-1758"},
-  {name:"LoadingMask",           type:"Molecule", ticket:"PS-2855"},
-  {name:"LogoLoader",            type:"Molecule", ticket:"PS-2851"},
-  {name:"ModalHeader",           type:"Molecule", ticket:"PS-3099"},
-  {name:"MultiselectItem",       type:"Molecule"},
-  {name:"NavSubmenuButton",      type:"Molecule", ticket:"PS-2442"},
-  {name:"NumberInput",           type:"Molecule", ticket:"PS-3714"},
-  {name:"OverflowPanel",         type:"Molecule"},
-  {name:"Pill",                  type:"Molecule", ticket:"PS-1606"},
-  {name:"ProgressBarField",      type:"Molecule", ticket:"PS-3763"},
-  {name:"QuickSearchField",      type:"Molecule"},
-  {name:"RadioButtonField",      type:"Molecule", ticket:"PS-1761"},
-  {name:"SearchBar",             type:"Molecule", ticket:"PS-3731"},
-  {name:"SearchField",           type:"Molecule"},
-  {name:"Slider",                type:"Molecule", ticket:"PS-2018"},
-  {name:"SliderField",           type:"Molecule", ticket:"PS-2018"},
-  {name:"Tab",                   type:"Molecule", ticket:"PS-1608"},
-  {name:"TableCell",             type:"Molecule", ticket:"PS-3617"},
-  {name:"TableRowContent",       type:"Molecule", ticket:"PS-3618"},
-  {name:"TextAreaField",         type:"Molecule", ticket:"PS-1759"},
-  {name:"Toast",                 type:"Molecule"},
-  {name:"ToggleField",           type:"Molecule"},
-  // Organisms (5)
+  // Molecules (38) — folder names on main
+  {name:"AccordionHeader",  type:"Molecule"},
+  {name:"BreadcrumbItem",   type:"Molecule", ticket:"PS-931"},
+  {name:"BreadcrumbTrail",  type:"Molecule", ticket:"PS-4357"},
+  {name:"Button",           type:"Molecule", ticket:"PS-2324"},
+  {name:"ButtonIcon",       type:"Molecule", ticket:"PS-3989"},
+  {name:"CheckboxField",    type:"Molecule", ticket:"PS-1751"},
+  {name:"CircularIndicator",type:"Molecule", ticket:"PS-2853"},
+  {name:"CircularProgress", type:"Molecule"},
+  {name:"DateInput",        type:"Molecule"},
+  {name:"DropdownButton",   type:"Molecule", ticket:"PS-1726"},
+  {name:"DropdownItem",     type:"Molecule", ticket:"PS-2357"},
+  {name:"FileUploadButton", type:"Molecule", ticket:"PS-3713"},
+  {name:"FilterButton",     type:"Molecule", ticket:"PS-3098"},
+  {name:"FormField",        type:"Molecule", ticket:"PS-2873"},
+  {name:"HeaderButton",     type:"Molecule"},
+  {name:"InlineSearchField",type:"Molecule", ticket:"PS-3730"},
+  {name:"InputField",       type:"Molecule", ticket:"PS-1758"},
+  {name:"LoadingMask",      type:"Molecule", ticket:"PS-2855"},
+  {name:"LogoLoader",       type:"Molecule", ticket:"PS-2851"},
+  {name:"ModalHeader",      type:"Molecule", ticket:"PS-3099"},
+  {name:"MultiSelectItem",  type:"Molecule"},
+  {name:"NavSubmenuButton", type:"Molecule", ticket:"PS-2442"},
+  {name:"NumberInputField", type:"Molecule", ticket:"PS-3714"},
+  {name:"OverflowPanel",    type:"Molecule"},
+  {name:"Pill",             type:"Molecule", ticket:"PS-1606"},
+  {name:"ProgressBarField", type:"Molecule", ticket:"PS-3763"},
+  {name:"QuickSearchField", type:"Molecule"},
+  {name:"RadioButtonField", type:"Molecule", ticket:"PS-1761"},
+  {name:"SearchBar",        type:"Molecule", ticket:"PS-3731"},
+  {name:"SearchField",      type:"Molecule"},
+  {name:"Slider",           type:"Molecule", ticket:"PS-2018"},
+  {name:"SliderField",      type:"Molecule", ticket:"PS-2018"},
+  {name:"Tab",              type:"Molecule", ticket:"PS-1608"},
+  {name:"TableCell",        type:"Molecule", ticket:"PS-3617"},
+  {name:"TableRowContent",  type:"Molecule", ticket:"PS-3618"},
+  {name:"TextAreaField",    type:"Molecule", ticket:"PS-1759"},
+  {name:"ToastMessage",     type:"Molecule"},
+  {name:"ToggleField",      type:"Molecule"},
+  // Organisms (6)
   {name:"Accordion",          type:"Organism", ticket:"PS-2180"},
+  {name:"Card",               type:"Organism", ticket:"PS-3669"},
   {name:"MenuContainer",      type:"Organism", ticket:"PS-2448"},
   {name:"MenuHeaderOrganism", type:"Organism", ticket:"PS-3733"},
   {name:"RadioButtonGroup",   type:"Organism", ticket:"PS-2388"},
@@ -283,22 +287,154 @@ var completeComponents = [
 ];
 
 // In Progress — active development per PM master list. Shown in "Partial" card.
+// "issue" includes UDS main state: docs-only = .md in folder, no code = no folder.
 var partialComponents = [
-  {name:"DropdownInput",    type:"Molecule", ticket:"PS-3434", issue:"Near-term priority"},
-  {name:"ListItem",         type:"Molecule", ticket:"PS-3791", issue:"Single list row with icon/label/action"},
-  {name:"MenuHeader",       type:"Molecule", issue:"No implementation yet"},
-  {name:"Notifications",    type:"Molecule", ticket:"PS-3516", issue:"No notification/bell pattern in roadmap yet"},
-  {name:"SkeletonLoading",  type:"Molecule", ticket:"PS-3746", issue:"Shimmer loading pattern"},
-  {name:"TableRow",         type:"Molecule", ticket:"PS-3619", issue:"Row with cells and actions"}
+  {name:"DropdownInput",        type:"Molecule", ticket:"PS-3434", issue:"Main: docs-only · Near-term priority"},
+  {name:"ListItem",             type:"Molecule", ticket:"PS-3791", issue:"Main: docs-only · Single list row"},
+  {name:"MenuHeader",           type:"Molecule", ticket:"PS-4634", issue:"Main: docs-only"},
+  {name:"Notifications",        type:"Molecule", ticket:"PS-3516", issue:"Main: no folder yet · Net-new pattern · MR !233 tuning"},
+  {name:"SingleSelectDropdown", type:"Organism", ticket:"PS-2616", issue:"Main: no folder · MR !236 Draft (scaffold)"},
+  {name:"SkeletonLoading",      type:"Molecule", ticket:"PS-3746", issue:"Main: no folder yet · Shimmer loader"},
+  {name:"StepIndicator",        type:"Molecule", ticket:"PS-3764", issue:"Main: no folder · MR !237 open"},
+  {name:"TableActionsHeader",   type:"Molecule", ticket:"PS-3620", issue:"Main: no folder · MR !238 open"},
+  {name:"TableRow",             type:"Molecule", ticket:"PS-3619", issue:"Main: docs-only · MR !234 open · Row with cells + actions"}
+];
+
+// Planned — on roadmap, not yet started. Includes DropdownMenuContainer (PS-2617)
+// demoted from PM-Complete (no folder on main at all). ProgressBarFill (PS-3762) was
+// retired to "No longer applicable" — its responsibility lives inside the ProgressBar
+// atom, so a separate Fill atom was redundant.
+var plannedComponents = [
+  // Molecules (21)
+  {name:"Avatar File Upload",       type:"Molecule", ticket:"PS-2824"},
+  {name:"CalendarItemButton",       type:"Molecule", ticket:"PS-3632"},
+  {name:"ContextMenu",              type:"Molecule"},
+  {name:"DatePicker",               type:"Molecule"},
+  {name:"DateRangePicker",          type:"Molecule"},
+  {name:"DropdownMenuContainer",    type:"Molecule", ticket:"PS-2617"},
+  {name:"FileUpload",               type:"Molecule", ticket:"PS-2732"},
+  {name:"FileUploadProgress",       type:"Molecule", ticket:"PS-3715"},
+  {name:"HeaderLogoButton",         type:"Molecule", ticket:"PS-2376"},
+  {name:"HeaderLogoTitle",          type:"Molecule", ticket:"PS-2375"},
+  {name:"LoadingButtonState",       type:"Molecule", ticket:"PS-2935"},
+  {name:"MenuItemContainer",        type:"Molecule", ticket:"PS-2652"},
+  {name:"MenuToggleButton",         type:"Molecule", ticket:"PS-2381"},
+  {name:"NavMenuButton",            type:"Molecule", ticket:"PS-2441"},
+  {name:"PageHeader",               type:"Molecule", ticket:"PS-3643"},
+  {name:"Segment Button",           type:"Molecule"},
+  {name:"TableFooter",              type:"Molecule", ticket:"PS-3621"},
+  {name:"TablePagination",          type:"Molecule", ticket:"PS-3621"},
+  {name:"UsernameButton",           type:"Molecule", ticket:"PS-2383"},
+  // Organisms (24)
+  {name:"Breadcrumb",               type:"Organism", ticket:"PS-3642"},
+  {name:"ContentContainer",         type:"Organism", ticket:"PS-2179"},
+  {name:"DatePickerField",          type:"Organism", ticket:"PS-3635"},
+  {name:"DrawerModal",              type:"Organism", ticket:"PS-2818", note:"Unified pattern — covers both Drawer and Modal variants (same layout, different margins)"},
+  {name:"DropdownButton Organism",  type:"Organism", ticket:"PS-2657"},
+  {name:"DropdownMenuHeader",       type:"Organism", ticket:"PS-2651"},
+  {name:"Filter Dropdown",          type:"Organism", ticket:"PS-2826"},
+  {name:"MainMenu",                 type:"Organism"},
+  {name:"ModalFooter",              type:"Organism", ticket:"PS-3100"},
+  {name:"MultiSelectDropdown",      type:"Organism", ticket:"PS-2618"},
+  {name:"Navigation",               type:"Organism"},
+  {name:"Page Content Container",   type:"Organism", ticket:"PS-3644"},
+  {name:"PageHeader",               type:"Organism", ticket:"PS-2384"},
+  {name:"PopoverContainer",         type:"Organism", ticket:"PS-3793"},
+  {name:"QuickSearch",              type:"Organism", ticket:"PS-3732"},
+  {name:"Side Container",           type:"Organism", ticket:"PS-2954"},
+  {name:"Sidebar",                  type:"Organism"},
+  {name:"StepIndicatorContainer",   type:"Organism", ticket:"PS-3765"},
+  {name:"Submenu",                  type:"Organism"},
+  {name:"SubmenuContainer",         type:"Organism", ticket:"PS-2447"},
+  {name:"SubmenuItemGroup",         type:"Organism", ticket:"PS-2446"},
+  {name:"TabGroup",                 type:"Organism", ticket:"PS-3515"},
+  {name:"Table",                    type:"Organism", ticket:"PS-925"},
+  // Templates (6)
+  {name:"DatePickerModal",          type:"Template", ticket:"PS-3638"},
+  {name:"Form Layout Templates",    type:"Template", ticket:"PS-3787"},
+  {name:"FormLayout",               type:"Template", ticket:"PS-2875"},
+  {name:"Modal",                    type:"Template", ticket:"PS-2818"},
+  {name:"PageLayout",               type:"Template", ticket:"PS-3645"},
+  {name:"form-template",            type:"Template"}
+];
+
+// Docs Only — has docs scaffolded but no formal definition.
+// (Drawer was previously listed here; it's a variant of DrawerModal — same component,
+// different margin/layout setup — so it's merged into DrawerModal in plannedComponents.)
+var docsOnlyComponents = [];
+
+// ═══════════════════════════════════════════════════════
+// GITLAB PIPELINE SNAPSHOT (for Pipeline tab)
+// Source: GitLab API /projects/.../pipelines?ref=main
+// Snapshot taken Apr 21, 2026 — to refresh, re-run the dashboard update with
+// GitLab MCP tools (manage_pipeline list + get_pipeline_jobs for latest).
+// ═══════════════════════════════════════════════════════
+var gitlabProject = {
+  path:     "constructconnect/product-development/unified-design/unified_design_system",
+  url:      "https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system",
+  snapshotAt: "2026-04-21T19:20:00Z",
+  branch:   "main"
+};
+
+// Latest pipeline on main — stages derived from get_pipeline_jobs response.
+// Stage duration = sum of job durations in that stage (approximate; ignores parallelism).
+var gitlabLatestPipeline = {
+  iid: 3437,
+  id: 2469265678,
+  sha: "64cf60d8",
+  status: "success",
+  source: "push",
+  created_at: "2026-04-21T19:02:53Z",
+  updated_at: "2026-04-21T19:16:58Z",
+  duration_seconds: 845,
+  commit_title: "Merge branch 'jc/PS-4344/feat/Harden-uds-context-MCP-server-responses' into 'main'",
+  commit_ref:   "PS-4344 · Harden uds-context MCP server responses against prompt injection",
+  author: "Vivian Conrad",
+  web_url: "https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2469265678",
+  stages: [
+    {name:"lint",     jobs:2, duration:24,  status:"success"},
+    {name:"prepare",  jobs:1, duration:66,  status:"success"},
+    {name:"test",     jobs:3, duration:225, status:"success"},
+    {name:"release",  jobs:1, duration:77,  status:"success"},
+    {name:"build",    jobs:1, duration:150, status:"success"},
+    {name:"patch",    jobs:1, duration:97,  status:"success"},
+    {name:"push",     jobs:1, duration:73,  status:"success"},
+    {name:"deploy",   jobs:1, duration:102, status:"success"},
+    {name:"rollback", jobs:1, duration:0,   status:"manual"}
+  ]
+};
+
+// Last 20 pipelines on main (newest first). Duration = updated_at - created_at in seconds.
+var gitlabRecentPipelines = [
+  {iid:3437, sha:"64cf60d8", status:"success",  source:"push",     created_at:"2026-04-21T19:02:53Z", duration:845,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2469265678"},
+  {iid:3436, sha:"09cdff82", status:"success",  source:"push",     created_at:"2026-04-21T19:02:36Z", duration:861,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2469265206"},
+  {iid:3435, sha:"88792289", status:"success",  source:"push",     created_at:"2026-04-21T19:02:16Z", duration:883,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2469264586"},
+  {iid:3424, sha:"9ef37daf", status:"success",  source:"push",     created_at:"2026-04-21T13:44:32Z", duration:780,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2468434384"},
+  {iid:3423, sha:"61c54fae", status:"failed",   source:"schedule", created_at:"2026-04-21T02:59:24Z", duration:0,    web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2466981684"},
+  {iid:3418, sha:"61c54fae", status:"failed",   source:"push",     created_at:"2026-04-20T21:52:26Z", duration:714,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2466608041"},
+  {iid:3412, sha:"13eacc07", status:"success",  source:"push",     created_at:"2026-04-20T20:40:25Z", duration:807,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2466504745"},
+  {iid:3407, sha:"1413575b", status:"success",  source:"push",     created_at:"2026-04-20T19:55:17Z", duration:807,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2466423484"},
+  {iid:3398, sha:"7874fdd5", status:"success",  source:"push",     created_at:"2026-04-20T16:27:51Z", duration:705,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2466053017"},
+  {iid:3389, sha:"02a885d6", status:"success",  source:"push",     created_at:"2026-04-20T16:12:16Z", duration:1130, web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2466021078"},
+  {iid:3388, sha:"fc423939", status:"canceled", source:"push",     created_at:"2026-04-20T16:08:55Z", duration:204,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2466014079"},
+  {iid:3373, sha:"d1e4afd2", status:"success",  source:"push",     created_at:"2026-04-20T15:52:28Z", duration:822,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2465971554"},
+  {iid:3364, sha:"e00f7ced", status:"success",  source:"push",     created_at:"2026-04-20T14:48:48Z", duration:1014, web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2465803468"},
+  {iid:3359, sha:"04b62d33", status:"success",  source:"push",     created_at:"2026-04-20T14:12:45Z", duration:1308, web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2465710404"},
+  {iid:3355, sha:"62a59ad4", status:"failed",   source:"schedule", created_at:"2026-04-20T02:59:44Z", duration:219,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2464244828"},
+  {iid:3354, sha:"62a59ad4", status:"failed",   source:"schedule", created_at:"2026-04-19T02:59:26Z", duration:239,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2463093418"},
+  {iid:3351, sha:"62a59ad4", status:"failed",   source:"schedule", created_at:"2026-04-18T03:00:23Z", duration:297,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2461971778"},
+  {iid:3347, sha:"62a59ad4", status:"success",  source:"push",     created_at:"2026-04-18T00:44:27Z", duration:685,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2461841683"},
+  {iid:3341, sha:"430ae134", status:"success",  source:"push",     created_at:"2026-04-18T00:18:44Z", duration:652,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2461813420"},
+  {iid:3336, sha:"af1b87db", status:"success",  source:"push",     created_at:"2026-04-17T21:51:43Z", duration:682,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2461626898"}
 ];
 
 // extracted = on active roadmap (Complete + In Progress + Planned + Docs Only)
-// monorepo = Complete count per level
+// monorepo = Complete count per level (verified on UDS main)
 // handoff = remaining work (extracted - monorepo)
 var atomicComparison = [
-  {level:"Atoms",     extracted:27, monorepo:27, handoff:0},
-  {level:"Molecules", extracted:66, monorepo:39, handoff:27},
-  {level:"Organisms", extracted:30, monorepo:5,  handoff:25},
+  {level:"Atoms",     extracted:26, monorepo:26, handoff:0},
+  {level:"Molecules", extracted:65, monorepo:38, handoff:27},
+  {level:"Organisms", extracted:30, monorepo:6,  handoff:24},
   {level:"Templates", extracted:6,  monorepo:0,  handoff:6}
 ];
 
@@ -323,32 +459,38 @@ var systems = [
   {name:"Containers/Layout", components:5,  implemented:1, status:"partial"}
 ];
 
+// Closed Gaps — historical pattern questions that the design system has answered
+// with a decision, even if not every piece has shipped yet. "closedBy" describes
+// the chosen decomposition. Items with live status notes ("complete", "Planned")
+// reflect UDS main as of Apr 21, 2026.
 var closedGaps = [
-  {name:"Progress Bar",  closedBy:"Progress Bar Fill (atom) + Progress Bar (molecule) + Step Indicator + Stepper Container (organism)"},
-  {name:"Card",          closedBy:"Card (organism) — flexible content container, complete Mar 24, 2026"},
-  {name:"Table",         closedBy:"Full table system: TableCell + TableRow + TableRowContent + TableActionsHeader + Pagination + Table organism"},
-  {name:"Toast Message", closedBy:"Notification Message (molecule) — broader capability than toast-only"},
-  {name:"Popover",       closedBy:"Popover (organism) — complete Mar 26, 2026"},
-  {name:"DatePicker",    closedBy:"Date Picker Field (organism) — covers both single date and date range"},
+  {name:"Accordion",     closedBy:"AccordionHeader molecule + Accordion organism (PS-2180) — both complete"},
+  {name:"Avatar",        closedBy:"UserAvatar atom (PS-2953) — complete"},
+  {name:"Card",          closedBy:"Card organism (PS-3669) — flexible content container, complete Mar 24, 2026"},
+  {name:"DatePicker",    closedBy:"DatePickerField organism (PS-3635) — covers both single date and date range (Planned)"},
+  {name:"Divider",       closedBy:"Divider atom (PS-3717) — complete, in Figma"},
+  {name:"Drawer",        closedBy:"Merged into DrawerModal organism (PS-2818) — unified pattern, same layout / different margins"},
+  {name:"FileUpload",    closedBy:"FileUploadButton complete; FileUploadField + FileUploadAvatar + FileUploadProgress on roadmap (Planned)"},
+  {name:"FormLayout",    closedBy:"FormLayout + form-template + Form Layout Templates (templates) — Planned"},
   {name:"Link",          closedBy:"Native &lt;a&gt; tags — no standalone Link atom by design"},
-  {name:"Divider",       closedBy:"Divider (atom) — formal component complete, in Figma"},
-  {name:"Pagination",    closedBy:"Pagination molecule (PS-3621) — renamed from Table Footer; lives inside table"},
-  {name:"Modal/Dialog",  closedBy:"DrawerModal + Modal Header + Modal Footer"},
-  {name:"Drawer",        closedBy:"DrawerModal (unified pattern) + Push Drawer Container"},
-  {name:"Slider",        closedBy:"Slider Thumb (atom) + Slider + Slider Field (molecules)"},
-  {name:"Avatar",        closedBy:"User Avatar (atom)"},
-  {name:"Accordion",     closedBy:"Accordion Header (molecule) + Accordion (organism)"},
-  {name:"TopNav",        closedBy:"Header (organism) + Header Button/Logo molecules"},
-  {name:"SideNav",       closedBy:"Nav Menu Container + Nav Submenu Container + Nav Submenu Group"},
-  {name:"Spinner",       closedBy:"Loading Mask + Logo Loader + Logo Loader Indicator"},
-  {name:"SearchBar",     closedBy:"Quick Search (organism) + Search Bar + Inline Search Field (molecules)"},
-  {name:"FormLayout",    closedBy:"Form Template (template level, reclassified from organism)"},
-  {name:"FileUpload",    closedBy:"File Upload Field + File Upload Button + Avatar + Progress (molecules)"},
-  {name:"Skeleton",      closedBy:"Skeleton CSS utility (.is-loading) + semantic tokens in skeleton.css"}
+  {name:"Modal/Dialog",  closedBy:"DrawerModal + ModalHeader (complete) + ModalFooter (Planned)"},
+  {name:"Pagination",    closedBy:"Split into TablePagination (PS-3621) + TableFooter (PS-3621) molecules — both Planned, live inside Table organism"},
+  {name:"Popover",       closedBy:"PopoverContainer organism (PS-3793) — Planned. No separate Popover molecule; the organism is the component."},
+  {name:"ProgressBar",   closedBy:"ProgressBar atom (PS-3762) + ProgressBarField molecule (PS-3763) complete. StepIndicator + StepIndicatorContainer (PS-3764/PS-3765) on roadmap. ProgressBarFill atom retired — PS-3762 was repurposed from PBF to ProgressBar itself"},
+  {name:"SearchBar",     closedBy:"SearchBar + SearchField + InlineSearchField + QuickSearchField molecules complete; QuickSearch organism (PS-3732) Planned"},
+  {name:"SideNav",       closedBy:"Sidebar + SubmenuContainer + SubmenuItemGroup organisms + NavMenuButton / NavSubmenuButton molecules — mix of complete + Planned"},
+  {name:"Skeleton",      closedBy:"Skeleton CSS utility (.is-loading) + semantic tokens in skeleton.css. SkeletonLoading molecule (PS-3746) In Progress"},
+  {name:"Slider",        closedBy:"SliderRail + SliderThumb + SliderTrack atoms + Slider + SliderField molecules (PS-2018) — all complete"},
+  {name:"Spinner",       closedBy:"LoadingMask (PS-2855) + LogoLoader (PS-2851) + CircularIndicator (PS-2853) — all complete"},
+  {name:"Table",         closedBy:"TableCell + TableRowContent complete; TableRow In Progress; TableActionsHeader + TableFooter + TablePagination + Table organism Planned"},
+  {name:"Toast / Notifications", closedBy:"ToastMessage molecule complete; expanding into Notifications molecule (PS-3516, In Progress) for broader notification patterns"},
+  {name:"TopNav",        closedBy:"PageHeader organism (PS-2384) + HeaderButton + HeaderLogoButton + HeaderLogoTitle + UsernameButton + MenuToggleButton molecules — HeaderButton complete, rest Planned"}
 ];
 
+// Certification Queue — items requested or prototyped but not on the roadmap.
+// Drawer was previously here as "docs-only" — now merged into DrawerModal variant
+// (tracked under Planned, not a gap anymore).
 var remainingGaps = [
-  {name:"Drawer (organism)",              priority:"Medium",category:"Overlay",  inFigma:true, hasTokens:true, note:"Docs-only — formal organism definition pending; shares drawer-modal-accessibility.md with DrawerModal"},
   {name:"ComboBox / AutocompleteInput",   priority:"Low",   category:"Input",    inFigma:false,hasTokens:false,note:"Unplanned molecule — similar to DropdownInput but distinct; not on roadmap"},
   {name:"Right Header Button Group",      priority:"Low",   category:"Header",   inFigma:false,hasTokens:false,note:"Unplanned molecule — composed button group for app header right-side actions"},
   {name:"Inline Dropdown Field",          priority:"Low",   category:"Input",    inFigma:false,hasTokens:false,note:"Unplanned molecule — spirit similar to InlineSearchField but for dropdowns"},
@@ -356,15 +498,12 @@ var remainingGaps = [
 ];
 
 var popoverData = {
-  "Total Components": "129 components are on the active roadmap as of Apr 21, 2026.<br><br><strong>Breakdown:</strong><br>• Complete — 71<br>• In Progress — 6<br>• Planned — 51<br>• Docs Only — 1 (Drawer organism)<br><br><strong>Excluded from this count:</strong><br>• No longer applicable — deprecated items (Heading atom, Image atom, SkeletonBlock atom, Accordion Chevron, TableHeaderRow, PaginationControl, Skeleton* molecules, NavGroup, NavItem, BidCenter Stage Arrow, TreeItem, Project Card, DataGrid, Timeline, TreeView, CalendarLayout organism, and others)<br>• Unplanned — 4 requested items not on roadmap (see Unplanned card)<br>• Specialty — ChartTooltip (molecule), ChartDataViz (organism) — tracked separately<br><br>Source: PM master tracking sheet, UDS main branch audit, Apr 21, 2026.",
-  "Complete": "71 components with full design + implementation complete per the PM master list.<br><br><strong>Atoms (27):</strong> Badge, Breadcrumb, Checkbox, Divider, FieldMessage, HelperText, Icon, Indicator Counter, Indicator Dot, Input, Label, Logo, MenuToggleIcon, Overlay, ProgressBar, ProgressBarFill, ProgressRing, RadioButton, SkipLink, SliderRail, SliderThumb, SliderTrack, TextArea, Toggle, Tooltip, UserAvatar, VisuallyHidden<br><br><strong>Molecules (39):</strong> AccordionHeader, BreadcrumbItem, BreadcrumbTrail, Button, ButtonIcon, CheckboxField, CircularIndicator, CircularProgress, DateInput, DropdownButton, DropdownItem, DropdownMenuContainer, FileUploadButton, FilterButton, FormFieldMolecule, HeaderButton, InlineSearchField, InputField, LoadingMask, LogoLoader, ModalHeader, MultiselectItem, NavSubmenuButton, NumberInput, OverflowPanel, Pill, ProgressBarField, QuickSearchField, RadioButtonField, SearchBar, SearchField, Slider, SliderField, Tab, TableCell, TableRowContent, TextAreaField, Toast, ToggleField<br><br><strong>Organisms (5):</strong> Accordion (PS-2180), MenuContainer (PS-2448), MenuHeaderOrganism (PS-3733), RadioButtonGroup (PS-2388), SplitButton (PS-2658)<br><br><em>Note: \"Complete\" here reflects PM/design status. Some items (e.g. DropdownMenuContainer PS-2617, MenuContainer PS-2448) have Figma/spec work done but no `.tsx` on main yet — verify against `packages/components/src/` before consuming.</em>",
-  "In Progress": "6 molecules currently in active development.<br><br><strong>DropdownInput</strong> (PS-3434) — Near-term priority<br><strong>ListItem</strong> (PS-3791) — Single list row with icon/label/action<br><strong>MenuHeader</strong> — No implementation yet<br><strong>Notifications</strong> (PS-3516) — Notification/bell pattern, no precedent in roadmap<br><strong>SkeletonLoading</strong> (PS-3746) — Shimmer loading pattern<br><strong>TableRow</strong> (PS-3619) — Row with cells and actions",
-  "Planned": "51 components on the roadmap but not yet started.<br><br><strong>Molecules (21):</strong> TablePagination (PS-3621), Popover, DatePicker, DateRangePicker, FileUpload (PS-2732), LoadingButtonState (PS-2935), HeaderLogoTitle (PS-2375), MenuItemContainer (PS-2652), MenuToggleButton (PS-2381), UsernameButton (PS-2383), ContextMenu, StepIndicator (PS-3764), FileUploadProgress (PS-3715), CalendarItemButton (PS-3632), TableFooter (PS-3621), TableActionsHeader (PS-3620), HeaderLogoButton (PS-2376), Avatar File Upload (PS-2824), Segment Button, NavMenuButton (PS-2441), PageHeader (PS-3643)<br><br><strong>Organisms (24):</strong> DropdownMenuHeader (PS-2651), SubmenuItemGroup (PS-2446), ContentContainer (PS-2179), Table (PS-925), PopoverContainer (PS-3793), MultiSelectDropdown (PS-2618), PageHeader (PS-2384), StepIndicatorContainer (PS-3765), DatePickerField (PS-3635), QuickSearch (PS-3732), Breadcrumb (PS-3642), MainMenu, Navigation, Sidebar, Submenu, DrawerModal (PS-2818), ModalFooter (PS-3100), TabGroup (PS-3515), SingleSelectDropdown (PS-2616), Side Container (PS-2954), DropdownButton Organism (PS-2657), SubmenuContainer (PS-2447), Page Content Container (PS-3644), Filter Dropdown (PS-2826)<br><br><strong>Templates (6):</strong> FormLayout (PS-2875), DatePickerModal (PS-3638), form-template, PageLayout (PS-3645), Modal (PS-2818), Form Layout Templates (PS-3787)",
-  "In NPM Package": "71 components published via @constructconnect/ui-components (Cloudsmith NPM registry). Matches the Complete count.<br><br>See the Complete popover for the full component list. Source: UDS main branch, Apr 21, 2026.",
-  "Docs Only": "1 component — <strong>Drawer (organism)</strong> — has documentation scaffolded but no formal organism definition yet. Shares <code>drawer-modal-accessibility.md</code> with DrawerModal. Needs: decide whether it's a distinct organism or collapses into DrawerModal.",
-  "Unplanned": "4 components have been requested or prototyped but are not on the current roadmap.<br><br><strong>ComboBox / AutocompleteInput</strong> (molecule) — similar to DropdownInput but distinct<br><strong>Right Header Button Group</strong> (molecule) — composed button group for app header right-side actions<br><strong>Inline Dropdown Field</strong> (molecule) — spirit similar to InlineSearchField but for dropdowns<br><strong>modal-date-range</strong> (organism) — not on roadmap<br><br>Decide whether to promote to Planned, fold into an existing component, or formally deprecate.",
+  "Total Components": "127 components are on the active roadmap as of Apr 21, 2026 (UDS main audit).<br><br><strong>Breakdown:</strong><br>• Complete — 70 (verified on main)<br>• In Progress — 6<br>• Planned — 51<br>• Docs Only — 0<br><br><strong>Merged components (single entry, multiple variants):</strong><br>• <strong>Drawer + DrawerModal</strong> &#8594; single DrawerModal organism (PS-2818). Same layout, different margin/setup; tracked as one roadmap item under Planned.<br>• <strong>TableHeaderRow + TableHeader</strong> &#8594; same component, two variants (both N/A on current roadmap).<br><br><strong>Excluded from this count:</strong><br>• No longer applicable — deprecated items (Heading atom, Image atom, SkeletonBlock atom, <strong>ProgressBarFill atom</strong> [responsibility lives inside ProgressBar], Accordion Chevron, TableHeaderRow, PaginationControl, Skeleton* molecules, NavGroup, NavItem, BidCenter Stage Arrow, TreeItem, Project Card, DataGrid, Timeline, TreeView, CalendarLayout organism, and others)<br>• Unplanned — 4 requested items not on roadmap (see Gaps tab)<br>• Specialty — ChartTooltip (molecule), ChartDataViz (organism) — tracked separately<br><br>Source: PM master list reconciled against UDS main commit 64cf60d (Apr 21, 2026).",
+  "Complete": "70 components with <code>.tsx + _stories/ + _tests/</code> on UDS main branch (Apr 21, 2026). Names match main folder names.<br><br><strong>Atoms (26):</strong> Badge, Breadcrumb, Checkbox, Divider, FieldMessage, HelperText, Icon, IndicatorCounter, IndicatorDot, Input, Label, Logo, MenuToggleIcon, Overlay, ProgressBar, ProgressRing, RadioButton, SkipLink, SliderRail, SliderThumb, SliderTrack, TextArea, Toggle, Tooltip, UserAvatar, VisuallyHidden<br><br><strong>Molecules (38):</strong> AccordionHeader, BreadcrumbItem, BreadcrumbTrail, Button, ButtonIcon, CheckboxField, CircularIndicator, CircularProgress, DateInput, DropdownButton, DropdownItem, FileUploadButton, FilterButton, FormField, HeaderButton, InlineSearchField, InputField, LoadingMask, LogoLoader, ModalHeader, MultiSelectItem, NavSubmenuButton, NumberInputField, OverflowPanel, Pill, ProgressBarField, QuickSearchField, RadioButtonField, SearchBar, SearchField, Slider, SliderField, Tab, TableCell, TableRowContent, TextAreaField, ToastMessage, ToggleField<br><br><strong>Organisms (6):</strong> Accordion (PS-2180), Card (PS-3669), MenuContainer (PS-2448), MenuHeaderOrganism (PS-3733), RadioButtonGroup (PS-2388), SplitButton (PS-2658)<br><br><strong>Discrepancies vs PM master list:</strong><br>• <strong>ProgressBarFill</strong> — PM listed this as its own atom with ticket PS-3762. On main, PS-3762 is the ticket for the <strong>ProgressBar atom itself</strong>, not a separate Fill atom. ProgressBarFill retired to <strong>No longer applicable</strong>: fill is an internal detail of ProgressBar (unlike Slider, where Rail/Thumb/Track are distinct reusable atoms).<br>• <strong>DropdownMenuContainer</strong> (PS-2617) — PM: Complete &#8594; Main: no folder at all. Demoted to Planned.<br>• <strong>Card</strong> (PS-3669) — Main: Complete since Mar 24 &#8594; PM master omitted it. Added here.",
+  "In Progress": "9 components in active development (cross-checked against UDS main + open MRs on project 74215032).<br><br><strong>PM-tracked In Progress (6):</strong><br>• <strong>DropdownInput</strong> (PS-3434) — Main: docs-only · Near-term priority<br>• <strong>ListItem</strong> (PS-3791) — Main: docs-only · Single list row with icon/label/action<br>• <strong>MenuHeader</strong> (PS-4634) — Main: docs-only<br>• <strong>Notifications</strong> (PS-3516) — Main: no folder · Net-new pattern · MR !233 tuning tokens<br>• <strong>SkeletonLoading</strong> (PS-3746) — Main: no folder · Shimmer loading pattern<br>• <strong>TableRow</strong> (PS-3619) — Main: docs-only · MR !234 open (will promote to Complete on merge)<br><br><strong>MR-driven promotions from Planned (3, added 2026-04-21):</strong><br>• <strong>SingleSelectDropdown</strong> (PS-2616, organism) — MR !236 Draft · Scaffolding the organism (blocked on molecules/DropdownInput)<br>• <strong>StepIndicator</strong> (PS-3764, molecule) — MR !237 open<br>• <strong>TableActionsHeader</strong> (PS-3620, molecule) — MR !238 open",
+  "In NPM Package": "70 components published via @unified_design_system/components (Cloudsmith NPM registry). Matches the Complete count.<br><br>See the Complete popover for the full component list and 3 PM-vs-main discrepancies. Source: UDS main branch, Apr 21, 2026.",
   "Blocked": "No components are currently blocked. This metric tracks components that have a dependency or design decision preventing work from starting. If a blocker emerges, surface it here.",
-  "Active Consumers": "3 teams actively engaged with the NPM package (Active + In Progress + On Pause).<br><br><strong>Active:</strong><br>• Payment Portal — Most active adopter (Button, Input, Badge, Checkbox, Toggle, Label confirmed)<br><br><strong>In Progress:</strong><br>• GCV4 — Active conversations, onboarding in progress<br><br><strong>On Pause:</strong><br>• UCMS (Crimson) — On hold pending platform direction<br><br><strong>Planned Pipeline:</strong><br>• OST — HubSpot integration planned<br>• FAI — HubSpot integration planned<br>• Identity Platform (user management + admin portal) — Upcoming"
+  "Active Consumers": "5 teams engaged with the UDS NPM package (Active + In Progress). Status tracked via GitLab API (code scans) and manual (HubSpot integrations).<br><br><strong>Active (NPM Package):</strong><br>• <strong>Payment Portal</strong> — Most active adopter (Button, Input, Badge, Checkbox, Toggle, Label). Source: GitLab API · Mar 2026 Cloudsmith data.<br>• <strong>UCMS (Crimson)</strong> — Working with Khay as the team makes Crimson React. Two repos consuming: ucms-frontend + crimson-v2-frontend (\"Fusion\").<br>• <strong>Automation Support</strong> — qhub-portal depends on @unified_design_system/components (confirmed via GitLab, Apr 2026).<br><br><strong>In Progress (NPM Package):</strong><br>• <strong>GCV4</strong> — Active conversations, onboarding in progress. Component list pending scan.<br>• <strong>Identity Platform</strong> (user management + admin portal) — Using buttons. Component list pending scan.<br><br><strong>Informal / experimental (not counted):</strong><br>• <strong>AI Center of Excellence</strong> (SWE AI Enablement) — ai-marketplace-webapp depends on UDS in package.json. Not on the formal adoption list; confirm with team whether to promote.<br>• <strong>Takeoff (WebTakeOff FE)</strong> — components@^0.1.1 on develop branch; likely informal.<br>• <strong>Hackfest 2026</strong> — construct-pilot-ui and hackathon-whats-that are internal hackathon prototypes.<br><br><strong>Planned Pipeline:</strong><br>• <strong>OST</strong> — HubSpot integration, onboarding planned (manual tracking)<br>• <strong>FAI</strong> — HubSpot integration, onboarding planned (manual tracking)<br>• <strong>API Services</strong> (Developers Portal)<br>• <strong>Planswift</strong> — Reach out to Brandin Thomas re: components used"
 };
 
 var gapReadiness = [
@@ -432,6 +571,7 @@ var mcpDocsComponents = {
 
 var activeTab = "Overview";
 var openPopover = null;
+var openWeek = null; // Week index (0–5) whose component list is expanded in the Weekly Delivery Targets card, or null when all are collapsed.
 
 function el(tag, attrs, children) {
   var e = document.createElement(tag);
@@ -457,7 +597,7 @@ function el(tag, attrs, children) {
 function renderTabs() {
   var container = document.getElementById('tabs');
   container.innerHTML = '';
-  ["Overview","Pipeline","Gaps","Components","MCP Readiness"].forEach(function(t) {
+  ["Overview","Components","Pipeline","MCP Readiness","Gaps"].forEach(function(t) {
     var btn = el('button', {className: 'tab' + (activeTab === t ? ' active' : ''), onclick: function() { activeTab = t; openPopover = null; renderTabs(); renderContent(); }}, t);
     container.appendChild(btn);
   });
@@ -509,6 +649,16 @@ function card(title, sub, content) {
   return d;
 }
 
+// ── Jira ticket link ──────────────────────────────────
+// ConstructConnect Atlassian tenant. All PS-* tickets live under the PS project.
+// Passing falsy (no ticket) returns empty string so it's safe to interpolate.
+var JIRA_BASE = 'https://constructconnect.atlassian.net/browse/';
+function jiraLink(ticket, extraStyle) {
+  if (!ticket) return '';
+  var s = 'color:var(--color-primary-500);text-decoration:none;font-weight:600' + (extraStyle ? ';' + extraStyle : '');
+  return '<a href="' + JIRA_BASE + ticket + '" target="_blank" rel="noopener" style="' + s + '" title="Open ' + ticket + ' in Jira">' + ticket + '</a>';
+}
+
 // ═══════════════════════════════════════════════════════
 // OVERVIEW TAB
 // ═══════════════════════════════════════════════════════
@@ -546,12 +696,172 @@ function renderOverview(container) {
 
     if (openPopover === m.label && popoverData[m.label]) {
       var pop = el('div', {className:'popover show ' + (i>=3?'right':'left')});
-      pop.innerHTML = '<div class="popover-title"><span>'+m.label+'</span><button class="popover-close" onclick="openPopover=null;renderContent()">×</button></div>' + popoverData[m.label];
+      // Auto-linkify PS-XXXX tickets in popover body. Popover data is authored
+      // as plain text (no pre-existing <a> tags around PS-*), so a simple global
+      // replace is safe and avoids the browser-compat cost of lookbehind.
+      var bodyHtml = popoverData[m.label].replace(/\b(PS-\d+)\b/g, function(t){return jiraLink(t);});
+      pop.innerHTML = '<div class="popover-title"><span>'+m.label+'</span><button class="popover-close" onclick="openPopover=null;renderContent()">×</button></div>' + bodyHtml;
       mc.appendChild(pop);
     }
     metricsGrid.appendChild(mc);
   });
   container.appendChild(metricsGrid);
+
+  // ── Component Countdown — how many left until 100% ─────────────────────
+  // "Remaining" = on roadmap but not yet .tsx on main (In Progress + Planned + Docs Only).
+  // Computed per-tier from atomicComparison so it stays in sync with the source arrays.
+  var cdTotal     = atomicComparison.reduce(function(s,a){return s + a.extracted;}, 0);
+  var cdDone      = atomicComparison.reduce(function(s,a){return s + a.monorepo;}, 0);
+  var cdRemaining = cdTotal - cdDone;
+  var cdPct       = cdTotal > 0 ? Math.round(cdDone / cdTotal * 100) : 0;
+
+  var countdownCard = card('Component Countdown', cdRemaining+' components remaining on the roadmap · '+cdPct+'% shipped');
+  var cdHtml = '<div style="display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center">';
+
+  // Left: big hero number
+  cdHtml += '<div style="padding:20px 24px;background:linear-gradient(135deg,#00838F 0%,#006978 100%);color:#fff;border-radius:12px;text-align:center;min-width:180px">';
+  cdHtml += '<div style="font-size:52px;font-weight:700;line-height:1">'+cdRemaining+'</div>';
+  cdHtml += '<div style="font-size:12px;font-weight:600;opacity:.9;margin-top:4px;text-transform:uppercase;letter-spacing:.5px">to go</div>';
+  cdHtml += '<div style="font-size:11px;opacity:.8;margin-top:8px;border-top:1px solid rgba(255,255,255,.2);padding-top:8px">'+cdDone+' of '+cdTotal+' shipped</div>';
+  cdHtml += '</div>';
+
+  // Right: per-tier countdown + overall progress bar
+  cdHtml += '<div>';
+  cdHtml += '<div style="font-size:12px;font-weight:600;color:var(--color-neutral-500);margin-bottom:8px">By atomic level</div>';
+  atomicComparison.forEach(function(a){
+    var remaining = a.extracted - a.monorepo;
+    var pct = a.extracted > 0 ? (a.monorepo / a.extracted) * 100 : 0;
+    var doneColor = remaining === 0 ? 'var(--color-status-success-default)' : 'var(--color-neutral-500)';
+    var remColor  = remaining === 0 ? 'var(--color-status-success-default)' : '#00838F';
+    var remLabel  = remaining === 0 ? 'done!' : remaining+' to go';
+    cdHtml += '<div style="display:grid;grid-template-columns:90px 1fr 90px;gap:10px;align-items:center;margin-bottom:6px">';
+    cdHtml += '<div style="font-size:12px;font-weight:600;color:'+doneColor+'">'+a.level+'</div>';
+    cdHtml += '<div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:var(--color-status-success-default)"></div></div>';
+    cdHtml += '<div style="font-size:12px;font-weight:700;color:'+remColor+';text-align:right">'+remLabel+'</div>';
+    cdHtml += '</div>';
+  });
+
+  // Overall progress bar
+  cdHtml += '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--color-neutral-200)">';
+  cdHtml += '<div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--color-neutral-500);margin-bottom:6px">';
+  cdHtml += '<span>Overall</span><span>'+cdDone+' / '+cdTotal+' &middot; '+cdPct+'%</span>';
+  cdHtml += '</div>';
+  cdHtml += '<div class="bar-track" style="height:12px"><div class="bar-fill" style="width:'+cdPct+'%;background:linear-gradient(90deg,var(--color-status-success-default) 0%,#00838F 100%)"></div></div>';
+  cdHtml += '</div>';
+
+  cdHtml += '</div>';
+  cdHtml += '</div>';
+
+  var cdDiv = el('div'); cdDiv.innerHTML = cdHtml;
+  countdownCard.appendChild(cdDiv);
+  countdownCard.style.marginBottom = '16px';
+  container.appendChild(countdownCard);
+
+  // ── Weekly Delivery Targets — path to 100% by end of May ──────────────
+  // Distributes cdRemaining across 6 fixed weeks. Math: floor(remaining/6) per
+  // week, plus 1 extra on the first `remaining % 6` weeks. Stays dynamic — if
+  // components ship between refreshes, cdRemaining drops and targets re-split.
+  var weeks = [
+    {label:"Week of Apr 20–24",   start:"2026-04-20"},
+    {label:"Week of Apr 27–May 2",start:"2026-04-27"},
+    {label:"Week of May 4–8",     start:"2026-05-04"},
+    {label:"Week of May 11–15",   start:"2026-05-11"},
+    {label:"Week of May 18–22",   start:"2026-05-18"},
+    {label:"Week of May 25–29",   start:"2026-05-25"}
+  ];
+  var base   = Math.floor(cdRemaining / weeks.length);
+  var extras = cdRemaining % weeks.length;
+  var todayISO = new Date().toISOString().slice(0,10);
+
+  // Context line — compare target pace against recent April velocity from the
+  // growth card (+N over 21 days). Helps the viewer gauge feasibility.
+  var aprilPacePerWeek = pAprilIncrease > 0 ? (pAprilIncrease / 21 * 7) : 0;
+  var targetAvg        = cdRemaining / weeks.length;
+  var paceVerdict;
+  if (aprilPacePerWeek >= targetAvg) {
+    paceVerdict = '<span style="color:var(--color-status-success-default);font-weight:700">On track</span> — April pace (~'+aprilPacePerWeek.toFixed(1)+'/week) exceeds the target average of '+targetAvg.toFixed(1)+'/week.';
+  } else if (aprilPacePerWeek >= targetAvg * 0.75) {
+    paceVerdict = '<span style="color:var(--color-status-warning-default);font-weight:700">At risk</span> — April pace (~'+aprilPacePerWeek.toFixed(1)+'/week) is below the target average of '+targetAvg.toFixed(1)+'/week.';
+  } else {
+    paceVerdict = '<span style="color:var(--color-status-error-default);font-weight:700">Behind</span> — April pace (~'+aprilPacePerWeek.toFixed(1)+'/week) is well below the '+targetAvg.toFixed(1)+'/week needed.';
+  }
+
+  // Build the priority-ordered list of remaining components to split across
+  // the weeks. Order: In Progress first (closest to done) → Planned molecules →
+  // Planned organisms → Planned templates. Stable alphabetization inside each
+  // group makes the assignment reproducible between renders.
+  var remainingOrdered = []
+    .concat(partialComponents.slice().sort(function(a,b){return a.name.localeCompare(b.name);}))
+    .concat(plannedComponents.filter(function(c){return c.type==='Molecule';}).slice().sort(function(a,b){return a.name.localeCompare(b.name);}))
+    .concat(plannedComponents.filter(function(c){return c.type==='Organism';}).slice().sort(function(a,b){return a.name.localeCompare(b.name);}))
+    .concat(plannedComponents.filter(function(c){return c.type==='Template';}).slice().sort(function(a,b){return a.name.localeCompare(b.name);}));
+
+  // Assign components to weeks based on the target counts.
+  var weeklyAssignments = [];
+  var assignIdx = 0;
+  weeks.forEach(function(_, i){
+    var count = base + (i < extras ? 1 : 0);
+    weeklyAssignments.push(remainingOrdered.slice(assignIdx, assignIdx + count));
+    assignIdx += count;
+  });
+
+  var targetsCard = card('Weekly Delivery Targets', 'Path to 100% by end of May 2026 · '+cdRemaining+' remaining across '+weeks.length+' weeks · click a week to see its components');
+
+  var tHtml = '<div style="padding:12px 14px;background:#F8F9FA;border-radius:6px;margin-bottom:16px;font-size:12px;color:var(--color-neutral-500);line-height:1.5">' + paceVerdict + '</div>';
+
+  tHtml += '<div style="display:flex;flex-direction:column;gap:8px">';
+  var cumulative = cdDone;
+  weeks.forEach(function(w, i){
+    var target = base + (i < extras ? 1 : 0);
+    cumulative += target;
+    var cumPct = Math.round(cumulative / cdTotal * 100);
+    var isCurrent = w.start <= todayISO && (i === weeks.length - 1 || weeks[i+1].start > todayISO);
+    var isOpen   = openWeek === i;
+    var bg     = isCurrent ? '#FFF3CD' : (isOpen ? '#E8F4F6' : '#F8F9FA');
+    var border = isCurrent ? '2px solid var(--color-status-warning-default)' : (isOpen ? '2px solid #00838F' : '1px solid var(--color-neutral-200)');
+    var currentTag = isCurrent ? ' <span style="font-size:10px;color:var(--color-status-warning-default);font-weight:700;text-transform:uppercase;margin-left:4px">this week</span>' : '';
+    var chevron = '<span style="display:inline-block;transition:transform .2s;transform:rotate('+(isOpen?'90':'0')+'deg);color:var(--color-neutral-400);margin-right:6px">&#9656;</span>';
+    // Row is clickable — stopPropagation so the outer close-on-click doesn't
+    // immediately collapse it.
+    tHtml += '<div onclick="event.stopPropagation();openWeek=openWeek==='+i+'?null:'+i+';renderContent()" style="display:grid;grid-template-columns:190px 70px 1fr 110px;gap:12px;align-items:center;padding:10px 12px;background:'+bg+';border:'+border+';border-radius:6px;cursor:pointer;user-select:none">';
+    tHtml += '<div style="font-size:13px;font-weight:600;color:var(--color-neutral-600)">'+chevron+w.label+currentTag+'</div>';
+    tHtml += '<div style="font-size:22px;font-weight:700;color:#00838F;text-align:center">'+target+'</div>';
+    tHtml += '<div class="bar-track"><div class="bar-fill" style="width:'+cumPct+'%;background:linear-gradient(90deg,var(--color-status-success-default) 0%,#00838F 100%)"></div></div>';
+    tHtml += '<div style="font-size:12px;font-weight:600;color:var(--color-neutral-500);text-align:right">'+cumulative+' / '+cdTotal+' · '+cumPct+'%</div>';
+    tHtml += '</div>';
+
+    // Expanded component list for this week.
+    if (isOpen) {
+      var list = weeklyAssignments[i] || [];
+      tHtml += '<div onclick="event.stopPropagation()" style="margin:-4px 0 4px 0;padding:14px 16px;background:#F5FBFC;border:1px solid #00838F;border-top:none;border-radius:0 0 6px 6px">';
+      tHtml += '<div style="font-size:11px;font-weight:700;color:#00838F;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">'+list.length+' component'+(list.length===1?'':'s')+' targeted for '+w.label+'</div>';
+      tHtml += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:6px">';
+      list.forEach(function(c){
+        var statusFromPartial = partialComponents.indexOf(c) > -1;
+        var statusLabel = statusFromPartial ? 'In Progress' : 'Planned';
+        var statusColor = statusFromPartial ? 'var(--color-status-warning-default)' : '#00838F';
+        var ticketHtml  = c.ticket ? ' <span style="font-size:11px;margin-left:6px">'+jiraLink(c.ticket, 'font-size:11px')+'</span>' : '';
+        tHtml += '<div style="padding:6px 10px;background:#fff;border-radius:4px;display:flex;align-items:center;gap:8px;font-size:12px">' +
+                   '<span class="status-dot" style="background:'+statusColor+';margin-right:0;flex-shrink:0" title="'+statusLabel+'"></span>' +
+                   '<span style="font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+c.name+'">'+c.name+'</span>' +
+                   '<span class="comp-type">'+c.type+'</span>' +
+                   ticketHtml +
+                 '</div>';
+      });
+      tHtml += '</div>';
+      tHtml += '</div>';
+    }
+  });
+  tHtml += '</div>';
+
+  tHtml += '<div style="display:grid;grid-template-columns:190px 70px 1fr 110px;gap:12px;margin-top:10px;padding:0 12px;font-size:10px;color:var(--color-neutral-400);text-transform:uppercase;letter-spacing:.4px;font-weight:600">';
+  tHtml += '<div>Week</div><div style="text-align:center">Target</div><div>Cumulative progress</div><div style="text-align:right">Total shipped</div>';
+  tHtml += '</div>';
+
+  var tDiv = el('div'); tDiv.innerHTML = tHtml;
+  targetsCard.appendChild(tDiv);
+  targetsCard.style.marginBottom = '16px';
+  container.appendChild(targetsCard);
 
   // Two-column: Donut + Growth
   var row = el('div', {className:'grid-2'});
@@ -596,7 +906,8 @@ function renderOverview(container) {
   // Complete
   var compCard = card('Fully Complete — Monorepo Audit ('+completeComponents.length+')', "Vivian's audit: code + Storybook + JSON tokens + tests");
   completeComponents.forEach(function(c) {
-    compCard.innerHTML += '<div class="comp-row" style="background:#F0FAF0;border-left:3px solid var(--color-status-success-default)"><span class="comp-name">'+c.name+'</span><span class="comp-type">'+c.type+'</span></div>';
+    var ticketSuffix = c.ticket ? '<span style="font-size:11px;margin-left:8px">'+jiraLink(c.ticket, 'font-size:11px')+'</span>' : '';
+    compCard.innerHTML += '<div class="comp-row" style="background:#F0FAF0;border-left:3px solid var(--color-status-success-default)"><span style="display:flex;align-items:baseline;gap:0"><span class="comp-name">'+c.name+'</span>'+ticketSuffix+'</span><span class="comp-type">'+c.type+'</span></div>';
   });
   listRow.appendChild(compCard);
 
@@ -604,7 +915,8 @@ function renderOverview(container) {
   var rightCol = el('div', {style:{display:'flex',flexDirection:'column',gap:'16px'}});
   var partCard = card('Needs Attention ('+partialComponents.length+')', 'Working but missing tokens, docs, or naming fixes');
   partialComponents.forEach(function(c) {
-    partCard.innerHTML += '<div class="comp-row" style="background:#FFFDF5;border-left:3px solid var(--color-status-warning-default)"><div><span class="comp-name">'+c.name+'</span><div class="comp-issue">'+c.issue+'</div></div><span class="comp-type">'+c.type+'</span></div>';
+    var ticketSuffix = c.ticket ? ' · ' + jiraLink(c.ticket, 'font-size:11px') : '';
+    partCard.innerHTML += '<div class="comp-row" style="background:#FFFDF5;border-left:3px solid var(--color-status-warning-default)"><div><span class="comp-name">'+c.name+'</span>'+ticketSuffix+'<div class="comp-issue">'+c.issue+'</div></div><span class="comp-type">'+c.type+'</span></div>';
   });
   rightCol.appendChild(partCard);
 
@@ -616,47 +928,185 @@ function renderOverview(container) {
 }
 
 // ═══════════════════════════════════════════════════════
-// PIPELINE TAB
+// PIPELINE TAB — GitLab CI/CD pipeline status for main branch
 // ═══════════════════════════════════════════════════════
 function renderPipeline(container) {
-  // Compute pipeline stats from data variables (no hardcoded numbers)
-  var pTotalExtracted = atomicComparison.reduce(function(s,a){return s+a.extracted;},0);
-  var pInNPM = topMetrics.filter(function(m){return m.label==='In NPM Package';})[0].value;
-  var pReadyToBuild = topMetrics.filter(function(m){return m.label==='Ready to Build';})[0].value;
-  var pFullyComplete = completeComponents.length;
+  // Status → color / icon / label mappings. 'manual' is a GitLab state meaning
+  // the job exists but won't run unless triggered — show as muted gray.
+  var PL_COLORS = {
+    success:  'var(--color-status-success-default)',
+    failed:   'var(--color-status-error-default)',
+    canceled: 'var(--color-neutral-400)',
+    running:  'var(--color-primary-500)',
+    pending:  'var(--color-status-warning-default)',
+    manual:   'var(--color-neutral-300)',
+    skipped:  'var(--color-neutral-300)',
+    created:  'var(--color-neutral-300)'
+  };
+  var PL_ICONS = { success:'&#10004;', failed:'&#10006;', canceled:'&#9995;', running:'&#8635;', pending:'&#9203;', manual:'&#9208;', skipped:'&#8212;', created:'&#8230;' };
+  var plColor = function(s){ return PL_COLORS[s] || 'var(--color-neutral-400)'; };
+  var plIcon  = function(s){ return PL_ICONS[s]  || '?'; };
 
-  // Bar chart
-  var chartCard = card('Design → Dev Pipeline', 'Specs documented by design team vs. coded by developers');
-  var maxVal = Math.max.apply(null, atomicComparison.map(function(d){return Math.max(d.extracted,d.monorepo,d.handoff)}));
-  var chartHtml = '<div class="chart-container">';
-  atomicComparison.forEach(function(d) {
-    chartHtml += '<div class="chart-group">';
-    [{k:'extracted',c:'var(--color-primary-500)'},{k:'monorepo',c:'var(--color-status-success-default)'},{k:'handoff',c:'var(--color-status-warning-default)'}].forEach(function(b) {
-      var h = (d[b.k]/maxVal)*170;
-      chartHtml += '<div class="chart-bar-wrap"><div class="chart-bar-val" style="color:'+b.c+'">'+d[b.k]+'</div><div class="chart-bar" style="height:'+h+'px;background:'+b.c+'"></div></div>';
-    });
-    chartHtml += '</div>';
+  // "13m 45s" / "3m 24s" / "45s"
+  var fmtDur = function(sec){
+    if (!sec || sec < 1) return '—';
+    var m = Math.floor(sec / 60), s = Math.round(sec - m * 60);
+    if (m === 0) return s+'s';
+    return m+'m '+(s < 10 ? '0' : '')+s+'s';
+  };
+  // Relative time: "2h ago" / "3d ago" / "just now"
+  var fmtRel = function(iso){
+    var then = new Date(iso).getTime();
+    if (isNaN(then)) return iso;
+    var diff = Math.max(0, (Date.now() - then) / 1000);
+    if (diff < 60)     return Math.round(diff)+'s ago';
+    if (diff < 3600)   return Math.round(diff/60)+'m ago';
+    if (diff < 86400)  return Math.round(diff/3600)+'h ago';
+    return Math.round(diff/86400)+'d ago';
+  };
+
+  var lp = gitlabLatestPipeline;
+  var recent = gitlabRecentPipelines;
+
+  // ── Card 1: Latest pipeline — hero ────────────────────────────────────
+  var heroCard = card('Latest Pipeline on '+gitlabProject.branch, 'Snapshot: '+fmtRel(gitlabProject.snapshotAt)+' · UDS GitLab CI/CD');
+  var heroHtml = '<div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center">';
+  // Left: big status badge
+  heroHtml += '<div style="padding:22px 26px;background:'+plColor(lp.status)+';color:#fff;border-radius:10px;text-align:center;min-width:140px">' +
+                '<div style="font-size:40px;line-height:1">'+plIcon(lp.status)+'</div>' +
+                '<div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:6px">'+lp.status+'</div>' +
+                '<div style="font-size:11px;opacity:.85;margin-top:4px">#'+lp.iid+'</div>' +
+              '</div>';
+  // Right: commit info
+  heroHtml += '<div>';
+  heroHtml += '<div style="font-size:15px;font-weight:700;color:var(--color-neutral-600);margin-bottom:6px">'+lp.commit_title+'</div>';
+  if (lp.commit_ref) heroHtml += '<div style="font-size:12px;color:var(--color-neutral-500);margin-bottom:10px">'+lp.commit_ref.replace(/\b(PS-\d+)\b/g, function(m){return jiraLink(m, 'font-size:12px');})+'</div>';
+  heroHtml += '<div style="display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--color-neutral-500)">';
+  heroHtml += '<div><strong style="color:var(--color-neutral-600)">SHA:</strong> <code style="background:var(--color-neutral-100);padding:2px 6px;border-radius:3px">'+lp.sha+'</code></div>';
+  heroHtml += '<div><strong style="color:var(--color-neutral-600)">Author:</strong> '+lp.author+'</div>';
+  heroHtml += '<div><strong style="color:var(--color-neutral-600)">Source:</strong> '+lp.source+'</div>';
+  heroHtml += '<div><strong style="color:var(--color-neutral-600)">Duration:</strong> '+fmtDur(lp.duration_seconds)+'</div>';
+  heroHtml += '<div><strong style="color:var(--color-neutral-600)">Ran:</strong> '+fmtRel(lp.created_at)+'</div>';
+  heroHtml += '</div>';
+  heroHtml += '<div style="margin-top:12px"><a href="'+lp.web_url+'" target="_blank" rel="noopener" style="font-size:12px;color:var(--color-primary-500);text-decoration:none;font-weight:600">View pipeline on GitLab &rarr;</a></div>';
+  heroHtml += '</div>';
+  heroHtml += '</div>';
+  var heroDiv = el('div'); heroDiv.innerHTML = heroHtml;
+  heroCard.appendChild(heroDiv);
+  container.appendChild(heroCard);
+
+  // ── Card 2: Stages flow for latest pipeline ───────────────────────────
+  var stagesCard = card('Stages — Pipeline #'+lp.iid, lp.stages.length+' stages executed in order · bar = relative duration');
+  var maxStageDur = Math.max.apply(null, lp.stages.map(function(s){return s.duration || 0;})) || 1;
+  var stagesHtml = '<div style="display:flex;flex-direction:column;gap:8px">';
+  lp.stages.forEach(function(s, i){
+    var widthPct = s.duration > 0 ? Math.max(3, (s.duration / maxStageDur) * 100) : 2;
+    var labelColor = s.status === 'manual' ? 'var(--color-neutral-400)' : 'var(--color-neutral-600)';
+    stagesHtml += '<div style="display:grid;grid-template-columns:28px 110px 1fr 70px;gap:10px;align-items:center">';
+    stagesHtml += '<div style="text-align:center;color:'+plColor(s.status)+';font-size:16px;font-weight:700" title="'+s.status+'">'+plIcon(s.status)+'</div>';
+    stagesHtml += '<div style="font-weight:700;font-size:13px;color:'+labelColor+'">'+s.name+' <span style="color:var(--color-neutral-400);font-weight:400;font-size:11px">('+s.jobs+(s.jobs===1?' job':' jobs')+')</span></div>';
+    stagesHtml += '<div class="bar-track"><div class="bar-fill" style="width:'+widthPct+'%;background:'+plColor(s.status)+'"></div></div>';
+    stagesHtml += '<div style="font-size:12px;color:var(--color-neutral-500);text-align:right">'+(s.duration > 0 ? fmtDur(s.duration) : 'not run')+'</div>';
+    stagesHtml += '</div>';
   });
-  chartHtml += '</div><div class="chart-labels">';
-  atomicComparison.forEach(function(d) { chartHtml += '<div>'+d.level+'</div>'; });
-  chartHtml += '</div><div class="chart-legend"><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--color-primary-500)"></span>Specs Documented</div><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--color-status-success-default)"></span>Coded in Monorepo</div><div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--color-status-warning-default)"></span>Ready to Code</div></div>';
-  chartHtml += '<div style="margin-top:16px;padding:12px 16px;background:#FFF8E1;border-radius:6px;display:flex;gap:24px;justify-content:center"><div class="stat-inline"><div class="val" style="color:var(--color-primary-500)">'+pTotalExtracted+'</div><div class="lbl">Specs Documented</div></div><div class="stat-inline"><div class="val" style="color:var(--color-status-success-default)">'+pInNPM+'</div><div class="lbl">In NPM Package</div></div><div class="stat-inline"><div class="val" style="color:var(--color-status-warning-default)">'+pReadyToBuild+'</div><div class="lbl">Ready to Build</div></div><div class="stat-inline"><div class="val" style="color:var(--color-primary-600)">'+pFullyComplete+'</div><div class="lbl">Fully Complete*</div></div></div><div style="margin-top:8px;font-size:10px;color:var(--color-neutral-400);text-align:center">*Fully Complete = Code status "Complete" per Mar 2026 Excel audit (24 components). Production-Certified reflects same criteria — see top metrics for details.</div>';
-  var chartDiv = el('div'); chartDiv.innerHTML = chartHtml;
-  chartCard.appendChild(chartDiv);
-  container.appendChild(chartCard);
+  stagesHtml += '</div>';
+  var stagesDiv = el('div'); stagesDiv.innerHTML = stagesHtml;
+  stagesCard.appendChild(stagesDiv);
+  container.appendChild(stagesCard);
 
-  // Status cards
-  var implCard = card('Implementation Completeness', "UDS main branch audit, Apr 21, 2026 · Code status breakdown across all 129 roadmap components (123 core + 6 templates)");
-  implCard.innerHTML += '<div class="grid-4"><div class="stat-card"><div class="stat-icon">✅</div><div class="stat-num" style="color:var(--color-status-success-default)">'+pFullyComplete+'</div><div class="stat-label">Fully Complete</div><div class="stat-desc">Code + Storybook + tokens + tests</div></div><div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-num" style="color:var(--color-status-warning-default)">'+partialComponents.length+'</div><div class="stat-label">Partial</div><div class="stat-desc">Missing tokens or naming</div></div><div class="stat-card"><div class="stat-icon">📄</div><div class="stat-num" style="color:var(--color-primary-500)">'+pipelineStats.docsOnly+'</div><div class="stat-label">Docs Only</div><div class="stat-desc">Awaiting implementation</div></div><div class="stat-card"><div class="stat-icon">📦</div><div class="stat-num" style="color:var(--color-neutral-400)">'+pipelineStats.missingDocs+'</div><div class="stat-label">Missing Docs</div><div class="stat-desc">'+(pipelineStats.missingDocs===0?'All components documented ✅':'Has impl, needs docs')+'</div></div></div>';
-  container.appendChild(implCard);
+  // ── Card 3: Pipeline health (last 20 on main) ─────────────────────────
+  var statusCounts = {success:0, failed:0, canceled:0, running:0, pending:0, manual:0, skipped:0, created:0};
+  var successDurs = [];
+  var bySource = {push:{total:0,success:0}, schedule:{total:0,success:0}, web:{total:0,success:0}, api:{total:0,success:0}};
+  recent.forEach(function(p){
+    if (statusCounts[p.status] !== undefined) statusCounts[p.status]++;
+    if (p.status === 'success' && p.duration > 0) successDurs.push(p.duration);
+    var src = bySource[p.source] || (bySource[p.source] = {total:0,success:0});
+    src.total++;
+    if (p.status === 'success') src.success++;
+  });
+  var nTotal = recent.length;
+  var nSuccess = statusCounts.success;
+  var successPct = nTotal > 0 ? Math.round(nSuccess / nTotal * 100) : 0;
+  var avgDur = successDurs.length > 0 ? Math.round(successDurs.reduce(function(a,b){return a+b;},0) / successDurs.length) : 0;
+  var sortedDurs = successDurs.slice().sort(function(a,b){return a-b;});
+  var medianDur = sortedDurs.length > 0 ? sortedDurs[Math.floor(sortedDurs.length / 2)] : 0;
 
+  var healthCard = card('Pipeline Health — last '+nTotal+' on '+gitlabProject.branch, 'Success rate, duration, and failure breakdown by trigger source');
+
+  // Top stat row
+  var healthHtml = '<div class="grid-4" style="margin-bottom:20px">';
+  healthHtml += '<div class="stat-card"><div class="stat-num" style="color:'+plColor('success')+'">'+successPct+'%</div><div class="stat-label">Success Rate</div><div class="stat-desc">'+nSuccess+' of '+nTotal+' runs</div></div>';
+  healthHtml += '<div class="stat-card"><div class="stat-num" style="color:var(--color-primary-500)">'+fmtDur(avgDur)+'</div><div class="stat-label">Avg Duration</div><div class="stat-desc">Successful runs only</div></div>';
+  healthHtml += '<div class="stat-card"><div class="stat-num" style="color:var(--color-primary-600)">'+fmtDur(medianDur)+'</div><div class="stat-label">Median Duration</div><div class="stat-desc">Successful runs only</div></div>';
+  healthHtml += '<div class="stat-card"><div class="stat-num" style="color:'+plColor('failed')+'">'+(statusCounts.failed + statusCounts.canceled)+'</div><div class="stat-label">Failed / Canceled</div><div class="stat-desc">'+statusCounts.failed+' failed · '+statusCounts.canceled+' canceled</div></div>';
+  healthHtml += '</div>';
+
+  // Stacked distribution bar
+  healthHtml += '<div style="font-size:12px;font-weight:600;color:var(--color-neutral-500);margin-bottom:6px">Status distribution (last '+nTotal+')</div>';
+  healthHtml += '<div style="display:flex;height:22px;border-radius:4px;overflow:hidden;background:var(--color-neutral-100);margin-bottom:14px">';
+  ['success','failed','canceled','running','pending','manual'].forEach(function(s){
+    var n = statusCounts[s] || 0;
+    if (n > 0) {
+      var segPct = n / nTotal * 100;
+      healthHtml += '<div style="width:'+segPct+'%;background:'+plColor(s)+';display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700" title="'+s+': '+n+'">'+(segPct >= 8 ? n+' '+s : '')+'</div>';
+    }
+  });
+  healthHtml += '</div>';
+
+  // Source breakdown — push vs schedule
+  healthHtml += '<div style="font-size:12px;font-weight:600;color:var(--color-neutral-500);margin-bottom:6px">By trigger source</div>';
+  healthHtml += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">';
+  Object.keys(bySource).forEach(function(src){
+    var b = bySource[src];
+    if (b.total === 0) return;
+    var pct = Math.round(b.success / b.total * 100);
+    var pctColor = pct >= 80 ? plColor('success') : pct >= 50 ? plColor('pending') : plColor('failed');
+    healthHtml += '<div style="padding:10px 12px;background:#F8F9FA;border-radius:6px;border:1px solid var(--color-neutral-200)">' +
+                    '<div style="font-size:12px;font-weight:700;color:var(--color-neutral-600);text-transform:capitalize">'+src+'</div>' +
+                    '<div style="font-size:11px;color:var(--color-neutral-400);margin-bottom:6px">'+b.success+' / '+b.total+' succeeded</div>' +
+                    '<div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+pctColor+'"></div></div>' +
+                    '<div style="font-size:11px;color:'+pctColor+';font-weight:700;margin-top:4px">'+pct+'%</div>' +
+                  '</div>';
+  });
+  healthHtml += '</div>';
+
+  var healthDiv = el('div'); healthDiv.innerHTML = healthHtml;
+  healthCard.appendChild(healthDiv);
+  container.appendChild(healthCard);
+
+  // ── Card 4: Recent pipelines table ────────────────────────────────────
+  var recentCard = card('Recent Pipelines ('+nTotal+')', 'Newest first · click IID to open on GitLab');
+  var tblHtml = '<table><thead><tr>' +
+                  '<th style="text-align:center;width:34px"></th>' +
+                  '<th>IID</th>' +
+                  '<th>SHA</th>' +
+                  '<th>Source</th>' +
+                  '<th>Duration</th>' +
+                  '<th>When</th>' +
+                '</tr></thead><tbody>';
+  recent.forEach(function(p, i){
+    var alt = i % 2 ? ' class="alt"' : '';
+    tblHtml += '<tr'+alt+'>';
+    tblHtml += '<td style="text-align:center;color:'+plColor(p.status)+';font-size:15px;font-weight:700" title="'+p.status+'">'+plIcon(p.status)+'</td>';
+    tblHtml += '<td><a href="'+p.web_url+'" target="_blank" rel="noopener" style="color:var(--color-primary-500);text-decoration:none;font-weight:600">#'+p.iid+'</a></td>';
+    tblHtml += '<td><code style="background:var(--color-neutral-100);padding:2px 6px;border-radius:3px;font-size:12px">'+p.sha+'</code></td>';
+    tblHtml += '<td style="font-size:12px;color:var(--color-neutral-500);text-transform:capitalize">'+p.source+'</td>';
+    tblHtml += '<td style="font-size:12px;color:var(--color-neutral-500)">'+fmtDur(p.duration)+'</td>';
+    tblHtml += '<td style="font-size:12px;color:var(--color-neutral-400)">'+fmtRel(p.created_at)+'</td>';
+    tblHtml += '</tr>';
+  });
+  tblHtml += '</tbody></table>';
+  var recentDiv = el('div'); recentDiv.innerHTML = tblHtml;
+  recentCard.appendChild(recentDiv);
+  container.appendChild(recentCard);
 }
 
 // ═══════════════════════════════════════════════════════
 // GAPS TAB
 // ═══════════════════════════════════════════════════════
 function renderGaps(container) {
-  var gapCard = card('Certification Queue ('+remainingGaps.length+' remaining)', 'Prioritized by platform dependencies');
+  var gapCard = card('Unplanned Requests ('+remainingGaps.length+')', 'Requested or prototyped but not on the current roadmap — decide whether to promote, fold in, or deprecate');
   var tbl = '<table><thead><tr><th>#</th><th>Component</th><th>Priority</th><th>Category</th><th style="text-align:center">In Figma</th><th style="text-align:center">Tokens</th><th>Notes</th></tr></thead><tbody>';
   remainingGaps.forEach(function(g,i) {
     tbl += '<tr'+(i%2?' class="alt"':'')+'><td>'+(i+1)+'</td><td style="font-weight:600">'+g.name+'</td><td>'+priorityBadge(g.priority)+'</td><td style="color:var(--color-neutral-400);font-size:12px">'+g.category+'</td><td style="text-align:center">'+(g.inFigma?'✅':'❌')+'</td><td style="text-align:center">'+(g.hasTokens?'🟡':'❌')+'</td><td style="font-size:12px;color:var(--color-neutral-400)">'+(g.note||'—')+'</td></tr>';
@@ -669,14 +1119,15 @@ function renderGaps(container) {
   var row = el('div', {className:'grid-2'});
 
   // Closed
-  var closedCard = card('Closed Gaps ('+closedGaps.length+' Resolved)', 'Specifications documented with CSS token files');
+  var closedCard = card('Closed Gaps ('+closedGaps.length+' resolved)', 'System-level decisions on how each pattern is addressed — decomposition or rejection. Not every piece has shipped, but the approach is decided.');
   closedGaps.forEach(function(g) {
-    closedCard.innerHTML += '<div class="gap-row"><div class="gap-name">'+g.name+'</div><div class="gap-by">'+g.closedBy+'</div></div>';
+    var closedByHtml = g.closedBy.replace(/\b(PS-\d+)\b/g, function(t){return jiraLink(t, 'font-size:11px');});
+    closedCard.innerHTML += '<div class="gap-row"><div class="gap-name">'+g.name+'</div><div class="gap-by">'+closedByHtml+'</div></div>';
   });
   row.appendChild(closedCard);
 
   // Readiness
-  var readCard = card('Gap Readiness Assessment', 'How close are remaining gaps to having specs documented?');
+  var readCard = card('Post-Roadmap Readiness', 'Items beyond the current roadmap — how close each is to having specs documented');
   gapReadiness.forEach(function(r) {
     var color = r.level>=50?'var(--color-status-success-default)':r.level>=25?'var(--color-status-warning-default)':'var(--color-status-error-default)';
     readCard.innerHTML += '<div class="readiness-row"><div class="readiness-label"><span>'+r.label+'</span><span>'+r.note+'</span></div><div class="readiness-track"><div class="readiness-fill" style="width:'+r.level+'%;background:'+color+'"></div></div></div>';
@@ -689,6 +1140,68 @@ function renderGaps(container) {
 // COMPONENTS (SYSTEMS) TAB
 // ═══════════════════════════════════════════════════════
 function renderSystems(container) {
+  // ── All Components card: full roadmap inventory by atomic level ─────
+  // Merges completeComponents + partialComponents + plannedComponents +
+  // docsOnlyComponents into a single view so PM + eng can scan every
+  // component in one place. Status dot matches the "deliveryStatus" donut.
+  var STATUS_COLORS = {
+    "Complete":   'var(--color-status-success-default)',
+    "In Progress":'var(--color-status-warning-default)',
+    "Planned":    '#00838F',
+    "Docs Only":  '#6B3FA0'
+  };
+  var allComps = []
+    .concat(completeComponents.map(function(c){ return {name:c.name, type:c.type, ticket:c.ticket||"", status:"Complete"}; }))
+    .concat(partialComponents.map (function(c){ return {name:c.name, type:c.type, ticket:c.ticket||"", status:"In Progress"}; }))
+    .concat(plannedComponents.map (function(c){ return {name:c.name, type:c.type, ticket:c.ticket||"", status:"Planned"}; }))
+    .concat(docsOnlyComponents.map(function(c){ return {name:c.name, type:c.type, ticket:c.ticket||"", status:"Docs Only"}; }));
+  var byType = {Atom:[], Molecule:[], Organism:[], Template:[]};
+  allComps.forEach(function(c){ if (byType[c.type]) byType[c.type].push(c); });
+  Object.keys(byType).forEach(function(t){ byType[t].sort(function(a,b){ return a.name.localeCompare(b.name); }); });
+
+  var allCard = card('All Components ('+allComps.length+')', 'Full roadmap inventory — UDS main audit, Apr 21, 2026');
+
+  // Legend
+  var legend = '<div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:16px;padding:10px 12px;background:#F8F9FA;border-radius:6px;font-size:12px">';
+  ['Complete','In Progress','Planned','Docs Only'].forEach(function(s){
+    legend += '<div style="display:flex;align-items:center;gap:6px"><span class="status-dot" style="background:'+STATUS_COLORS[s]+';margin-right:0"></span>'+s+'</div>';
+  });
+  legend += '</div>';
+
+  var grid = '<div class="grid-4" style="align-items:start">';
+  [{k:'Atom',label:'Atoms'},{k:'Molecule',label:'Molecules'},{k:'Organism',label:'Organisms'},{k:'Template',label:'Templates'}].forEach(function(col){
+    var items = byType[col.k];
+    // Per-tier status counts for the column header breakdown.
+    var counts = {"Complete":0,"In Progress":0,"Planned":0,"Docs Only":0};
+    items.forEach(function(c){ if (counts.hasOwnProperty(c.status)) counts[c.status]++; });
+    var breakdown = '<div style="display:flex;flex-wrap:wrap;gap:6px 10px;margin-bottom:10px;font-size:11px;color:var(--color-neutral-500)">';
+    ['Complete','In Progress','Planned','Docs Only'].forEach(function(s){
+      if (counts[s] > 0) {
+        breakdown += '<span style="display:inline-flex;align-items:center;gap:4px"><span class="status-dot" style="background:'+STATUS_COLORS[s]+';margin-right:0;width:8px;height:8px"></span><span style="font-weight:700;color:var(--color-neutral-600)">'+counts[s]+'</span> '+s+'</span>';
+      }
+    });
+    breakdown += '</div>';
+    grid += '<div style="background:#F8F9FA;border:1px solid var(--color-neutral-200);border-radius:8px;padding:12px">';
+    grid += '<div style="font-size:13px;font-weight:700;color:var(--color-neutral-600);margin-bottom:8px;display:flex;align-items:center;gap:8px"><span>'+col.label+'</span><span style="background:var(--color-primary-500);color:#fff;padding:2px 8px;border-radius:12px;font-size:11px">'+items.length+'</span></div>';
+    grid += breakdown;
+    items.forEach(function(c){
+      var ticketHtml = c.ticket ? '<span style="font-size:10px;margin-left:6px">' + jiraLink(c.ticket, 'font-size:10px') + '</span>' : '';
+      grid += '<div style="padding:5px 8px;background:#fff;border-radius:4px;margin-bottom:3px;font-size:12px;display:flex;align-items:center;gap:6px">' +
+                '<span class="status-dot" style="background:'+STATUS_COLORS[c.status]+';margin-right:0;flex-shrink:0" title="'+c.status+'"></span>' +
+                '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+c.name+(c.ticket?' · '+c.ticket:'')+'">'+c.name+'</span>' +
+                ticketHtml +
+              '</div>';
+    });
+    if (!items.length) grid += '<div style="font-size:11px;color:var(--color-neutral-400);padding:8px">None on roadmap</div>';
+    grid += '</div>';
+  });
+  grid += '</div>';
+
+  var inner = el('div');
+  inner.innerHTML = legend + grid;
+  allCard.appendChild(inner);
+  container.appendChild(allCard);
+
   var sorted = systems.slice().sort(function(a,b){return (b.implemented/b.components)-(a.implemented/a.components)});
 
   var sysCard = card('Component Readiness Overview', systems.length+' groups by feature area');
@@ -710,7 +1223,7 @@ function renderSystems(container) {
 
   // Infrastructure
   var infraCard = card('Infrastructure', 'Storybook and deployment status');
-  infraCard.innerHTML += '<div class="grid-2"><div class="infra-box" style="background:#F0FAF0;border:1px solid #C8E6C9"><div class="infra-title">Storybook (Dev)</div>✅ Live at blueprint-dev.app.constructconnect.com<br>✅ VPN-only access, Cloud Run infrastructure<br>✅ GitLab CI/CD fully operational<br>✅ 50+ components with usage guides</div><div class="infra-box" style="background:var(--color-primary-100);border:1px solid var(--color-primary-200)"><div class="infra-title">NPM Package</div>✅ @constructconnect/ui-components<br>✅ Cloudsmith registry distribution<br>✅ Auto-update via CI/CD (no version pinning)<br>✅ Dual-approval adoption process</div></div>';
+  infraCard.innerHTML += '<div class="grid-2"><div class="infra-box" style="background:#F0FAF0;border:1px solid #C8E6C9"><div class="infra-title">Storybook (Dev)</div>✅ Live at blueprint-dev.app.constructconnect.com<br>✅ VPN-only access, Cloud Run infrastructure<br>✅ GitLab CI/CD fully operational<br>✅ 50+ components with usage guides</div><div class="infra-box" style="background:var(--color-primary-100);border:1px solid var(--color-primary-200)"><div class="infra-title">NPM Package</div>✅ @unified_design_system/components<br>✅ Cloudsmith registry distribution<br>✅ Auto-update via CI/CD (no version pinning)<br>✅ Dual-approval adoption process</div></div>';
   container.appendChild(infraCard);
 }
 
@@ -718,6 +1231,97 @@ function renderSystems(container) {
 // MCP DOCS TAB
 // ═══════════════════════════════════════════════════════
 function renderMCPDocs(container) {
+  // ── Blueprint MCP (UDS MCP servers) — live state + PS-4357 roadmap, pulled 2026-04-21 ──
+  var bpCard = card('Blueprint MCP — UDS MCP Servers', 'Live at apps/uds-mcp-server-{remote,local}/ in unified_design_system repo · 8 tools today · 4 more + skills + plugin coming in PS-4357');
+  var bpHTML = '';
+
+  // Headline: tool counts
+  bpHTML += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">';
+  bpHTML += '<div style="padding:20px;background:#E8F5E9;border:2px solid #C8E6C9;border-radius:8px;text-align:center">';
+  bpHTML += '<div style="font-size:40px;font-weight:700;color:var(--color-status-success-default);margin-bottom:4px">8</div>';
+  bpHTML += '<div style="font-size:13px;font-weight:600;color:var(--color-neutral-600)">Tools live today</div>';
+  bpHTML += '<div style="font-size:11px;color:var(--color-neutral-400);margin-top:4px">6 remote (HTTP, Cloud Run) + 2 local (stdio)</div>';
+  bpHTML += '</div>';
+  bpHTML += '<div style="padding:20px;background:#FFF8E1;border:2px solid #FFE082;border-radius:8px;text-align:center">';
+  bpHTML += '<div style="font-size:40px;font-weight:700;color:#8B6914;margin-bottom:4px">+4 tools, +2 skills</div>';
+  bpHTML += '<div style="font-size:13px;font-weight:600;color:var(--color-neutral-600)">Planned in <a href="https://constructconnect.atlassian.net/browse/PS-4357" target="_blank" style="color:#8B6914;text-decoration:underline">PS-4357</a></div>';
+  bpHTML += '<div style="font-size:11px;color:var(--color-neutral-400);margin-top:4px">+ enhanced code-review-uds + Claude Code plugin</div>';
+  bpHTML += '</div>';
+  bpHTML += '</div>';
+
+  // LIVE TOOLS
+  bpHTML += '<div style="margin-bottom:8px"><strong style="font-size:14px;color:var(--color-status-success-default)">🟢 Live Today</strong> — <code>apps/uds-mcp-server-remote</code> &amp; <code>apps/uds-mcp-server-local</code></div>';
+  bpHTML += '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">';
+  var liveTools = [
+    {server:'Remote', name:'get_design_tokens',       desc:'Browse/search design tokens by category, component, or keyword'},
+    {server:'Remote', name:'get_component_context',   desc:'Component props, stories, and usage examples'},
+    {server:'Remote', name:'component_manifest',      desc:'List UDS components or search by name (via uds-intake-app API)'},
+    {server:'Remote', name:'request_component',       desc:'File a component request ticket'},
+    {server:'Remote', name:'report_issue',            desc:'Report an issue with an existing component'},
+    {server:'Remote', name:'contribute_component',    desc:'Submit a community contribution'},
+    {server:'Local',  name:'verify_setup',            desc:'Validate .env, .npmrc, env vars, Cloudsmith registry'},
+    {server:'Local',  name:'setup_consumer_environment', desc:'One-shot project setup for UDS consumers'}
+  ];
+  liveTools.forEach(function(t){
+    var badge = t.server==='Remote' ? '#C8E6C9' : '#B3E5FC';
+    var badgeFg = t.server==='Remote' ? 'var(--color-status-success-default)' : '#01579B';
+    bpHTML += '<div style="padding:12px;background:#F0FAF0;border:1px solid #C8E6C9;border-radius:8px">';
+    bpHTML += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">';
+    bpHTML += '<span style="font-family:monospace;font-size:12px;font-weight:700;color:var(--color-neutral-600)">'+t.name+'</span>';
+    bpHTML += '<span style="font-size:10px;font-weight:700;color:'+badgeFg+';background:'+badge+';padding:2px 8px;border-radius:10px">'+t.server+'</span>';
+    bpHTML += '</div>';
+    bpHTML += '<div style="font-size:11px;color:var(--color-neutral-500);line-height:1.4">'+t.desc+'</div>';
+    bpHTML += '</div>';
+  });
+  bpHTML += '</div>';
+
+  // PLANNED
+  bpHTML += '<div style="margin-bottom:8px"><strong style="font-size:14px;color:#8B6914">🟡 Planned — PS-4357</strong> — adds repo scanning + token validation</div>';
+  bpHTML += '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px">';
+  var plannedTools = [
+    {server:'Remote', name:'get_component_inventory', desc:'Filter by layer (atom|molecule|organism|all) + status (implemented|pending|deprecated)'},
+    {server:'Remote', name:'validate_composition',    desc:'⭐ Fuzzy-match UI elements against UDS inventory — flags IndicatorCounter/IndicatorDot re-implementations. Answers "which custom components can be replaced with UDS"'},
+    {server:'Remote', name:'get_token_map',           desc:'Parse _figma CSS files, return tokens grouped by category (color/spacing/typography/motion)'},
+    {server:'Local',  name:'check_token_collisions',  desc:'Run npm run validate:structure, return collision paths across design-tokens JSON'}
+  ];
+  plannedTools.forEach(function(t){
+    var badge = t.server==='Remote' ? '#FFE082' : '#FFCC80';
+    var highlight = t.name==='validate_composition' ? 'background:#FFF3CD;border:2px solid #FFB74D' : 'background:#FFFDF5;border:1px solid #FFE0B2';
+    bpHTML += '<div style="padding:12px;'+highlight+';border-radius:8px">';
+    bpHTML += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">';
+    bpHTML += '<span style="font-family:monospace;font-size:12px;font-weight:700;color:var(--color-neutral-600)">'+t.name+'</span>';
+    bpHTML += '<span style="font-size:10px;font-weight:700;color:#8B6914;background:'+badge+';padding:2px 8px;border-radius:10px">'+t.server+'</span>';
+    bpHTML += '</div>';
+    bpHTML += '<div style="font-size:11px;color:var(--color-neutral-500);line-height:1.4">'+t.desc+'</div>';
+    bpHTML += '</div>';
+  });
+  bpHTML += '</div>';
+
+  // SKILLS + PLUGIN
+  bpHTML += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">';
+  bpHTML += '<div style="padding:14px;background:#F3E5F5;border:1px solid #CE93D8;border-radius:8px">';
+  bpHTML += '<div style="font-size:13px;font-weight:700;color:#4A148C;margin-bottom:6px">🧩 New Skills (PS-4357)</div>';
+  bpHTML += '<div style="font-size:12px;color:var(--color-neutral-500);line-height:1.7">';
+  bpHTML += '<code>/validate-tokens</code> — runs token structure validation, category breakdown<br>';
+  bpHTML += '<code>/sync-tokens</code> — pulls tokens from Figma MCP (get_variable_defs), writes _figma CSS<br>';
+  bpHTML += '<strong>/code-review-uds (enhanced)</strong> — token validation table, composition checks, ARIA guardrails';
+  bpHTML += '</div></div>';
+  bpHTML += '<div style="padding:14px;background:#E1F5FE;border:1px solid #81D4FA;border-radius:8px">';
+  bpHTML += '<div style="font-size:13px;font-weight:700;color:#01579B;margin-bottom:6px">📦 Claude Code Plugin (PS-4357)</div>';
+  bpHTML += '<div style="font-size:12px;color:var(--color-neutral-500);line-height:1.7">';
+  bpHTML += '<code>unified-design-system</code> v1.1.0 · local install from <code>uds-dev-tools</code><br>';
+  bpHTML += 'Hooks: <code>validate-token-usage</code>, <code>protect-generated-files</code>, <code>jira-markdown-to-adf</code><br>';
+  bpHTML += '15 bundled skills · replaces coco-ai-marketplace contribution path';
+  bpHTML += '</div></div>';
+  bpHTML += '</div>';
+
+  bpHTML += '<div class="highlight-bar" style="background:#E3F2FD;color:#01579B;border:1px solid #90CAF9"><strong>⭐ Repo-scan capability:</strong> The original question "which components could be replaced with UDS equivalents?" is answered by the planned <code>validate_composition</code> tool. It accepts <code>componentName + uiElements[]</code>, fuzzy-matches against inventory <code>cssClass</code> + component names, and returns violations with severity <code>error</code> (implemented candidates) or <code>warning</code> (pending candidates). Ticket: <a href="https://constructconnect.atlassian.net/browse/PS-4357" target="_blank" style="color:#01579B;text-decoration:underline">PS-4357</a>.</div>';
+  bpHTML += '<div class="highlight-bar" style="background:#FFF3CD;color:#8B6914;border:1px solid #FFE082;margin-top:8px"><strong>📂 Sources:</strong> <code>apps/uds-mcp-server-remote/src/tools/</code> · <code>apps/uds-mcp-server-local/src/tools/</code> · <code>apps/MCP_ARCHITECTURE.md</code> · <code>docs/AI_TOOLING_IMPLEMENTATION.md</code> · all within <code>constructconnect/product-development/unified-design/unified_design_system</code> (project 74215032).</div>';
+  var bpContent = el('div');
+  bpContent.innerHTML = bpHTML;
+  bpCard.appendChild(bpContent);
+  container.appendChild(bpCard);
+
   // Header card with status
   var headerCard = card('Behavioral Specifications Status', 'Complete specifications that define, guide, validate, and reference');
 
@@ -833,9 +1437,12 @@ function renderMCPDocs(container) {
   container.appendChild(benefitsCard);
 }
 
-// Close popover on outside click
+// Close popover / expanded week on outside click
 document.addEventListener('click', function() {
-  if (openPopover) { openPopover = null; renderContent(); }
+  var changed = false;
+  if (openPopover)    { openPopover = null; changed = true; }
+  if (openWeek !== null) { openWeek = null; changed = true; }
+  if (changed) renderContent();
 });
 
 // ── INIT ───────────────────────────────────────────

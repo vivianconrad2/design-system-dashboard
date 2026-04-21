@@ -92,23 +92,56 @@ All components now have documentation
 
 ---
 
-## Source 3: Figma MCP Readiness Status
+## Source 3: MCP Readiness — Blueprint MCP (UDS MCP servers)
 
-**Location:** `/Users/taylors/Desktop/ConstructConnect-Projects/Design-System-Work/FIGMA-MCP-REQUIREMENTS-STATUS.md`
+**Scope:** "MCP Readiness" tracks the **Blueprint MCP**, ConstructConnect's custom MCP server pair that gives AI agents live UDS component, token, and workflow intelligence. It is NOT the Figma MCP (a separate Figma-hosted service).
 
-**What it tracks:** AI design-to-code workflow readiness
+**Primary source (live):** GitLab code search of `apps/uds-mcp-server-remote/src/tools/` and `apps/uds-mcp-server-local/src/tools/` via `mcp__plugin_coco-ai-core_gitlab__semantic_code_search` on project 74215032 (`constructconnect/product-development/unified-design/unified_design_system`). Architecture docs: `apps/MCP_ARCHITECTURE.md`, plus per-server `ARCHITECTURE.md` files.
+**Secondary source (historical):** `/Users/taylors/Desktop/ConstructConnect-Projects/Design-System-Work/FIGMA-MCP-REQUIREMENTS-STATUS.md` (static markdown — about a different "MCP Readiness" concept, i.e. Figma MCP file-structure readiness; kept for reference only).
 
-### Summary
-- **Total MCP-Ready Components:** 57
-- **MCP Readiness Status:** ✅ 100% Complete
-- **Last Updated:** February 25, 2026
+### Live Inventory (pulled 2026-04-21) — 8 tools
 
-### 5 Figma MCP Requirements (All Met)
-1. ✅ Component Organization and Naming Conventions
-2. ✅ Variants and Properties
-3. ✅ Design Tokens Integration
-4. ✅ Component Documentation
-5. ✅ Behavioral Annotations (updated Feb 24, 2026)
+**Remote server** (`apps/uds-mcp-server-remote/`, HTTP/Cloud Run, 6 tools):
+- `get_design_tokens` — browse/search design tokens
+- `get_component_context` — component props, stories, usage examples
+- `component_manifest` — list UDS components or search by name (via uds-intake-app API)
+- `request_component` — file a component request
+- `report_issue` — report a bug on an existing component
+- `contribute_component` — submit a community contribution
+
+**Local server** (`apps/uds-mcp-server-local/`, stdio, 2 tools):
+- `verify_setup` — validate .env, .npmrc, env vars, Cloudsmith registry
+- `setup_consumer_environment` — one-shot project setup
+
+### Planned — Jira [PS-4357](https://constructconnect.atlassian.net/browse/PS-4357)
+
+Adds **+4 tools, +2 skills, enhanced `/code-review-uds`, Claude Code plugin packaging**:
+
+| Addition | Where | Purpose |
+|---|---|---|
+| `get_component_inventory` | remote | Filter inventory by layer + status |
+| `validate_composition` ⭐ | remote | Fuzzy-match UI elements against UDS inventory — **this is the "which custom components can be replaced with UDS" tool** |
+| `get_token_map` | remote | Parse _figma CSS, return tokens grouped by category |
+| `check_token_collisions` | local | Run `validate:structure`, return collision paths |
+| `/validate-tokens` skill | plugin | Token structure validation + category breakdown |
+| `/sync-tokens` skill | plugin | Pull tokens from Figma MCP (`get_variable_defs`), write _figma CSS |
+| Enhanced `/code-review-uds` | plugin | Token validation table, composition checks, ARIA guardrails |
+| `unified-design-system` plugin v1.1.0 | uds-dev-tools | Local install; replaces coco-ai-marketplace contribution path |
+
+Hooks shipped with the plugin: `validate-token-usage`, `protect-generated-files`, `jira-markdown-to-adf`.
+
+### Historical Snapshot (Feb 25, 2026 — STaylor's local file)
+Prior status before the live audit was available:
+- Total MCP-Ready Components: 57
+- MCP Readiness Status claimed: 100% Complete
+- 5 Figma MCP Requirements all marked ✅:
+  1. Component Organization and Naming Conventions
+  2. Variants and Properties
+  3. Design Tokens Integration
+  4. Component Documentation
+  5. Behavioral Annotations (updated Feb 24, 2026)
+
+**Reconciliation:** The live audit's 83/100 score contradicts the historical "100% complete" claim. Three categories (Accessibility 73, Coverage 75, Consistency 77) fell below 80. Treat the live audit as authoritative going forward.
 
 ### Behavioral Specifications Status
 - **27 components** with comprehensive behavioral specs

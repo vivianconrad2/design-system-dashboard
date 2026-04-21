@@ -7,7 +7,7 @@
 ## Key Metrics (Top Cards)
 
 ### In NPM Package
-**Definition:** Total number of components published to `@constructconnect/ui-components` NPM package via Cloudsmith registry.
+**Definition:** Total number of components published to `@unified_design_system/components` NPM package via Cloudsmith registry.
 
 **Current Value:** 35 components
 **Source:** Vivian's Monorepo Audit (COMPONENT_AUDIT.md - Feb 25, 2026)
@@ -88,15 +88,30 @@
 ---
 
 ### Pilot Teams
-**Definition:** Teams actively consuming the NPM package in production or pre-production.
+**Definition:** Teams engaged with the UDS NPM package (Active + In Progress). Status tracked via GitLab API (code scans) for NPM-package consumers and manual tracking for HubSpot integrations.
 
-**Current Value:** 3 teams
-**Source:** Known adoption
+**Current Value:** 5 teams engaged (3 Active + 2 In Progress)
+**Source:** Adoption tracking list cross-checked against GitLab blob search of the `constructconnect` group for `@unified_design_system/components` and `@unified_design_system/design-tokens` in `package.json` (Apr 21, 2026)
 
-**Teams:**
-1. **Admin Portal** - Primary partner
-2. **Crimson** - Collaborative development
-3. **Web Takeoff** - Strategic integration
+**Active (NPM Package):**
+1. **Payment Portal** — Most active adopter. Components confirmed: Button, Input, Badge, Checkbox, Toggle, Label. Repo: `payment-portal-frontend` (project 75827533). Source: GitLab API · Mar 2026 Cloudsmith data.
+2. **UCMS (Crimson)** — Working with Khay as the team makes Crimson React. Two consumer repos: `ucms-frontend` (project 62250132) + `crimson-v2-frontend` / "Fusion" (project 81307159). Component list pending scan.
+3. **Automation Support** — `qhub-portal` (project 79943071) depends on `@unified_design_system/components` (confirmed via GitLab, Apr 2026).
+
+**In Progress (NPM Package):**
+4. **GCV4** — Active conversations, onboarding in progress. Component list pending scan.
+5. **Identity Platform** (user management portal + admin portal) — Using buttons. Component list pending scan.
+
+**Planned Pipeline:**
+- **OST** — HubSpot integration, onboarding planned (manual tracking, N/A Cloudsmith)
+- **FAI** — HubSpot integration, onboarding planned (manual tracking, N/A Cloudsmith)
+- **API Services** (Developers Portal)
+- **Planswift** — Reach out to Brandin Thomas re: components used
+
+**Informal / experimental (not counted in "Active Consumers" metric):**
+- **AI Center of Excellence** (SWE AI Enablement) — `ai-marketplace-webapp` (project 79833989) depends on UDS in `package.json`. Not on the formal adoption list — decide whether to promote or leave as informal.
+- **Takeoff (WebTakeOff FE)** — `webtakeoff_fe` (project 71252819) has `components@^0.1.1` on `develop` branch. Likely informal/experimental.
+- **Hackfest 2026** — `construct-pilot-ui` (project 80942214) and `hackathon-whats-that` (project 80942811) are internal hackathon prototypes under the `innovation/hackfest2026/` group.
 
 **Metrics from Teams:**
 - 40% dev time reduction
@@ -388,7 +403,7 @@
 **Primary Use:** Design specifications and AI readiness
 
 ### Monorepo (Separate Codebase)
-**Package:** `@constructconnect/ui-components`
+**Package:** `@unified_design_system/components`
 **Location:** Separate repository (packages/components/)
 **Contains:** Actual component implementations
 **Primary Use:** Production components for teams
