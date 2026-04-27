@@ -124,7 +124,7 @@
 
 **Definition:** Merge requests confirmed merged to UDS `main` since 12:00am for the daily progress report.
 
-**Current Value:** 6 merge requests for Apr 27, 2026
+**Current Value:** 15 merge requests for Apr 27, 2026
 **Source:** `mergedTodayMergeRequests` in `index.html` / `dashboard/blueprint-status.html`, displayed only in the downloaded overview PNG section
 
 **Includes:**
