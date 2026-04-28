@@ -217,9 +217,9 @@ var mergedTodayMergeRequests = [
 ];
 
 var topMetrics = [
-  {label:"Total Components",value:120,sub:"Active roadmap — Complete + In Progress + Planned + Docs Only",color:TOKENS.primary500},
-  {label:"Complete",        value:93, sub:"27 atoms + 54 molecules + 12 organisms",color:TOKENS.success},
-  {label:"In Progress",     value:1,  sub:"1 molecule in active development",color:TOKENS.warning},
+  {label:"Total Components",value:119,sub:"Active roadmap — Complete + In Progress + Planned + Docs Only",color:TOKENS.primary500},
+  {label:"Complete",        value:92, sub:"27 atoms + 53 molecules + 12 organisms",color:TOKENS.success},
+  {label:"In Progress",     value:2,  sub:"2 molecules in active development",color:TOKENS.warning},
   {label:"In NPM Package",  value:70, sub:"70 published via Cloudsmith · release MR !232 pending @components 5.0.0 with today's merged component batch",color:TOKENS.primary500},
   {label:"Blocked",         value:0,  sub:"No current blockers",color:TOKENS.primary600},
   {label:"Active Consumers",value:5,  sub:"Payment Portal, UCMS, Automation Support active · GCV4, Identity Platform in progress",color:TOKENS.primary600}
@@ -232,14 +232,14 @@ var pipelineStats = {
 };
 
 var deliveryStatus = [
-  {name:"Complete",    value:93, color:TOKENS.success},
-  {name:"In Progress", value:1,  color:TOKENS.warning},
-  {name:"Planned",     value:26, color:"#00838F"},
+  {name:"Complete",    value:92, color:TOKENS.success},
+  {name:"In Progress", value:2,  color:TOKENS.warning},
+  {name:"Planned",     value:25, color:"#00838F"},
   {name:"Docs Only",   value:0,  color:"#6B3FA0"}
 ];
 
 // Complete component inventory (Apr 27, 2026), aligned to the UDS roadmap status tracker.
-// Count: 93 components (27 atoms + 54 molecules + 12 organisms).
+// Count: 92 components (27 atoms + 53 molecules + 12 organisms).
 // Note: tracker reports 88 implemented component folders + 1 semantic completion outside folders.
 // Corrections from PM master list:
 //   - ProgressBarFill (PS-3762) demoted: docs-only on main, no .tsx
@@ -326,7 +326,6 @@ var completeComponents = [
   {name:"TableCell",        type:"Molecule", ticket:"PS-3617"},
   {name:"TableRowContent",  type:"Molecule", ticket:"PS-3618"},
   {name:"TextAreaField",    type:"Molecule", ticket:"PS-1759"},
-  {name:"ToastMessage",     type:"Molecule"},
   {name:"ToggleField",      type:"Molecule"},
   {name:"UsernameButton",     type:"Molecule", ticket:"PS-2383"},
   // Organisms (12)
@@ -346,7 +345,8 @@ var completeComponents = [
 
 // In Progress — active development in the roadmap status tracker.
 var partialComponents = [
-  {name:"NavMenuButton",          type:"Molecule", ticket:"PS-2441", issue:"MR !273 open · 1 of 2 approvals · awaiting final review"}
+  {name:"NavMenuButton",          type:"Molecule", ticket:"PS-2441", issue:"MR !273 open · 1 of 2 approvals · awaiting final review"},
+  {name:"MenuToggleButton",       type:"Molecule", ticket:"PS-2381", issue:"Implementation scaffold is on main (.tsx/.css/index/docs); stories/tests pending"}
 ];
 
 // Planned — on roadmap, not yet started. Includes DropdownMenuContainer (PS-2617)
@@ -359,7 +359,6 @@ var plannedComponents = [
   // Molecules (5)
   {name:"Autocomplete",             type:"Molecule", ticket:"PS-4863", note:"Headless/non-UI autocomplete behavior for input-based components"},
   {name:"DropdownMenuContainer",    type:"Molecule", ticket:"PS-2617"},
-  {name:"MenuToggleButton",         type:"Molecule", ticket:"PS-2381"},
   {name:"Segment Button",           type:"Molecule", ticket:"PS-4633"},
   {name:"StageNavItem",             type:"Molecule", ticket:"PS-4644", note:"Reusable BidCenter Stage Arrow pattern"},
   // Organisms (15)
@@ -461,7 +460,7 @@ var gitlabRecentPipelines = [
 // handoff = remaining work (extracted - monorepo)
 var atomicComparison = [
   {level:"Atoms",     extracted:28, monorepo:27, handoff:1},
-  {level:"Molecules", extracted:60, monorepo:54, handoff:6},
+  {level:"Molecules", extracted:59, monorepo:53, handoff:6},
   {level:"Organisms", extracted:27, monorepo:12, handoff:15},
   {level:"Templates", extracted:5,  monorepo:0,  handoff:5}
 ];
@@ -513,8 +512,8 @@ var closedGaps = [
   {name:"Slider",        closedBy:"SliderRail + SliderThumb + SliderTrack atoms + Slider + SliderField molecules (PS-2018) — all complete"},
   {name:"Spinner",       closedBy:"LoadingMask (PS-2855) + LogoLoader (PS-2851) + CircularIndicator (PS-2853) — all complete"},
   {name:"Table",         closedBy:"TableCell + TableRowContent + Pagination + TableRow + ActionsHeader complete; Table organism Planned"},
-  {name:"Toast / Notifications", closedBy:"ToastMessage molecule complete; NotificationMessage molecule (PS-3516) complete — five semantic variants, four behavioral modes (Toast/Snackbar/Banner/Inline)"},
-  {name:"TopNav",        closedBy:"PageHeader molecule (PS-3643) + HeaderButton + HeaderLogoButton + HeaderLogoTitle + UsernameButton complete; PageHeader organism (PS-2384) and MenuToggleButton remain planned"}
+  {name:"Toast / Notifications", closedBy:"NotificationMessage molecule (PS-3516) is the canonical notification component and replaces ToastMessage — five semantic variants, four behavioral modes (Toast/Snackbar/Banner/Inline)"},
+  {name:"TopNav",        closedBy:"PageHeader molecule (PS-3643) + HeaderButton + HeaderLogoButton + HeaderLogoTitle + UsernameButton complete; PageHeader organism (PS-2384) planned and MenuToggleButton in progress (PS-2381)"}
 ];
 
 // Certification Queue — items requested or prototyped but not on the roadmap.
@@ -526,9 +525,9 @@ var remainingGaps = [
 ];
 
 var popoverData = {
-  "Total Components": "120 components are on the active roadmap as of Apr 27, 2026. Breakdown: Complete 93, In Progress 1, Planned 26, Docs Only 0.",
-  "Complete": "93 complete components in the dashboard inventory (27 atoms, 54 molecules, 12 organisms). This aligns with the latest roadmap status tracker and includes promoted components ActionsHeader, PageHeader, UsernameButton, and StepperContainer.",
-  "In Progress": "1 component is in active development: NavMenuButton (PS-2441). Open non-component/foundation MRs are tracked separately and do not change component delivery counts.",
+  "Total Components": "119 components are on the active roadmap as of Apr 27, 2026. Breakdown: Complete 92, In Progress 2, Planned 25, Docs Only 0.",
+  "Complete": "92 complete components in the dashboard inventory (27 atoms, 53 molecules, 12 organisms). This aligns with the latest roadmap status tracker and includes promoted components ActionsHeader, PageHeader, UsernameButton, and StepperContainer.",
+  "In Progress": "2 components are in active development: NavMenuButton (PS-2441) and MenuToggleButton (PS-2381). Open non-component/foundation MRs are tracked separately and do not change component delivery counts.",
   "In NPM Package": "70 components published via @unified_design_system/components (Cloudsmith NPM registry). <strong>Release MR !232 pending</strong> - now packages @unified_design_system/components@5.0.0 and will need to absorb the latest merged component batch (ActionsHeader PS-3620, PageHeader PS-3643, UsernameButton PS-2383, StepperContainer PS-3765) or be followed by another release. Published count stays 70 until the release MR merges.<br><br>See the Complete popover for the full component list. Source: UDS main branch, Apr 27, 2026.",
   "Blocked": "No components are currently blocked. This metric tracks components that have a dependency or design decision preventing work from starting. If a blocker emerges, surface it here.",
   "Active Consumers": "5 teams engaged with the UDS NPM package (Active + In Progress). Status tracked via GitLab API (code scans) and manual (HubSpot integrations).<br><br><strong>Active (NPM Package):</strong><br>• <strong>Payment Portal</strong> — Most active adopter (Button, Input, Badge, Checkbox, Toggle, Label). Source: GitLab API · Mar 2026 Cloudsmith data.<br>• <strong>UCMS (Crimson)</strong> — Working with Khay as the team makes Crimson React. Two repos consuming: ucms-frontend + crimson-v2-frontend (\"Fusion\").<br>• <strong>Automation Support</strong> — qhub-portal depends on @unified_design_system/components (confirmed via GitLab, Apr 2026).<br><br><strong>In Progress (NPM Package):</strong><br>• <strong>GCV4</strong> — Active conversations, onboarding in progress. Component list pending scan.<br>• <strong>Identity Platform</strong> (user management + admin portal) — Using buttons. Component list pending scan.<br><br><strong>Informal / experimental (not counted):</strong><br>• <strong>AI Center of Excellence</strong> (SWE AI Enablement) — ai-marketplace-webapp depends on UDS in package.json. Not on the formal adoption list; confirm with team whether to promote.<br>• <strong>Takeoff (WebTakeOff FE)</strong> — components@^0.1.1 on develop branch; likely informal.<br>• <strong>Hackfest 2026</strong> — construct-pilot-ui and hackathon-whats-that are internal hackathon prototypes.<br><br><strong>Planned Pipeline:</strong><br>• <strong>OST</strong> — HubSpot integration, onboarding planned (manual tracking)<br>• <strong>FAI</strong> — HubSpot integration, onboarding planned (manual tracking)<br>• <strong>API Services</strong> (Developers Portal)<br>• <strong>Planswift</strong> — Reach out to Brandin Thomas re: components used"
