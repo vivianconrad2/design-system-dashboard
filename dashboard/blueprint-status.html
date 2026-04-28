@@ -126,7 +126,7 @@ tr.alt{background:#FAFAFA}
       <h1>Blueprint Design System</h1>
       <p class="sub">Status Dashboard — April 27, 2026</p>
     </div>
-    <div class="badge">v5.38 — 15 merged today</div>
+    <div class="badge">v5.39 — pipeline: iid 4213 · Typography docs</div>
   </div>
   <div class="tabs" id="tabs"></div>
 </div>
@@ -399,40 +399,48 @@ var docsOnlyComponents = [];
 var gitlabProject = {
   path:     "constructconnect/product-development/unified-design/unified_design_system",
   url:      "https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system",
-  snapshotAt: "2026-04-27T20:52:00Z",
+  snapshotAt: "2026-04-27T23:05:00Z",
   branch:   "main"
 };
 
 // Latest pipeline on main — stages derived from get_pipeline_jobs response.
 // Stage duration = sum of job durations in that stage (approximate; ignores parallelism).
 var gitlabLatestPipeline = {
-  iid: 4128,
-  id: 2483390348,
-  sha: "b3805bb1",
+  iid: 4213,
+  id: 2483628764,
+  sha: "5f98331b",
   status: "success",
   source: "push",
-  created_at: "2026-04-27T20:24:31Z",
-  updated_at: "2026-04-27T20:37:02Z",
-  duration_seconds: 751,
-  commit_title: "Merge branch 'vc/PS-4458/docs/Add-Voice-and-Tone-Documentation-to-Blueprint-Storybook-Foundation' into 'main'",
-  commit_ref:   "PS-4458",
+  created_at: "2026-04-27T22:44:16Z",
+  updated_at: "2026-04-27T22:56:34Z",
+  duration_seconds: 738,
+  commit_title: "Merge branch 'vc/PS-4407/docs/Update-Typography-Documentation' into 'main'",
+  commit_ref:   "PS-4407",
   author: "Vivian Conrad",
-  web_url: "https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483390348",
+  web_url: "https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483628764",
   stages: [
-    {name:"lint",     jobs:2, duration:25,  status:"success"},
-    {name:"prepare",  jobs:1, duration:66,  status:"success"},
-    {name:"test",     jobs:3, duration:184, status:"success"},
-    {name:"release",  jobs:1, duration:70,  status:"success"},
-    {name:"build",    jobs:1, duration:176, status:"success"},
-    {name:"patch",    jobs:1, duration:107, status:"success"},
-    {name:"push",     jobs:1, duration:66,  status:"success"},
-    {name:"deploy",   jobs:1, duration:139, status:"success"},
+    {name:"lint",     jobs:2, duration:15,  status:"success"},
+    {name:"prepare",  jobs:1, duration:96,  status:"success"},
+    {name:"test",     jobs:3, duration:185, status:"success"},
+    {name:"release",  jobs:1, duration:79,  status:"success"},
+    {name:"build",    jobs:1, duration:154, status:"success"},
+    {name:"patch",    jobs:1, duration:113, status:"success"},
+    {name:"push",     jobs:1, duration:51,  status:"success"},
+    {name:"deploy",   jobs:1, duration:130, status:"success"},
     {name:"rollback", jobs:1, duration:0,   status:"manual"}
   ]
 };
 
 // Last 20 pipelines on main (newest first). Duration = updated_at - created_at in seconds.
 var gitlabRecentPipelines = [
+  {iid:4218, sha:"4aabf6ed", status:"running",  source:"push",     created_at:"2026-04-27T22:51:24Z", duration:0,    web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483636371"},
+  {iid:4213, sha:"5f98331b", status:"success",  source:"push",     created_at:"2026-04-27T22:44:16Z", duration:738,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483628764"},
+  {iid:4210, sha:"a4483f98", status:"success",  source:"push",     created_at:"2026-04-27T22:37:22Z", duration:682,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483621494"},
+  {iid:4195, sha:"608f3027", status:"success",  source:"push",     created_at:"2026-04-27T22:09:59Z", duration:734,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483581591"},
+  {iid:4181, sha:"9217b76c", status:"success",  source:"push",     created_at:"2026-04-27T21:53:27Z", duration:762,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483553654"},
+  {iid:4161, sha:"8cd3ddc7", status:"success",  source:"push",     created_at:"2026-04-27T21:34:17Z", duration:782,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483528409"},
+  {iid:4148, sha:"b9d03c14", status:"success",  source:"push",     created_at:"2026-04-27T21:01:01Z", duration:1526, web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483465647"},
+  {iid:4147, sha:"8907dc44", status:"success",  source:"push",     created_at:"2026-04-27T20:57:04Z", duration:1394, web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483457149"},
   {iid:4128, sha:"b3805bb1", status:"success",  source:"push",     created_at:"2026-04-27T20:24:31Z", duration:751,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483390348"},
   {iid:4127, sha:"6857a330", status:"success",  source:"push",     created_at:"2026-04-27T20:20:34Z", duration:719,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483382623"},
   {iid:4112, sha:"438a7eb9", status:"success",  source:"push",     created_at:"2026-04-27T19:42:12Z", duration:696,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2483301245"},
@@ -444,15 +452,7 @@ var gitlabRecentPipelines = [
   {iid:3981, sha:"ef6f72bb", status:"success",  source:"push",     created_at:"2026-04-27T13:53:08Z", duration:748,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2482555807"},
   {iid:3978, sha:"b6f357be", status:"failed",   source:"schedule", created_at:"2026-04-27T03:00:20Z", duration:206,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2481257336"},
   {iid:3977, sha:"b6f357be", status:"failed",   source:"schedule", created_at:"2026-04-26T03:06:57Z", duration:222,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2480087819"},
-  {iid:3970, sha:"b6f357be", status:"failed",   source:"schedule", created_at:"2026-04-25T02:59:35Z", duration:303,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2478811782"},
-  {iid:3967, sha:"b6f357be", status:"success",  source:"push",     created_at:"2026-04-24T21:43:53Z", duration:681,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2478506737"},
-  {iid:3948, sha:"9925690c", status:"success",  source:"push",     created_at:"2026-04-24T20:05:57Z", duration:785,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2478305727"},
-  {iid:3945, sha:"fdd005ca", status:"success",  source:"push",     created_at:"2026-04-24T20:02:50Z", duration:717,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2478298074"},
-  {iid:3942, sha:"625bc836", status:"success",  source:"push",     created_at:"2026-04-24T19:59:05Z", duration:718,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2478291778"},
-  {iid:3935, sha:"568398d9", status:"success",  source:"push",     created_at:"2026-04-24T19:50:02Z", duration:855,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2478279353"},
-  {iid:3924, sha:"10c82f66", status:"success",  source:"push",     created_at:"2026-04-24T18:48:10Z", duration:791,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2478183626"},
-  {iid:3875, sha:"11edbcf5", status:"success",  source:"push",     created_at:"2026-04-24T15:48:53Z", duration:940,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2477861849"},
-  {iid:3860, sha:"04558826", status:"success",  source:"push",     created_at:"2026-04-24T13:30:49Z", duration:729,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2477521962"}
+  {iid:3970, sha:"b6f357be", status:"failed",   source:"schedule", created_at:"2026-04-25T02:59:35Z", duration:303,  web_url:"https://gitlab.com/constructconnect/product-development/unified-design/unified_design_system/-/pipelines/2478811782"}
 ];
 
 // extracted = on active roadmap (Complete + In Progress + Planned + Docs Only)
@@ -903,7 +903,7 @@ function renderOverview(container) {
 
   // ── Daily Merge Count — visible in the downloaded overview PNG ─────────
   var dailyMergeCard = card('Work Completed Today (includes docs, foundational work, and components)');
-  dailyMergeCard.innerHTML += '<div style="display:flex;align-items:baseline;gap:10px">';
+  dailyMergeCard.innerHTML += '<div style="display:flex;align-items:baseline;gap:10px;margin-top:10px">';
   dailyMergeCard.innerHTML += '<div style="font-size:40px;font-weight:700;line-height:1;color:var(--color-status-success-default)">'+mergedTodayMergeRequests.length+'</div>';
   dailyMergeCard.innerHTML += '<div><div style="font-size:12px;font-weight:700;color:var(--color-neutral-600)">Number of merge requests completed today</div><div style="font-size:11px;color:var(--color-neutral-500);margin-top:3px">Merged since 12:00am</div></div>';
   dailyMergeCard.innerHTML += '</div>';
