@@ -435,6 +435,56 @@
 
 ---
 
+## Component Quality Scoring
+
+### Component Completion Index (CCI)
+**Definition:** Weighted quality score for an implemented component, expressed as a percent from 0 to 100.
+
+**Formula:** `CCI = 0.40 * BlueprintParity + 0.40 * FigmaParity + 0.20 * EngineeringReadiness`
+
+**Source Files:**
+- `data/component-quality.schema.json` (input contract)
+- `data/component-quality.sample.json` (example input)
+- `scripts/calculate-component-quality.mjs` (calculation logic)
+
+### BlueprintParity
+**Definition:** How closely implementation matches Blueprint component behavior and API expectations.
+
+**Sub-metrics:**
+- `apiParity`
+- `variantStateParity`
+- `behaviorParity`
+
+### FigmaParity
+**Definition:** How closely implementation matches Figma design intent.
+
+**Sub-metrics:**
+- `tokenParity`
+- `visualStateParity`
+- `layoutParity`
+
+### EngineeringReadiness
+**Definition:** Delivery confidence signal independent of visual parity.
+
+**Sub-metrics:**
+- `tests`
+- `storybook`
+- `ci`
+
+### Portfolio % Done
+**Definition:** Average CCI across implemented components only.
+
+### % Perfect
+**Definition:** Percentage of implemented components with CCI at or above the perfect threshold.
+
+### Bands
+- **perfect:** `score >= 95`
+- **done:** `85 <= score < 95`
+- **mostly_done:** `70 <= score < 85`
+- **needs_work:** `score < 70`
+
+---
+
 ## Version Tracking
 
 ### Dashboard Version

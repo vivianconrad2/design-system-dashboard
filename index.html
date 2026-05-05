@@ -390,6 +390,132 @@ var plannedComponents = [
 // different margin/layout setup — so it's merged into DrawerModal in plannedComponents.)
 var docsOnlyComponents = [];
 
+// Component completion scoring:
+// - Defaults are used when no component-specific score is provided.
+// - Overrides should come from the latest component-quality report.
+var completionDefaultsByStatus = {
+  "Complete": 100,
+  "In Progress": 65,
+  "Planned": 0,
+  "Docs Only": 0
+};
+
+var componentCompletionOverrides = {
+  "Atom:Badge": 100,
+  "Atom:Breadcrumb": null,
+  "Atom:Checkbox": 100,
+  "Atom:Divider": 100,
+  "Atom:FieldMessage": 100,
+  "Atom:HelperText": null,
+  "Atom:Icon": 100,
+  "Atom:Input": 100,
+  "Atom:Label": 100,
+  "Atom:Logo": 100,
+  "Atom:MenuToggleIcon": 94.75,
+  "Atom:Overlay": null,
+  "Atom:PaginationItem": null,
+  "Atom:ProgressBar": 89.5,
+  "Atom:ProgressRing": 100,
+  "Atom:RadioButton": 100,
+  "Atom:SkipLink": null,
+  "Atom:SliderRail": null,
+  "Atom:SliderThumb": 100,
+  "Atom:SliderTrack": null,
+  "Atom:TextArea": 89.5,
+  "Atom:Toggle": 100,
+  "Atom:Tooltip": 100,
+  "Atom:UserAvatar": 94.75,
+  "Atom:VisuallyHidden": null,
+  "Molecule:AccordionHeader": 100,
+  "Molecule:ActionsHeader": 100,
+  "Molecule:BreadcrumbItem": 100,
+  "Molecule:BreadcrumbTrail": null,
+  "Molecule:Button": 100,
+  "Molecule:ButtonIcon": 100,
+  "Molecule:CalendarItemButton": 100,
+  "Molecule:CheckboxField": 100,
+  "Molecule:CircularIndicator": 100,
+  "Molecule:CircularProgress": null,
+  "Molecule:DateInput": 100,
+  "Molecule:DropdownButton": 100,
+  "Molecule:DropdownInput": 100,
+  "Molecule:DropdownItem": 100,
+  "Molecule:FileUploadAvatar": 100,
+  "Molecule:FileUploadButton": 100,
+  "Molecule:FileUploadField": 100,
+  "Molecule:FileUploadProgress": 100,
+  "Molecule:FilterButton": 100,
+  "Molecule:FormField": null,
+  "Molecule:HeaderButton": 94.75,
+  "Molecule:HeaderLogoButton": 94.75,
+  "Molecule:HeaderLogoTitle": 94.75,
+  "Molecule:InlineSearchField": 100,
+  "Molecule:InputField": 100,
+  "Molecule:ListItem": 100,
+  "Molecule:LoadingMask": 100,
+  "Molecule:LogoLoader": 94.75,
+  "Molecule:MenuItemContainer": null,
+  "Molecule:MenuToggleButton": 94.75,
+  "Molecule:ModalHeader": 100,
+  "Molecule:MultiSelectItem": 94.75,
+  "Molecule:NavSubmenuButton": 100,
+  "Molecule:NotificationMessage": 100,
+  "Molecule:NumberInputField": 100,
+  "Molecule:OverflowPanel": null,
+  "Molecule:PageHeader": 100,
+  "Molecule:Pagination": 100,
+  "Molecule:Pill": 100,
+  "Molecule:ProgressBarField": null,
+  "Molecule:QuickSearchField": 94.75,
+  "Molecule:RadioButtonField": 100,
+  "Molecule:SearchBar": 100,
+  "Molecule:SearchField": 100,
+  "Molecule:Slider": 100,
+  "Molecule:SliderField": 100,
+  "Molecule:StepIndicator": 100,
+  "Molecule:Tab": 100,
+  "Molecule:TableCell": 100,
+  "Molecule:TableRow": 100,
+  "Molecule:TableRowContent": 100,
+  "Molecule:TextAreaField": null,
+  "Molecule:ToggleField": 100,
+  "Molecule:UsernameButton": 100,
+  "Organism:Accordion": 100,
+  "Organism:BreadcrumbOrganism": null,
+  "Organism:Card": 100,
+  "Organism:FilterMultiselectDropdown": 100,
+  "Organism:MenuContainer": 100,
+  "Organism:MenuHeaderOrganism": null,
+  "Organism:ModalFooter": 100,
+  "Organism:NavSubmenuContainer": 100,
+  "Organism:NavSubmenuGroup": 100,
+  "Organism:Popover": 100,
+  "Organism:RadioButtonGroup": null,
+  "Organism:SingleSelectDropdown": null,
+  "Organism:SplitButton": 100,
+  "Organism:StepperContainer": 100,
+  "Organism:TabGroup": 100
+};
+
+function formatPercentDone(value) {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return 'N/A';
+  }
+  var rounded = Math.round(value * 10) / 10;
+  return (rounded % 1 === 0 ? rounded.toFixed(0) : rounded.toFixed(1)) + '%';
+}
+
+function getComponentDonePercent(component) {
+  var key = component.type + ':' + component.name;
+  if (Object.prototype.hasOwnProperty.call(componentCompletionOverrides, key)) {
+    return componentCompletionOverrides[key];
+  }
+  if (Object.prototype.hasOwnProperty.call(completionDefaultsByStatus, component.status)) {
+    return completionDefaultsByStatus[component.status];
+  }
+  return 0;
+}
+
 // ═══════════════════════════════════════════════════════
 // GITLAB PIPELINE SNAPSHOT (for Pipeline tab)
 // Source: GitLab API /projects/.../pipelines?ref=main
@@ -1490,6 +1616,7 @@ function renderSystems(container) {
   ['Complete','In Progress','Planned','Docs Only'].forEach(function(s){
     legend += '<div style="display:flex;align-items:center;gap:6px"><span class="status-dot" style="background:'+STATUS_COLORS[s]+';margin-right:0"></span>'+s+'</div>';
   });
+  legend += '<div style="width:100%;margin-top:8px;font-size:11px;color:var(--color-neutral-500)">Percent badge shows <strong>% done</strong>. <strong>N/A</strong> means no matching Blueprint component and is excluded from portfolio percent.</div>';
   legend += '</div>';
 
   var grid = '<div class="grid-4" style="align-items:start">';
@@ -1509,11 +1636,36 @@ function renderSystems(container) {
     grid += '<div style="font-size:13px;font-weight:700;color:var(--color-neutral-600);margin-bottom:8px;display:flex;align-items:center;gap:8px"><span>'+col.label+'</span><span style="background:var(--color-primary-500);color:#fff;padding:2px 8px;border-radius:12px;font-size:11px">'+items.length+'</span></div>';
     grid += breakdown;
     items.forEach(function(c){
+      var donePercent = getComponentDonePercent(c);
+      var isNotComparable = donePercent === null || donePercent === undefined || Number.isNaN(donePercent);
+      var isLowCompletion = !isNotComparable && donePercent < 80;
+      var isMidCompletion = !isNotComparable && donePercent >= 80 && donePercent < 100;
+      var isComplete = !isNotComparable && donePercent >= 100;
+      var doneBadgeTitle = isNotComparable
+        ? 'No matching Blueprint component found; excluded from percent calculation.'
+        : (isLowCompletion
+          ? 'Less than 80% complete based on UDS vs Blueprint and Figma comparison.'
+          : (isMidCompletion
+            ? 'Between 80% and 99.9% complete based on UDS vs Blueprint and Figma comparison.'
+            : (isComplete
+              ? '100% complete based on UDS vs Blueprint and Figma comparison.'
+              : 'Estimated percent done based on UDS vs Blueprint and Figma comparison.')));
+      var doneBadgeStyle = isNotComparable
+        ? 'display:inline-flex;align-items:center;justify-content:center;min-width:40px;padding:1px 6px;background:#F8FAFC;color:#64748B;border:1px dashed #CBD5E1;border-radius:999px;font-size:10px;font-weight:700;line-height:1.2'
+        : (isLowCompletion
+          ? 'display:inline-flex;align-items:center;justify-content:center;min-width:40px;padding:1px 6px;background:#FEF2F2;color:#B91C1C;border:1px solid #FECACA;border-radius:999px;font-size:10px;font-weight:700;line-height:1.2'
+          : (isMidCompletion
+            ? 'display:inline-flex;align-items:center;justify-content:center;min-width:40px;padding:1px 6px;background:#FFFBEB;color:#B45309;border:1px solid #FDE68A;border-radius:999px;font-size:10px;font-weight:700;line-height:1.2'
+            : (isComplete
+              ? 'display:inline-flex;align-items:center;justify-content:center;min-width:40px;padding:1px 6px;background:#ECFDF3;color:#166534;border:1px solid #BBF7D0;border-radius:999px;font-size:10px;font-weight:700;line-height:1.2'
+              : 'display:inline-flex;align-items:center;justify-content:center;min-width:40px;padding:1px 6px;background:#F1F5F9;color:#334155;border:1px solid #CBD5E1;border-radius:999px;font-size:10px;font-weight:700;line-height:1.2')));
+      var doneBadge = '<span style="'+doneBadgeStyle+'" title="'+doneBadgeTitle+'">' + formatPercentDone(donePercent) + '</span>';
       var ticketHtml = c.ticket ? '<span style="font-size:10px;margin-left:6px">' + jiraLink(c.ticket, 'font-size:10px') + '</span>' : '';
       var badge = (c.ticket && recentlyMergedTickets.indexOf(c.ticket) !== -1) ? NEW_BADGE : '';
       grid += '<div style="padding:5px 8px;background:#fff;border-radius:4px;margin-bottom:3px;font-size:12px;display:flex;align-items:center;gap:6px">' +
                 '<span class="status-dot" style="background:'+STATUS_COLORS[c.status]+';margin-right:0;flex-shrink:0" title="'+c.status+'"></span>' +
                 '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+c.name+(c.ticket?' · '+c.ticket:'')+'">'+c.name+'</span>' +
+                doneBadge +
                 badge +
                 ticketHtml +
               '</div>';

@@ -1,0 +1,318 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://constructconnect.com/schemas/component-quality.schema.json",
+  "title": "Blueprint Component Quality Scorecard",
+  "description": "Weighted scoring input used to calculate component completion (% done / % perfect) against Blueprint and Figma sources of truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "weights",
+    "dimensionWeights",
+    "thresholds",
+    "components"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "weights": {
+      "$ref": "#/$defs/topLevelWeights"
+    },
+    "dimensionWeights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blueprint",
+        "figma",
+        "engineering"
+      ],
+      "properties": {
+        "blueprint": {
+          "$ref": "#/$defs/blueprintDimensionWeights"
+        },
+        "figma": {
+          "$ref": "#/$defs/figmaDimensionWeights"
+        },
+        "engineering": {
+          "$ref": "#/$defs/engineeringDimensionWeights"
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "perfect",
+        "done",
+        "mostlyDone"
+      ],
+      "properties": {
+        "perfect": {
+          "$ref": "#/$defs/scorePercent"
+        },
+        "done": {
+          "$ref": "#/$defs/scorePercent"
+        },
+        "mostlyDone": {
+          "$ref": "#/$defs/scorePercent"
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/componentScoreInput"
+      }
+    }
+  },
+  "$defs": {
+    "weight01": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "scorePercent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "topLevelWeights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blueprint",
+        "figma",
+        "engineering"
+      ],
+      "properties": {
+        "blueprint": {
+          "$ref": "#/$defs/weight01"
+        },
+        "figma": {
+          "$ref": "#/$defs/weight01"
+        },
+        "engineering": {
+          "$ref": "#/$defs/weight01"
+        }
+      }
+    },
+    "blueprintDimensionWeights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiParity",
+        "variantStateParity",
+        "behaviorParity"
+      ],
+      "properties": {
+        "apiParity": {
+          "$ref": "#/$defs/weight01"
+        },
+        "variantStateParity": {
+          "$ref": "#/$defs/weight01"
+        },
+        "behaviorParity": {
+          "$ref": "#/$defs/weight01"
+        }
+      }
+    },
+    "figmaDimensionWeights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tokenParity",
+        "visualStateParity",
+        "layoutParity"
+      ],
+      "properties": {
+        "tokenParity": {
+          "$ref": "#/$defs/weight01"
+        },
+        "visualStateParity": {
+          "$ref": "#/$defs/weight01"
+        },
+        "layoutParity": {
+          "$ref": "#/$defs/weight01"
+        }
+      }
+    },
+    "engineeringDimensionWeights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tests",
+        "storybook",
+        "ci"
+      ],
+      "properties": {
+        "tests": {
+          "$ref": "#/$defs/weight01"
+        },
+        "storybook": {
+          "$ref": "#/$defs/weight01"
+        },
+        "ci": {
+          "$ref": "#/$defs/weight01"
+        }
+      }
+    },
+    "signalsBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiParity",
+        "variantStateParity",
+        "behaviorParity"
+      ],
+      "properties": {
+        "apiParity": {
+          "$ref": "#/$defs/scorePercent"
+        },
+        "variantStateParity": {
+          "$ref": "#/$defs/scorePercent"
+        },
+        "behaviorParity": {
+          "$ref": "#/$defs/scorePercent"
+        }
+      }
+    },
+    "signalsFigma": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tokenParity",
+        "visualStateParity",
+        "layoutParity"
+      ],
+      "properties": {
+        "tokenParity": {
+          "$ref": "#/$defs/scorePercent"
+        },
+        "visualStateParity": {
+          "$ref": "#/$defs/scorePercent"
+        },
+        "layoutParity": {
+          "$ref": "#/$defs/scorePercent"
+        }
+      }
+    },
+    "signalsEngineering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tests",
+        "storybook",
+        "ci"
+      ],
+      "properties": {
+        "tests": {
+          "$ref": "#/$defs/scorePercent"
+        },
+        "storybook": {
+          "$ref": "#/$defs/scorePercent"
+        },
+        "ci": {
+          "$ref": "#/$defs/scorePercent"
+        }
+      }
+    },
+    "componentSignals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blueprint",
+        "figma",
+        "engineering"
+      ],
+      "properties": {
+        "blueprint": {
+          "$ref": "#/$defs/signalsBlueprint"
+        },
+        "figma": {
+          "$ref": "#/$defs/signalsFigma"
+        },
+        "engineering": {
+          "$ref": "#/$defs/signalsEngineering"
+        }
+      }
+    },
+    "componentSources": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "blueprintRef": {
+          "type": "string"
+        },
+        "figmaNodeRef": {
+          "type": "string"
+        }
+      }
+    },
+    "componentScoreInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "type",
+        "implemented"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(Atom|Molecule|Organism|Template):.+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Atom",
+            "Molecule",
+            "Organism",
+            "Template"
+          ]
+        },
+        "implemented": {
+          "type": "boolean"
+        },
+        "sources": {
+          "$ref": "#/$defs/componentSources"
+        },
+        "signals": {
+          "$ref": "#/$defs/componentSignals"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "implemented": {
+                "const": true
+              }
+            },
+            "required": [
+              "implemented"
+            ]
+          },
+          "then": {
+            "required": [
+              "signals"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

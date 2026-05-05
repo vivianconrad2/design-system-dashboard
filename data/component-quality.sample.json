@@ -1,0 +1,156 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-05-05T16:00:00Z",
+  "weights": {
+    "blueprint": 0.4,
+    "figma": 0.4,
+    "engineering": 0.2
+  },
+  "dimensionWeights": {
+    "blueprint": {
+      "apiParity": 0.4,
+      "variantStateParity": 0.35,
+      "behaviorParity": 0.25
+    },
+    "figma": {
+      "tokenParity": 0.35,
+      "visualStateParity": 0.4,
+      "layoutParity": 0.25
+    },
+    "engineering": {
+      "tests": 0.4,
+      "storybook": 0.35,
+      "ci": 0.25
+    }
+  },
+  "thresholds": {
+    "perfect": 95,
+    "done": 85,
+    "mostlyDone": 70
+  },
+  "components": [
+    {
+      "id": "Molecule:Button",
+      "name": "Button",
+      "type": "Molecule",
+      "implemented": true,
+      "sources": {
+        "blueprintRef": "blueprint-storybook-poc/Button",
+        "figmaNodeRef": "https://www.figma.com/design/D4wgJpVFwWQp6AHElpoJK9/Storybook-Branch?node-id=1299-22145"
+      },
+      "signals": {
+        "blueprint": {
+          "apiParity": 98,
+          "variantStateParity": 96,
+          "behaviorParity": 94
+        },
+        "figma": {
+          "tokenParity": 97,
+          "visualStateParity": 95,
+          "layoutParity": 94
+        },
+        "engineering": {
+          "tests": 96,
+          "storybook": 98,
+          "ci": 100
+        }
+      },
+      "notes": "Near-perfect reference component."
+    },
+    {
+      "id": "Atom:Input",
+      "name": "Input",
+      "type": "Atom",
+      "implemented": true,
+      "sources": {
+        "blueprintRef": "blueprint-storybook-poc/Input",
+        "figmaNodeRef": "https://www.figma.com/design/D4wgJpVFwWQp6AHElpoJK9/Storybook-Branch?node-id=1301-22750"
+      },
+      "signals": {
+        "blueprint": {
+          "apiParity": 94,
+          "variantStateParity": 90,
+          "behaviorParity": 88
+        },
+        "figma": {
+          "tokenParity": 92,
+          "visualStateParity": 89,
+          "layoutParity": 90
+        },
+        "engineering": {
+          "tests": 93,
+          "storybook": 91,
+          "ci": 100
+        }
+      },
+      "notes": "Strong parity with small interaction polish remaining."
+    },
+    {
+      "id": "Molecule:Tab",
+      "name": "Tab",
+      "type": "Molecule",
+      "implemented": true,
+      "sources": {
+        "blueprintRef": "blueprint-storybook-poc/Tab",
+        "figmaNodeRef": "https://www.figma.com/design/D4wgJpVFwWQp6AHElpoJK9/Storybook-Branch?node-id=1478-33221"
+      },
+      "signals": {
+        "blueprint": {
+          "apiParity": 84,
+          "variantStateParity": 80,
+          "behaviorParity": 78
+        },
+        "figma": {
+          "tokenParity": 79,
+          "visualStateParity": 76,
+          "layoutParity": 81
+        },
+        "engineering": {
+          "tests": 86,
+          "storybook": 82,
+          "ci": 100
+        }
+      },
+      "notes": "Mostly done; parity gaps still visible."
+    },
+    {
+      "id": "Organism:Card",
+      "name": "Card",
+      "type": "Organism",
+      "implemented": true,
+      "sources": {
+        "blueprintRef": "blueprint-storybook-poc/Card",
+        "figmaNodeRef": "https://www.figma.com/design/D4wgJpVFwWQp6AHElpoJK9/Storybook-Branch?node-id=1594-40121"
+      },
+      "signals": {
+        "blueprint": {
+          "apiParity": 91,
+          "variantStateParity": 88,
+          "behaviorParity": 86
+        },
+        "figma": {
+          "tokenParity": 85,
+          "visualStateParity": 84,
+          "layoutParity": 83
+        },
+        "engineering": {
+          "tests": 90,
+          "storybook": 89,
+          "ci": 100
+        }
+      },
+      "notes": "Done, but not yet perfect."
+    },
+    {
+      "id": "Organism:DatePickerField",
+      "name": "DatePickerField",
+      "type": "Organism",
+      "implemented": false,
+      "sources": {
+        "blueprintRef": "blueprint-storybook-poc/DatePickerField",
+        "figmaNodeRef": "https://www.figma.com/design/D4wgJpVFwWQp6AHElpoJK9/Storybook-Branch?node-id=2001-11422"
+      },
+      "notes": "Planned / not implemented, excluded from score rollups."
+    }
+  ]
+}

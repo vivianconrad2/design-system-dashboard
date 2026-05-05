@@ -11,7 +11,8 @@
 3. **Calculate derived metrics** (handoff values, percentages)
 4. **Edit dashboard HTML** JavaScript variables
 5. **Test locally** by opening in browser
-6. **Document changes** in version history
+6. **Recalculate component quality score report** (if quality signals changed)
+7. **Document changes** in version history
 
 ---
 
@@ -127,6 +128,17 @@ open /Users/taylors/Desktop/ConstructConnect-Projects/blueprint-dashboard/dashbo
 - ✅ Bar chart reflects new data
 - ✅ Popovers display correctly
 - ✅ All tabs render properly
+
+### Step 4.5: Refresh Component Quality Report
+
+If Blueprint/Figma/engineering quality signals were updated, regenerate the weighted score report:
+
+```bash
+npm run score:components
+```
+
+Generated output:
+- `data/component-quality-report.json`
 
 ### Step 5: Document Changes
 

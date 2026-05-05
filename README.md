@@ -25,6 +25,8 @@ blueprint-dashboard/
 │   └── blueprint-status.html    # Dashboard (mirror copy)
 ├── data/
 │   ├── data-sources.md          # Master data inventory
+│   ├── component-quality.schema.json # JSON schema for % done scoring input
+│   ├── component-quality.sample.json # Example scoring payload
 │   ├── extraction-inventory.md  # Components extracted from Figma
 │   ├── monorepo-audit.md        # Components in NPM package
 │   └── mcp-readiness.md         # MCP/AI readiness status
@@ -32,7 +34,8 @@ blueprint-dashboard/
 │   ├── update-procedures.md      # How to update the dashboard
 │   └── data-dictionary.md        # Definition of all metrics
 └── scripts/
-    └── sync-tokens.mjs           # Copies tokens.css from node_modules → assets/
+    ├── sync-tokens.mjs           # Copies tokens.css from node_modules → assets/
+    └── calculate-component-quality.mjs # Computes per-component and portfolio completion scores
 ```
 
 ## Data Sources
@@ -119,6 +122,27 @@ The dashboard classifies every component into one of two states relative to UDS 
 **Docs-only** — has a `*-documentation.md` file scaffolding the spec, but no `.tsx` yet. Ready to be built next.
 
 Live counts are in the "Key Metrics" table above — see that section for the authoritative numbers as of the last dashboard refresh.
+
+## Component Completion Scoring (Blueprint + Figma)
+
+Use this when leadership asks, "How done/perfect is each implemented component?"
+
+- **Formula:** `CCI = 0.40 * BlueprintParity + 0.40 * FigmaParity + 0.20 * EngineeringReadiness`
+- **Bands:** `perfect >= 95`, `done >= 85`, `mostly_done >= 70`, otherwise `needs_work`
+- **Input schema:** `data/component-quality.schema.json`
+- **Example payload:** `data/component-quality.sample.json`
+
+### Run scoring
+
+```bash
+npm run score:components
+```
+
+This generates `data/component-quality-report.json` with:
+- Per implemented component `% done` + band + breakdown
+- Portfolio `% done` (mean score)
+- `% perfect` (share of implemented components above threshold)
+- Rollups by atomic level (Atom/Molecule/Organism/Template)
 
 ## Related Documentation
 

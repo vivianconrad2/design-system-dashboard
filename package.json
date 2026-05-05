@@ -8,7 +8,9 @@
     "node": ">=18"
   },
   "scripts": {
-    "sync:tokens": "node scripts/sync-tokens.mjs"
+    "sync:tokens": "node scripts/sync-tokens.mjs",
+    "score:components": "node scripts/calculate-component-quality.mjs --input data/component-quality.sample.json --output data/component-quality-report.json",
+    "sync:component-comparison": "node scripts/sync-component-comparison.mjs"
   },
   "dependencies": {
     "@unified_design_system/design-tokens": "^2.4.0"
