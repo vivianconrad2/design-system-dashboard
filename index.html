@@ -193,25 +193,32 @@ var TOKENS = (function() {
 // DropdownMenuContainer (absent on main, PM marks Complete), Card organism (on main
 // as Complete since Mar 24, PM table omitted it).
 // Roadmap = Complete + In Progress + Planned + Docs Only (excludes N/A + Unplanned).
-// Tickets confirmed merged to main this week (Apr 27–May 1). Updated by /refresh-uds-dashboard.
-var recentlyMergedTickets = ["PS-4878","PS-4870","PS-4868","PS-4828","PS-4373","PS-2381","PS-3619","PS-3642","PS-2376","PS-2935","PS-3621","PS-3434","PS-3763","PS-3713","PS-3618","PS-3098","PS-3516","PS-3515","PS-3715","PS-3764","PS-3632","PS-3791","PS-2657","PS-2652","PS-2732","PS-2824","PS-2616","PS-3793","PS-2375","PS-3620","PS-3643","PS-3765","PS-2383"];
-// Tickets completed in the current week (Apr 27–May 1). Starts at 0 for the week.
-var currentWeekMergedTickets = ["PS-4878","PS-4870","PS-4868","PS-4828","PS-4373","PS-2381","PS-3620","PS-4407","PS-3643","PS-3765","PS-4372","PS-2383","PS-4772","PS-4449","PS-4458","PS-3632","PS-4457","PS-2375","PS-2616","PS-3793","PS-2824"];
-// Merge requests merged to UDS main today since 12:00am. Updated with the daily progress report (Apr 28, 2026).
+// Recently merged tickets (latest snapshot provided May 5, 2026).
+var recentlyMergedTickets = ["PS-4638","PS-5083","PS-5075","PS-2446","PS-4917","PS-3100","PS-2826","PS-5011","PS-5033","PS-4877","PS-4984","PS-5003","PS-4918"];
+// Tickets merged in the current week window (May 4–May 8, 2026).
+var currentWeekMergedTickets = ["PS-4638","PS-5083","PS-5075","PS-2446","PS-4917"];
+// Recently merged MRs on UDS main (rolling snapshot from shared team report).
 var mergedTodayMergeRequests = [
-  {iid:292, title:"[PS-4878] Remove Ark UI runtime dependency"},
-  {iid:294, title:"[PS-4870] Add reusable hooks to system package"},
-  {iid:290, title:"[PS-4868] Deprecate and remove ToastMessage in favour of NotificationMessage"},
-  {iid:288, title:"[PS-4828] fix(Popover): tokenise padding/gap, align arrow offset, add per-variant tests"},
-  {iid:289, title:"[PS-2381] Add MenuToggleButton molecule with animated hamburger-to-X morph"},
-  {iid:279, title:"[PS-4373] Add color foundation documentation to UDS Storybook"},
-  {iid:291, title:"chore: Align CLAUDE component snapshot with dashboard"}
+  {iid:312, title:"[PS-4638] feat(components): Add NavSubmenuContainer organism"},
+  {iid:313, title:"[PS-5083] Add JSON-first component status pipeline and CI freshness check"},
+  {iid:311, title:"[PS-5075] docs(storybook): correct leftButton API in modal organism reference docs"},
+  {iid:310, title:"[PS-2446] Add NavSubmenuGroup organism"},
+  {iid:305, title:"[PS-4917] Embed Blueprint skill guidance in remote MCP server INSTRUCTIONS.md"},
+  {iid:308, title:"[PS-3100] feat(components): Add ModalFooter organism with default and mobile variants"},
+  {iid:296, title:"[PS-2826] feat(FilterMultiselectDropdown): add organism with optional search and Select All"},
+  {iid:306, title:"[PS-5011] Align CloudSmith installation guide with Confluence sources"},
+  {iid:307, title:"[PS-5033] fix(components): Repoint Button CSS imports to molecules path"},
+  {iid:304, title:"[PS-4877] InputField -- add password toggle and leading/trailing adornment slots"},
+  {iid:301, title:"[PS-4984] fix(MenuHeaderOrganism): Fix Select All padding and missing divider"},
+  {iid:303, title:"[PS-5003] Add CloudSmith installation guide as MCP Resource and get_installation_guide tool"},
+  {iid:302, title:"[PS-4918] Register blueprint_generate, blueprint_validate, and blueprint_migrate as native MCP Prompts"},
+  {iid:232, title:"chore(release): version packages"}
 ];
 
 var topMetrics = [
   {label:"Total Components",value:120,sub:"Active roadmap — Complete + In Progress + Planned + Docs Only",color:TOKENS.primary500},
-  {label:"Complete",        value:94, sub:"27 atoms + 54 molecules + 13 organisms",color:TOKENS.success},
-  {label:"In Progress",     value:5,  sub:"1 molecule · 4 organisms in active development",color:TOKENS.warning},
+  {label:"Complete",        value:97, sub:"27 atoms + 54 molecules + 16 organisms",color:TOKENS.success},
+  {label:"In Progress",     value:3,  sub:"1 molecule · 2 organisms in active development",color:TOKENS.warning},
   {label:"In NPM Package",  value:70, sub:"70 published · !232 merged Apr 29 · @components 5.0.0 released · verify count against Cloudsmith",color:TOKENS.primary500},
   {label:"Blocked",         value:0,  sub:"No current blockers",color:TOKENS.primary600},
   {label:"Active Consumers",value:5,  sub:"Payment Portal, UCMS, Automation Support active · GCV4, Identity Platform in progress",color:TOKENS.primary600}
@@ -224,14 +231,14 @@ var pipelineStats = {
 };
 
 var deliveryStatus = [
-  {name:"Complete",    value:94, color:TOKENS.success},
-  {name:"In Progress", value:5,  color:TOKENS.warning},
-  {name:"Planned",     value:21, color:"#00838F"},
+  {name:"Complete",    value:97, color:TOKENS.success},
+  {name:"In Progress", value:3,  color:TOKENS.warning},
+  {name:"Planned",     value:20, color:"#00838F"},
   {name:"Docs Only",   value:0,  color:"#6B3FA0"}
 ];
 
-// Complete component inventory (Apr 27, 2026), aligned to the UDS roadmap status tracker.
-// Count: 93 components (27 atoms + 54 molecules + 12 organisms).
+// Complete component inventory (May 5, 2026), aligned to the UDS roadmap status tracker.
+// Count: 97 components (27 atoms + 54 molecules + 16 organisms).
 // Note: tracker reports 88 implemented component folders + 1 semantic completion outside folders.
 // Corrections from PM master list:
 //   - ProgressBarFill (PS-3762) demoted: docs-only on main, no .tsx
@@ -321,14 +328,17 @@ var completeComponents = [
   {name:"TextAreaField",    type:"Molecule", ticket:"PS-1759"},
   {name:"ToggleField",      type:"Molecule"},
   {name:"UsernameButton",     type:"Molecule", ticket:"PS-2383"},
-  // Organisms (13)
+  // Organisms (16)
   {name:"Accordion",                type:"Organism", ticket:"PS-2180"},
   {name:"BreadcrumbOrganism",       type:"Organism", ticket:"PS-3642"},
   {name:"Card",                     type:"Organism", ticket:"PS-3669"},
   {name:"DropdownButton",           type:"Organism", ticket:"PS-2657"},
+  {name:"FilterMultiselectDropdown",type:"Organism", ticket:"PS-2826"},
   {name:"MenuContainer",            type:"Organism", ticket:"PS-2448"},
   {name:"MenuHeaderOrganism",       type:"Organism", ticket:"PS-3733"},
+  {name:"ModalFooter",              type:"Organism", ticket:"PS-3100"},
   {name:"NavSubmenuContainer",      type:"Organism", ticket:"PS-4638"},
+  {name:"NavSubmenuGroup",          type:"Organism", ticket:"PS-2446"},
   {name:"Popover",                  type:"Organism", ticket:"PS-3793"},
   {name:"RadioButtonGroup",         type:"Organism", ticket:"PS-2388"},
   {name:"SingleSelectDropdown",     type:"Organism", ticket:"PS-2616"},
@@ -339,11 +349,9 @@ var completeComponents = [
 
 // In Progress — active development in the roadmap status tracker.
 var partialComponents = [
-  {name:"CalendarLayout",           type:"Organism", ticket:"PS-3634", issue:"MR !299 open · last activity Apr 29 · Main: no folder yet"},
-  {name:"DateRangePicker",          type:"Organism", ticket:"PS-4627", issue:"MR !300 open · last activity Apr 29 · Main: no folder yet"},
-  {name:"FilterMultiselectDropdown",type:"Organism", ticket:"PS-2826", issue:"MR !296 merged · checklist 26/28 · pending full ship verification"},
-  {name:"NavMenuButton",            type:"Molecule", ticket:"PS-2441", issue:"MR !273 open · awaiting review · last activity Apr 28"},
-  {name:"SubmenuContainer",         type:"Organism", ticket:"PS-2447", issue:"MR !315 open · Gary Sanchez · May 5 · ⚠ NavSubmenuContainer folder already created by !312 — needs conflict resolution before merge"}
+  {name:"CalendarLayout",           type:"Organism", ticket:"PS-3634", issue:"MR !299 open · 0/2 approvals · updated 5 days ago"},
+  {name:"DateRangePicker",          type:"Organism", ticket:"PS-4627", issue:"MR !300 open · 0/2 approvals · updated 5 days ago"},
+  {name:"NavMenuButton",            type:"Molecule", ticket:"PS-2441", issue:"MR !273 open · 0/2 approvals · updated 6 days ago"}
 ];
 
 // Planned — on roadmap, not yet started. Includes DropdownMenuContainer (PS-2617)
@@ -358,17 +366,16 @@ var plannedComponents = [
   {name:"DropdownMenuContainer",    type:"Molecule", ticket:"PS-2617"},
   {name:"Segment Button",           type:"Molecule", ticket:"PS-4633"},
   {name:"StageNavItem",             type:"Molecule", ticket:"PS-4644", note:"Reusable BidCenter Stage Arrow pattern"},
-  // Organisms (11)
+  // Organisms (10)
   {name:"ContentContainer",         type:"Organism", ticket:"PS-2179"},
   {name:"DatePickerField",          type:"Organism", ticket:"PS-3635"},
   {name:"DrawerModal",              type:"Organism", ticket:"PS-2818", note:"Unified pattern — covers both Drawer and Modal variants (same layout, different margins)"},
-  {name:"ModalFooter",              type:"Organism", ticket:"PS-3100"},
   {name:"MultiSelectDropdown",      type:"Organism", ticket:"PS-2618"},
-  {name:"NavSubmenuGroup",          type:"Organism", ticket:"PS-2446"},
   {name:"Navigation",               type:"Organism", ticket:"PS-4640"},
   {name:"Page Content Container",   type:"Organism", ticket:"PS-3644"},
   {name:"PageHeader",               type:"Organism", ticket:"PS-2384"},
   {name:"Side Container",           type:"Organism", ticket:"PS-2954", note:"Covers Sidebar / left or right rail usage"},
+  {name:"SubmenuContainer",         type:"Organism", ticket:"PS-2447", note:"No active MR in latest open-MR snapshot; remains roadmap planned"},
   {name:"Table",                    type:"Organism", ticket:"PS-925"},
   // Templates (5)
   {name:"DatePickerModal",          type:"Template", ticket:"PS-3638"},
@@ -386,7 +393,7 @@ var docsOnlyComponents = [];
 // ═══════════════════════════════════════════════════════
 // GITLAB PIPELINE SNAPSHOT (for Pipeline tab)
 // Source: GitLab API /projects/.../pipelines?ref=main
-// Snapshot taken Apr 29, 2026 — to refresh, re-run the dashboard update with
+// Snapshot taken May 5, 2026 — to refresh, re-run the dashboard update with
 // GitLab MCP tools (manage_pipeline list + get_pipeline_jobs for latest).
 // ═══════════════════════════════════════════════════════
 var gitlabProject = {
@@ -454,7 +461,7 @@ var gitlabRecentPipelines = [
 var atomicComparison = [
   {level:"Atoms",     extracted:28, monorepo:27, handoff:1},
   {level:"Molecules", extracted:59, monorepo:54, handoff:5},
-  {level:"Organisms", extracted:28, monorepo:13, handoff:15},
+  {level:"Organisms", extracted:28, monorepo:16, handoff:12},
   {level:"Templates", extracted:5,  monorepo:0,  handoff:5}
 ];
 
@@ -466,9 +473,9 @@ var systems = [
   {name:"Buttons",           components:4,  implemented:4, status:"done"},
   {name:"Navigation",        components:7,  implemented:6, status:"partial"},
   {name:"Header",            components:6,  implemented:5, status:"partial"},
-  {name:"Modal/Drawer",      components:4,  implemented:1, status:"partial"},
-  {name:"Dropdown/Filter",   components:12, implemented:3, status:"partial"},
-  {name:"Menu System",       components:4,  implemented:2, status:"partial"},
+  {name:"Modal/Drawer",      components:4,  implemented:2, status:"partial"},
+  {name:"Dropdown/Filter",   components:12, implemented:4, status:"partial"},
+  {name:"Menu System",       components:4,  implemented:3, status:"partial"},
   {name:"Loading",           components:4,  implemented:4, status:"done"},
   {name:"Accordion",         components:2,  implemented:2, status:"done"},
   {name:"Slider",            components:3,  implemented:3, status:"done"},
@@ -495,12 +502,12 @@ var closedGaps = [
   {name:"FileUpload",    closedBy:"FileUploadButton + FileUploadProgress (PS-3715) + FileUploadField (PS-2732) + FileUploadAvatar (PS-2824) complete"},
   {name:"FormLayout",    closedBy:"FormLayout template (PS-3787) — covers Form Layout Templates and form-template"},
   {name:"Link",          closedBy:"Link atom planned (PS-4864)"},
-  {name:"Modal/Dialog",  closedBy:"DrawerModal + ModalHeader (complete) + ModalFooter (Planned)"},
+  {name:"Modal/Dialog",  closedBy:"DrawerModal + ModalHeader + ModalFooter (PS-3100) are complete"},
   {name:"Pagination",    closedBy:"Pagination molecule (PS-3621) — complete (MR !241 merged). Rows-per-page dropdown placeholder pending PS-2616 (DropdownInput organism). TableFooter/TablePagination names retired."},
   {name:"Popover",       closedBy:"Popover organism (PS-3793) — complete. No separate Popover molecule; the organism is the component."},
   {name:"ProgressBar",   closedBy:"ProgressBar atom (PS-3762) + ProgressBarField molecule (PS-3763) complete. StepIndicator (PS-3764) + StepperContainer (PS-3765) complete. ProgressBarFill atom retired — PS-3762 was repurposed from PBF to ProgressBar itself"},
   {name:"SearchBar",     closedBy:"SearchBar + SearchField + InlineSearchField + QuickSearchField molecules complete; QuickSearch organism retired from roadmap"},
-  {name:"SideNav",       closedBy:"MainMenu organism retired; Side Container (PS-2954) covers Sidebar / left or right rail usage. NavSubmenuContainer (PS-4638) and NavSubmenuGroup (PS-2446) complete May 2026. SubmenuContainer (PS-2447) in progress. NavMenuButton (PS-2441) and NavSubmenuButton (PS-2442) remain on the roadmap."},
+  {name:"SideNav",       closedBy:"MainMenu organism retired; Side Container (PS-2954) covers Sidebar / left or right rail usage. NavSubmenuContainer (PS-4638) and NavSubmenuGroup (PS-2446) complete May 2026. SubmenuContainer (PS-2447) remains planned. NavMenuButton (PS-2441) and NavSubmenuButton (PS-2442) remain on the roadmap."},
   {name:"Skeleton",      closedBy:"Skeleton Loading System semantic CSS layer (.is-loading + skeleton.css tokens) is complete; no standalone SkeletonLoading component is currently tracked"},
   {name:"Slider",        closedBy:"SliderRail + SliderThumb + SliderTrack atoms + Slider + SliderField molecules (PS-2018) — all complete"},
   {name:"Spinner",       closedBy:"LoadingMask (PS-2855) + LogoLoader (PS-2851) + CircularIndicator (PS-2853) — all complete"},
@@ -518,9 +525,9 @@ var remainingGaps = [
 ];
 
 var popoverData = {
-  "Total Components": "120 components are on the active roadmap as of May 5, 2026. Breakdown: Complete 94, In Progress 5, Planned 21, Docs Only 0.",
-  "Complete": "94 complete components in the dashboard inventory (27 atoms, 54 molecules, 13 organisms). Latest addition: NavSubmenuContainer (PS-4638, MR !312, merged May 5). Previously: 10 components shipped week of Apr 27 — ActionsHeader, CalendarItemButton, FileUploadAvatar, HeaderLogoTitle, MenuToggleButton, PageHeader, UsernameButton, Popover, SingleSelectDropdown, StepperContainer.",
-  "In Progress": "5 components in active development: NavMenuButton (PS-2441, MR !273), CalendarLayout (PS-3634, MR !299), DateRangePicker (PS-4627, MR !300), FilterMultiselectDropdown (PS-2826, MR !296 merged — checklist 26/28, pending full ship verification), SubmenuContainer (PS-2447, MR !315 — Gary Sanchez). ⚠ !315 targets NavSubmenuContainer folder — !312 already merged there; needs conflict resolution before !315 can land.",
+  "Total Components": "120 components are on the active roadmap as of May 5, 2026. Breakdown: Complete 97, In Progress 3, Planned 20, Docs Only 0.",
+  "Complete": "97 complete components in the dashboard inventory (27 atoms, 54 molecules, 16 organisms). Latest merged additions: NavSubmenuContainer (PS-4638, MR !312), NavSubmenuGroup (PS-2446, MR !310), ModalFooter (PS-3100, MR !308), and FilterMultiselectDropdown (PS-2826, MR !296).",
+  "In Progress": "3 components in active development from the latest open MR snapshot: NavMenuButton (PS-2441, MR !273), CalendarLayout (PS-3634, MR !299), and DateRangePicker (PS-4627, MR !300).",
   "In NPM Package": "70 components published via @unified_design_system/components (Cloudsmith NPM registry). Release MR !232 merged Apr 29 — @components 5.0.0 is live on Cloudsmith. Published count reflects pre-5.0.0 baseline; verify exact count against Cloudsmith registry to confirm the full batch landed.<br><br>See the Complete popover for the full component list. Source: UDS main branch, May 5, 2026.",
   "Blocked": "No components are currently blocked. This metric tracks components that have a dependency or design decision preventing work from starting. If a blocker emerges, surface it here.",
   "Active Consumers": "5 teams engaged with the UDS NPM package (Active + In Progress). Status tracked via GitLab API (code scans) and manual (HubSpot integrations).<br><br><strong>Active (NPM Package):</strong><br>• <strong>Payment Portal</strong> — Most active adopter (Button, Input, Badge, Checkbox, Toggle, Label). Source: GitLab API · Mar 2026 Cloudsmith data.<br>• <strong>UCMS (Crimson)</strong> — Working with Khay as the team makes Crimson React. Two repos consuming: ucms-frontend + crimson-v2-frontend (\"Fusion\").<br>• <strong>Automation Support</strong> — qhub-portal depends on @unified_design_system/components (confirmed via GitLab, Apr 2026).<br><br><strong>In Progress (NPM Package):</strong><br>• <strong>GCV4</strong> — Active conversations, onboarding in progress. Component list pending scan.<br>• <strong>Identity Platform</strong> (user management + admin portal) — Using buttons. Component list pending scan.<br><br><strong>Informal / experimental (not counted):</strong><br>• <strong>AI Center of Excellence</strong> (SWE AI Enablement) — ai-marketplace-webapp depends on UDS in package.json. Not on the formal adoption list; confirm with team whether to promote.<br>• <strong>Takeoff (WebTakeOff FE)</strong> — components@^0.1.1 on develop branch; likely informal.<br>• <strong>Hackfest 2026</strong> — construct-pilot-ui and hackathon-whats-that are internal hackathon prototypes.<br><br><strong>Planned Pipeline:</strong><br>• <strong>OST</strong> — HubSpot integration, onboarding planned (manual tracking)<br>• <strong>FAI</strong> — HubSpot integration, onboarding planned (manual tracking)<br>• <strong>API Services</strong> (Developers Portal)<br>• <strong>Planswift</strong> — Reach out to Brandin Thomas re: components used"
@@ -715,9 +722,9 @@ function getDefaultWeeks() {
   return [
     {label:"Week of Apr 20–24",   start:"2026-04-20", kind:"target", target:0, originalTarget:19, completedActual:20},
     {label:"Week of Apr 27–May 1",start:"2026-04-27", kind:"target", target:8, originalTarget:8, completedActual:10},
-    {label:"Week of May 4–8",     start:"2026-05-04", kind:"target", target:9},
-    {label:"Week of May 11–15",   start:"2026-05-11", kind:"target", target:9},
-    {label:"Week of May 18–22",   start:"2026-05-18", kind:"target", target:8},
+    {label:"Week of May 4–8",     start:"2026-05-04", kind:"target", target:8},
+    {label:"Week of May 11–15",   start:"2026-05-11", kind:"target", target:8},
+    {label:"Week of May 18–22",   start:"2026-05-18", kind:"target", target:7},
     {label:"Week of May 25–29",   start:"2026-05-25", kind:"buffer"}
   ];
 }
@@ -728,9 +735,10 @@ function computeDeliveryInvariants(atomicComparison, weeksIn) {
   var cdDone = atomicComparison.reduce(function(s,a){return s + a.monorepo;}, 0);
   var cdRemaining = cdTotal - cdDone;
   var cdPct = cdTotal > 0 ? Math.round(cdDone / cdTotal * 100) : 0;
-  var targetWeeksCount = weeks.filter(function(w){return w.kind==='target';}).length;
-  var fixedTotal   = weeks.reduce(function(s,w){return s+(w.kind==='target'&&w.target!==undefined?w.target:0);},0);
-  var dynamicCount = weeks.filter(function(w){return w.kind==='target'&&w.target===undefined;}).length;
+  var plannedTargetWeeks = weeks.filter(function(w){return w.kind==='target' && w.completedActual===undefined;});
+  var targetWeeksCount = plannedTargetWeeks.length;
+  var fixedTotal   = plannedTargetWeeks.reduce(function(s,w){return s+(w.target!==undefined?w.target:0);},0);
+  var dynamicCount = plannedTargetWeeks.filter(function(w){return w.target===undefined;}).length;
   var dynamicPool  = Math.max(0, cdRemaining - fixedTotal);
   var base   = dynamicCount > 0 ? Math.floor(dynamicPool / dynamicCount) : 0;
   var extras = dynamicCount > 0 ? dynamicPool % dynamicCount : 0;
@@ -908,10 +916,10 @@ function renderOverview(container) {
   var targetWeeksCount = inv.targetWeeksCount;
 
   // ── Daily Merge Count — visible in the downloaded overview PNG ─────────
-  var dailyMergeCard = card('Work Completed Today (includes docs, foundational work, and components)');
+  var dailyMergeCard = card('Recent Completed Work (includes docs, foundational work, and components)');
   dailyMergeCard.innerHTML += '<div style="display:flex;align-items:baseline;gap:10px;margin-top:10px">';
   dailyMergeCard.innerHTML += '<div style="font-size:40px;font-weight:700;line-height:1;color:var(--color-status-success-default)">'+mergedTodayMergeRequests.length+'</div>';
-  dailyMergeCard.innerHTML += '<div><div style="font-size:12px;font-weight:700;color:var(--color-neutral-600)">Number of merge requests completed today</div><div style="font-size:11px;color:var(--color-neutral-500);margin-top:3px">Merged since 12:00am</div></div>';
+  dailyMergeCard.innerHTML += '<div><div style="font-size:12px;font-weight:700;color:var(--color-neutral-600)">Number of merge requests in recent snapshot</div><div style="font-size:11px;color:var(--color-neutral-500);margin-top:3px">Latest merged-MR list provided by UDS update</div></div>';
   dailyMergeCard.innerHTML += '</div>';
   dailyMergeCard.style.marginBottom = '0';
 
@@ -1016,7 +1024,12 @@ function renderOverview(container) {
   tHtml += '<div>Week</div><div style="text-align:center">Done / Goal</div><div>Week Progress</div><div style="text-align:right">Running Total</div>';
   tHtml += '</div>';
   tHtml += '<div style="display:flex;flex-direction:column;gap:8px">';
-  var cumulative = cdDone;
+  var completedWindowTotal = weeks.reduce(function(s, w) {
+    if (w.kind !== 'target' || w.completedActual === undefined) return s;
+    return s + (w.completedActual | 0);
+  }, 0);
+  // Avoid double counting: cdDone already includes historical shipped components.
+  var cumulative = Math.max(0, cdDone - completedWindowTotal);
   weeks.forEach(function(w, i){
     var isBuffer = w.kind === 'buffer';
     var target = isBuffer ? 0 : weekT[i];
